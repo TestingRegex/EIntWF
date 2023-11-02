@@ -29,11 +29,13 @@ for file in $staged_files; do
         # Loop through files in the subdirectory and sign them
         find "$SUBDIR" -type f -not -name "*.gpg" | grep -v "UnsignedModule.bas" | while read -r vba_file; do
             gpg --sign "$vba_file"
+	     git add $(vba_file + ".gpg")
         done
     fi
     # Externally sign the workbooks as well
     if [[ "$file" =~ \.xlsm$ ]]; then
 	echo "Signing the workbook " + $file
-	gpg --sign "$file"
+	gpg --sign "$file" 
+	git add $(file + ".gpg")
     fi
 done

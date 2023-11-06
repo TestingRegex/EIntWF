@@ -12,7 +12,7 @@ Sub CommitToGit()
     ' Add the current workbook to the Git repository
     GitCommand = "git add """ & WorkbookPath & "\" & ThisWorkbook.Name & """"
     Shell GitCommand, vbNormalFocus
-    GitCommand = "git add """ & WorkbookPath & "\" & ThisWorkbook.Name & "_vba\*" & """"
+    GitCommand = "git add """ & WorkbookPath & "\" & ThisWorkbook.Name & "_vba" & """"
     Shell GitCommand, vbNormalFocus
     
     Application.Wait Now + TimeSerial(0, 0, 0.5)

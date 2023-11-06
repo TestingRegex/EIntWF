@@ -1,0 +1,23 @@
+# This is a workflow that uses the action VBA Lint from https://github.com/marketplace/actions/lint-vba
+
+name: VBA Lint
+
+on:
+  workflow_dispatch:
+
+jobs:
+  VBALinting:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/chekcout@v3
+
+      - name: VBA Linting JustASimpleSum
+        uses: Vba-actions/lint-vba@main
+        with:
+          path: JustASimpleSum.xlsm_vba/
+
+      - name: VBA Linting CommitAddIn
+        uses: Vba-actions/lint-vba@main
+        with:
+          path: CommitAddIn.xlsm_vba/

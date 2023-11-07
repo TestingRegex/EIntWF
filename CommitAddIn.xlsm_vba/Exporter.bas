@@ -1,4 +1,4 @@
-Sub ExtractModulesFromWorkbook()
+Sub ExtractModulesFromWorkbook(control As Office.IRibbonControl)
 
     Dim wb As Workbook
     Dim workbookName As String
@@ -11,7 +11,7 @@ Sub ExtractModulesFromWorkbook()
     Dim fileSysObj As Object
 
 
-    Set wb = ThisWorkbook
+    Set wb = ActiveWorkbook
     workbookName = wb.Name
 
     ' Get the current Directory

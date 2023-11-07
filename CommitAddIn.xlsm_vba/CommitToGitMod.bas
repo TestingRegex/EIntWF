@@ -1,10 +1,10 @@
-Sub CommitToGit()
+Sub CommitToGit(control As Office.IRibbonControl)
 
     Dim GitCommand As String
     Dim WorkbookPath As String
     
     ' Get the path of the current workbook
-    WorkbookPath = ThisWorkbook.Path
+    WorkbookPath = ActiveWorkbook.Path
 
     ' Moving into the git repo
     ChDir "C:\Users\d60157\Documents\Projects\Swissgrid\GitTests"

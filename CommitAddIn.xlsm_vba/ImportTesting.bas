@@ -1,6 +1,6 @@
 Option Explicit
 
-Sub ImportMacros(ByRef control As Office.IRibbonControl)
+Sub ImportMacros_Test()
 
     Dim selectedFolder As String ' Der Pfad zum Importordner
     
@@ -59,4 +59,3 @@ Sub ImportMacros(ByRef control As Office.IRibbonControl)
     MsgBox "Alle .bas Dateien aus " & selectedFolder & " wurden importiert."
     
 End Sub
-

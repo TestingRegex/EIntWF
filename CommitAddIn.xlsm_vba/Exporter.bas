@@ -15,7 +15,7 @@ Sub ExtractModulesFromWorkbook(control As Office.IRibbonControl)
     workbookName = wb.Name
 
     ' Get the current Directory
-    outPath = wb.Path
+    outPath = wb.path
     
     Set fs = CreateObject("Scripting.FileSystemObject")
     
@@ -78,5 +78,11 @@ Sub ExtractModulesFromWorkbook(control As Office.IRibbonControl)
         End If
     Next vbProj
     
+    ' Clean Up
     Set fs = Nothing
+    Set vbComp = Nothing
+    Set wb = Nothing
+    Set vbProj = Nothing
+    Set fileSysObj = Nothing
+    
 End Sub

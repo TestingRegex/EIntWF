@@ -1,10 +1,5 @@
-Sub Sums()
-'
-' Sums Macro
-'
+Sub HelloWorld()
 
-'
-    Application.CutCopyMode = False
-    ActiveCell.FormulaR1C1 = "=SUM(R[1]C:R[51]C)"
+        MsgBox "Hello World"
 
 End Sub

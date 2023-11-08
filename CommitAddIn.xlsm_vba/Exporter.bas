@@ -28,64 +28,70 @@ Function Export()
     Dim fileSysObj As Object
     Dim fs As Object
 
+'---------------------------------------------------------------------------------------------
+' Der Pfad zum Exportordner wird gefunden
 
     Set wb = ActiveWorkbook
     WorkbookName = wb.Name
 
-    ' Get the current Directory
+
     outPath = wb.path
     
     Set fs = CreateObject("Scripting.FileSystemObject")
     
     Dim vbaDirectory As String
     vbaDirectory = outPath & "\" & WorkbookName & "_vba\"
+    
+'---------------------------------------------------------------------------------------------
+' Exportordner wird erstellt falls noch nicht vorhanden
 
-    ' Check if the directory exists; if not, create it
     If Not fs.FolderExists(vbaDirectory) Then
         fs.CreateFolder vbaDirectory
     End If
 
-    ' Iterate through each component of the VB Project attached to the current workbook and
-    ' extract all of those that are modules.
+'---------------------------------------------------------------------------------------------
+' Die Module des VBA Projekts werden an den gewünschten Ort Exportiert
+
+
+    ' Es wird durch alle Komponenten des VBA Projekts durch iteriert und alle Module werden exportiert.
     For Each vbProj In wb.VBProject.VBComponents
         If vbProj.Type = 1 Then ' Module
             moduleName = vbProj.Name
             
-            ' Check whether the module contains any lines of code and is even worth exporting
+            ' Prüfen ob das Modul nicht einfach leer ist.
             If vbProj.CodeModule.CountOfLines > 0 Then
             
                 moduleCode = vbProj.CodeModule.Lines(1, vbProj.CodeModule.CountOfLines)
             
-                ' Save the module code or do something with it as needed
+                ' Inhalt des Moduls wird als String Variable geladen
                 modulePath = vbaDirectory & moduleName & ".bas"
                 
-                ' Check whether the module has changed since it was last exported
+                ' Prüfen ob das Modul oder ein Modul mit diesem Namen bereits im Exportordner existiert
                 If fs.FileExists(modulePath) Then
-                    ' Read the content of the .bas file
+                
+                    ' Inhalt der gleichnamigen Datei einladen
                     Dim textStream As Object
                     Set textStream = fs.OpenTextFile(modulePath, 1) ' 1: ForReading
 
-                    ' Read the entire content of the .bas file
                     Dim fileContent As String
                     fileContent = textStream.ReadAll
                     textStream.Close
 
-                    ' Compare the file content with the current module code
+                    ' Prüfen ob der Inhalt der Datei und der des Moduls sich unterscheiden falls ja wird die Datei überschrieben
                     If fileContent <> moduleCode Then
-                        ' Module code has changed so we overwrite the old code with the new
+                        
                         Dim textStreamOverwrite As Object
                         Set textStreamOverwrite = fs.CreateTextFile(modulePath, True)
                         textStreamOverwrite.Write moduleCode
                         textStreamOverwrite.Close
                     End If
+                ' Modul wurde unter dem jetzigen Namen noch nicht exportiert, dementsprechend einfach exportieren.
                 Else
-                ' .bas file doesn't exist, indicating a change or the module has not been exported yet
                 
-                ' Create a new .bas file to save the content of the modules into
+                ' Neue .bas Datei wird erstellt und mit dem Modul inhalt gefüllt
                 Dim textStreamNew As Object
                 Set textStreamNew = fs.CreateTextFile(modulePath, True)
             
-                ' Write the module code into the .bas file
                 textStreamNew.Write moduleCode
                 textStreamNew.Close
             
@@ -96,7 +102,9 @@ Function Export()
         End If
     Next vbProj
     
-    ' Clean Up
+'---------------------------------------------------------------------------------------------
+' Aufräumen
+    
     Set fs = Nothing
     Set vbComp = Nothing
     Set wb = Nothing

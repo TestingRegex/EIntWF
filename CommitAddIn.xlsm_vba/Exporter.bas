@@ -1,7 +1,24 @@
+'''
+'   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
+'   die Aufgabe des Exportieren der Module im VBA Projekt übernimmt
+'
+'
+'
+'''
+
+Option Explicit
+
+
 Sub ExtractModulesFromWorkbook(control As Office.IRibbonControl)
 
+    Export
+    
+End Sub
+
+Function Export()
+
     Dim wb As Workbook
-    Dim workbookName As String
+    Dim WorkbookName As String
     Dim vbComp As Object
     Dim vbProj As Object
     Dim moduleName As String
@@ -9,10 +26,11 @@ Sub ExtractModulesFromWorkbook(control As Office.IRibbonControl)
     Dim outPath As String
     Dim modulePath As String
     Dim fileSysObj As Object
+    Dim fs As Object
 
 
     Set wb = ActiveWorkbook
-    workbookName = wb.Name
+    WorkbookName = wb.Name
 
     ' Get the current Directory
     outPath = wb.path
@@ -20,7 +38,7 @@ Sub ExtractModulesFromWorkbook(control As Office.IRibbonControl)
     Set fs = CreateObject("Scripting.FileSystemObject")
     
     Dim vbaDirectory As String
-    vbaDirectory = outPath & "\" & workbookName & "_vba\"
+    vbaDirectory = outPath & "\" & WorkbookName & "_vba\"
 
     ' Check if the directory exists; if not, create it
     If Not fs.FolderExists(vbaDirectory) Then
@@ -84,5 +102,4 @@ Sub ExtractModulesFromWorkbook(control As Office.IRibbonControl)
     Set wb = Nothing
     Set vbProj = Nothing
     Set fileSysObj = Nothing
-    
-End Sub
+End Function

@@ -1,8 +1,21 @@
+'''
+'   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
+'   die Aufgabe des Importieren der Module eines bestimmten Ordners übernimmt
+'
+'
+'''
+
 Option Explicit
 
 Sub ImportMacros(ByRef control As Office.IRibbonControl)
 
-    Dim selectedFolder As String ' Der Pfad zum Importordner
+    Import
+    
+End Sub
+
+Function Import()
+
+Dim selectedFolder As String ' Der Pfad zum Importordner
     
     Dim fs As Object 'FileSystemObject um mit System außerhalb von Excel interagieren zu können
     Dim folder As Object 'FileSystemObject: Der Ordner aus dem imortiert wird
@@ -14,9 +27,11 @@ Sub ImportMacros(ByRef control As Office.IRibbonControl)
     ' Set a reference to the Microsoft Scripting Runtime library.
     Set fs = CreateObject("Scripting.FileSystemObject")
     
+'-----------------------------------------------------------------------------------------------
+' Import Ordner wird bestimmt.
+    
     'Dialog damit User weiß was gleich zu tun ist.
     MsgBox "Bitte wählen Sie den Ordner aus, aus dem Sie die Makros importieren möchten."
-    
     
     ' Der Pfad zum gewünschten Importordner wird erhoben.
     selectedFolder = SelectFolder()
@@ -33,7 +48,10 @@ Sub ImportMacros(ByRef control As Office.IRibbonControl)
         Exit Sub
     End If
     
-    
+'-----------------------------------------------------------------------------------------------
+' .bas Dateien des gewählten Ordners werden importiert.
+
+
     ' Alle .bas Dateien werden aus dem Ordner importiert
     Set folder = fs.GetFolder(selectedFolder)
     Set wb = ActiveWorkbook
@@ -49,14 +67,19 @@ Sub ImportMacros(ByRef control As Office.IRibbonControl)
         End If
     Next file
 
-    ' Clean up.
+'-----------------------------------------------------------------------------------------------
+' Clean up.
+
     Set fs = Nothing
     Set folder = Nothing
     Set file = Nothing
     Set wb = Nothing
     Set vbComp = Nothing
 
+'-----------------------------------------------------------------------------------------------
+' Fertigstellungsbenachrichtigung
+
     MsgBox "Alle .bas Dateien aus " & selectedFolder & " wurden importiert."
-    
-End Sub
+
+End Function
 

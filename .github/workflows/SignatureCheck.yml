@@ -4,7 +4,6 @@ name: Naive Signature Check
 
 # Controls when the workflow will run
 on:
-  push:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 

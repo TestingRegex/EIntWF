@@ -1,0 +1,28 @@
+# Der Primäre GitHub Workflow der später mal die Workbooks mittels signtool.exe signieren soll
+
+name: Signieren
+
+# Controls when the workflow will run
+on:
+   
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+jobs:
+    Signieren:
+
+        runs-on: windows-latest
+
+        steps:
+            # In diesem Job soll dann signtool.exe und die benötigte Software installiert werden
+            - name: build
+              id: build
+              run: |
+                echo "Hier soll signtool.exe installiert werden"
+
+            # Hier wird das Signierskript eingefügt
+            - name: signieren
+              id: signieren
+              run: |
+                echo "Hier werden dann die gewünschten Dateien signiert."
+                #signtool.exe sign /v /td sha256 /fd sha256 /sha1 $Thumbprint $a

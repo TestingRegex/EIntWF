@@ -1,3 +1,5 @@
 .idea/
 
+# Temporäre Dateien die durch offene Office Dateien entstehen ignorieren,
+# sonst geht das automatische Committen nicht während Excel offen ist.
 ~*

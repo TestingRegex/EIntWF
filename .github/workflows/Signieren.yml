@@ -19,6 +19,7 @@ jobs:
               id: build
               run: |
                 echo "Hier soll signtool.exe installiert werden"
+                
 
             # Hier wird das Signierskript eingefügt
             - name: signieren

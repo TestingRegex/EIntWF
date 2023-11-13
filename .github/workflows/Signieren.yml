@@ -15,19 +15,16 @@ jobs:
 
         steps:
             # In diesem Job soll dann signtool.exe und die benötigte Software installiert werden
-            - name: build
-              id: build
-              shell: cmd
+            - name: Install Windows SDK
               run: |
-                echo "Hier suchen wir signtool.exe"
-                cd C:\Program Files (x86)\Windows Kits\10\bin\x86
-                echo "The current location: %CD%"
-                echo "The contents of the current location:"
-                dir
+                $sdkPath = Get-Command vswhere | ForEach-Object { $_.Source -replace '\\vswhere\.exe' }
+                Add-Content -Path $env:GITHUB_PATH -Value "$sdkPath\VC\Auxiliary\Build\vcvars64.bat"
+
 
             # Hier wird das Signierskript eingefügt
             - name: signieren
               id: signieren
               run: |
                 echo "Hier werden dann die gewünschten Dateien signiert."
-                #signtool.exe sign /v /td sha256 /fd sha256 /sha1 $Thumbprint $a
+                #signtool sign /v /td sha256 /fd sha256 /sha1 $Thumbprint $a
+                signtool

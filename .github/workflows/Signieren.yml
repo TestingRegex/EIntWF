@@ -27,5 +27,6 @@ jobs:
               run: |
                 echo "Hier werden dann die gewünschten Dateien signiert."
                 #signtool sign /v /td sha256 /fd sha256 /sha1 $Thumbprint $a
-                & vcvars64.bat
+                # Run vcvarsall.bat to set up the environment
+                & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
                 signtool

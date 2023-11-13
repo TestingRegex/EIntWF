@@ -2,7 +2,8 @@
 '   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Export, Commit, und Push aufeinmal übernimmt
 '
-'
+'   Allgemeines:
+'       Das Programm gibt die gewünschten Git-Befehle an eine Shell-Instanz weiter damit diese ausgeführt werden.
 '
 '''
 

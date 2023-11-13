@@ -1,6 +1,6 @@
 '''
-'   Eine Sammlung von vielleicht nützlichen Funktionene die in verschiedenen
-'   Makros wieder verwendet wird
+'   Eine Sammlung von vielleicht nützlichen Funktionen die in verschiedenen
+'   Makros wieder verwendet werden
 '
 '''
 
@@ -36,13 +36,14 @@ Function UserPromptYesNo(ByVal message As String)
     
 End Function
 
-' Präformatiertes Benutzereingabe Fenster.
+' Präformatiertes Benutzereingabe Fenster, weil ich mir InputBox nicht merken konnte...
 Function UserInputText(ByVal message As String, ByVal titleText As String, ByVal fillText As String)
 
     UserInputText = InputBox(message, titleText, fillText)
 
 End Function
 
+' Eine Funktion die prüft ob ein Modul mit dem gegebenen Namen bereits existiert.
 Function ModulNamenSuchen(ByVal moduleName As String)
     
     Dim vbComponent As Object
@@ -59,6 +60,7 @@ Function ModulNamenSuchen(ByVal moduleName As String)
     
 End Function
 
+' Eine Funktion die ein Modul mit dem gegebenen Namen entfernt sofern es existiert.
 Function RemoveModule(ByVal removeName As String)
     Dim moduleName As String
     Dim vbComponent As Object
@@ -76,5 +78,5 @@ Function RemoveModule(ByVal removeName As String)
     Next vbComponent
     
     ' Module not found
-    MsgBox moduleName & " not found in the VBA project.", vbExclamation
+    MsgBox moduleName & " wurde in diesem VBA-Projekt nicht gefunden.", vbExclamation
 End Function

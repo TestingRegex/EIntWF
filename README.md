@@ -3,13 +3,13 @@ Ein erster Ansatz einen Arbeitsprozess für DevSecOps möglichst in Excel abzuwi
 
 Bisher beinhaltet die CommitAddIn.xlsm Datei ein Workbook und VBA-Module die zu einem Excel Add-In (.xlam) umgespeichtert werden können mit den folgenden Funktionen:
 
-1. VBA-Module exportieren
-2. VBA-Module importieren
-3. Änderung im gegebenen Git Repo commiten
-4. Bestehende Commits auf Remote pushen
-5. Updates von Remote pullen
-6. In einem Schritt exportieren, commiten, und pushen
-7. In einem Schritten pullen und den Importprozes starten.
+    1. VBA-Module exportieren
+    2. VBA-Module importieren
+    3. Änderung im gegebenen Git Repo commiten
+    4. Bestehende Commits auf Remote pushen
+    5. Updates von Remote pullen
+    6. In einem Schritt exportieren, commiten, und pushen
+    7. In einem Schritten pullen und den Importprozes starten.
 
 
 

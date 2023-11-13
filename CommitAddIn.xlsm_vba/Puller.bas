@@ -1,6 +1,6 @@
 '''
-'   Ein Excel Makro was an den Button im Add-in Tab gebunden ist und
-'   die Aufgabe des Pushen übernimmt
+'   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
+'   die Aufgabe des Export, Commit, und Push aufeinmal übernimmt
 '
 '
 '
@@ -8,13 +8,13 @@
 
 Option Explicit
 
-Sub PushToGit(ByRef control As Office.IRibbonControl)
+Sub GitPull(ByRef contral As Office.IRibbonControl)
 
-    Push
-    
+    Pull
+
 End Sub
 
-Function Push()
+Function Pull()
 
     Dim GitCommand As String
     Dim WorkbookPath As String
@@ -31,9 +31,11 @@ Function Push()
 '-----------------------------------------------------------------------
 ' git push ausführen
     
-    GitCommand = "git push"
+    GitCommand = "git pull"
     Shell GitCommand, vbNormalFocus
     
-    MsgBox "Committed Änderungen wurden gepusht."
+    MsgBox "Updates wurden von GitHub gepullt."
+
+
 
 End Function

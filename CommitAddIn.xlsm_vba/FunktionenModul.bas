@@ -43,4 +43,38 @@ Function UserInputText(ByVal message As String, ByVal titleText As String, ByVal
 
 End Function
 
+Function ModulNamenSuchen(ByVal moduleName As String)
+    
+    Dim vbComponent As Object
+    
+    For Each vbComponent In ActiveWorkbook.VBProject.VBComponents
+    
+        If vbComponent.Type = 1 And vbComponent.Name = moduleName Then
+            ModulNamenSuchen = True
+            Exit Function
+        End If
+    Next vbComponent
+    
+    ModulNamenSuchen = False
+    
+End Function
 
+Function RemoveModule(ByVal removeName As String)
+    Dim moduleName As String
+    Dim vbComponent As Object
+    moduleName = removeName ' Replace with the name of the module you want to remove
+    
+    ' Iterate through all VBComponents in the project
+    For Each vbComponent In ThisWorkbook.VBProject.VBComponents
+        ' Check if the current component is a module and has the specified name
+        If vbComponent.Type = 1 And vbComponent.Name = moduleName Then
+            ' Remove the module
+            ThisWorkbook.VBProject.VBComponents.Remove vbComponent
+            MsgBox moduleName & " removed from the VBA project.", vbInformation
+            Exit Function
+        End If
+    Next vbComponent
+    
+    ' Module not found
+    MsgBox moduleName & " not found in the VBA project.", vbExclamation
+End Function

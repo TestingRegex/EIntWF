@@ -2,9 +2,7 @@
 '   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Exportieren der Module im VBA Projekt übernimmt
 '
-'   Allgemeines:
-'       Das Programm benötigt zugriff auf das VBA-Projekt als Objekt, um die externen .bas Dateien
-'       als VBA-Module ins VBA-Projekt speichern zu können. Dies muss im Trust-Center bei den Makro Einstellungen genehmigt werden.
+'
 '
 '''
 

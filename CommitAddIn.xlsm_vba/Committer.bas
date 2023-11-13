@@ -2,8 +2,7 @@
 '   Ein Excel Makro was an den Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Committen übernimmt
 '
-'   Allgemeines:
-'       Das Programm gibt die gewünschten Git-Befehle an eine Shell-Instanz weiter damit diese ausgeführt werden.
+'
 '
 '''
 

@@ -21,7 +21,9 @@ jobs:
               run: |
                 echo "Hier suchen wir signtool.exe"
                 cd C:\Program Files (x86)\Windows Kits\10\bin\x86
-                where signtool                
+                echo "The current location: %CD%"
+                echo "The contents of the current location:"
+                dir
 
             # Hier wird das Signierskript eingefügt
             - name: signieren

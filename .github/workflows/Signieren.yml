@@ -14,6 +14,12 @@ jobs:
         runs-on: windows-latest
 
         steps:
+
+            # Checkout
+            - name: checkout
+              id: checkout
+              uses: actions/checkout@v3
+
             # In diesem Job soll dann signtool.exe und die benötigte Software installiert werden
             - name: Install Windows SDK
               run: |
@@ -41,6 +47,11 @@ jobs:
         runs-on: windows-latest
 
         steps:
+
+          # Checkout
+          - name: checkout
+            id: checkout
+            uses: actions/checkout@v3
 
           - name: Init
             shell: bash

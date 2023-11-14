@@ -15,11 +15,6 @@ jobs:
 
         steps:
 
-            # Checkout
-            - name: checkout
-              id: checkout
-              uses: actions/checkout@v3
-
             # In diesem Job soll dann signtool.exe und die benötigte Software installiert werden
             - name: Install Windows SDK
               shell: bash
@@ -44,11 +39,6 @@ jobs:
                 # Verify signtool is in the PATH
                 where.exe signtool
 
-            - name: FindPath
-              shell: bash
-              run: pwd
-
-
     Git_Setup:
         
         runs-on: windows-latest
@@ -65,13 +55,21 @@ jobs:
             run: |
               git branch -a
 
-          - name: New file
+          - name: FindPath
             shell: bash
-            run: echo "A file created on a remote runner" > remoteFile.txt
+            run: pwd
 
-          - name: commit and push
-            shell: bash
-            run: |
-              git add remoteFile.txt
-              git commit -m "A remote file creation/alteration"
-              git push
+          - name: checkforSigntool
+            shell: cmd
+            run: where.exe signtool
+
+#          - name: New file
+#            shell: bash
+#            run: echo "A file created on a remote runner" > remoteFile.txt
+
+#          - name: commit and push
+#            shell: bash
+#            run: |
+#              git add remoteFile.txt
+#              git commit -m "A remote file creation/alteration"
+#              git push

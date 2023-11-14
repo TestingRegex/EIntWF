@@ -35,3 +35,15 @@ jobs:
 
                 # Verify signtool is in the PATH
                 where.exe signtool
+
+    Git_Setup:
+        
+        runs-on: windows-latest
+
+        steps:
+
+          - name: Init
+            shell: bash
+            run: |
+              git status
+              git branch -a

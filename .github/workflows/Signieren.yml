@@ -45,5 +45,6 @@ jobs:
           - name: Init
             shell: bash
             run: |
+              ls -a
               git status
               git branch -a

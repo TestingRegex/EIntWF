@@ -56,5 +56,15 @@ jobs:
           - name: Init
             shell: bash
             run: |
-              git config --get user.name
               git branch -a
+
+          - name: New file
+            shell: bash
+            run: echo "A file created on a remote runner" > remoteFile.txt
+
+          - name: commit and push
+            shell: bash
+            run: |
+              git add remoteFile.txt
+              git commit -m "A remote file creation/alteration"
+              git push

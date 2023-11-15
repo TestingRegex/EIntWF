@@ -48,7 +48,7 @@ jobs:
               run: |
                 $dllPath = Join-Path $env:GITHUB_WORKSPACE ".\AutomatingSignatures\msosipx.dll"
                 Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
-
+ 
             #Checking if registration worked
             - name: Check msosipx.dll registration (assuming it's a COM DLL)
               shell: powershell

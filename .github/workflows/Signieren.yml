@@ -26,7 +26,6 @@ jobs:
             
             - name: Certificate Setup
               env:
-                CERTIFICATE_PASSWORD : ${{ secrets.TESTSECRET_PWD }}
                 CERTIFICATE_CONTENT: ${{ secrets.TESTSECRET_CMDLINE}}
               run: |
                 echo "$CERTIFICATE_CONTENT" > certificate.pfx
@@ -35,6 +34,8 @@ jobs:
             # Hier wird das Signierskript eingefügt.
             - name: signieren
               id: signieren
+              env:
+                CERTIFICATE_PASSWORD : ${{ secrets.TESTSECRET_PWD }}
               run: |
                 echo "Hier werden dann die gewünschten Dateien signiert."
                 #signtool sign /v /td sha256 /fd sha256 /sha1 $Thumbprint $a

@@ -25,10 +25,12 @@ jobs:
 
             
             - name: Certificate Setup
-              env: 
+              env:
+                CERTIFICATE_PASSWORD : ${{ secrets.TESTSECRET_PWD }}
                 CERTIFICATE_CONTENT: ${{ secrets.TESTSECRET_CMDLINE}}
               run: |
                 echo "$CERTIFICATE_CONTENT" > certificate.pfx
+                
 
             # Hier wird das Signierskript eingefügt.
             - name: signieren
@@ -45,7 +47,7 @@ jobs:
                 # Verify signtool is in the PATH
                 where.exe signtool
 
-                signtool sign /a /fd SHA256 "CommitAddIn - Copy.xlsm"
+                signtool sign /f certificate.pfx /p "$CERTIFICATE_PASSWORD" /v "CommitAddIn - Copy.xlsm"
 
             - name: GitSetup
               shell: bash

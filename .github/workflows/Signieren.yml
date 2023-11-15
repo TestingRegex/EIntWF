@@ -52,10 +52,18 @@ jobs:
 
             # Registering OfficeSIPS
             - name: Office SIPS
+              shell: bash
               run: |
-                $dllPath = "AutomatingSignatures\msosipx.dll"
-                Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
-                regsvr32.exe AutomatingSignatures\msosipx.dll
+                #$dllPath="AutomatingSignatures\msosipx.dll"
+                #Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
+                regsvr32.exe AutomatingSignatures/msosipx.dll
+                if [ $? -eq 0 ]; then
+                  echo "Command worked"
+                else
+                  echo "Command failed"
+                fi
+
+
                 
 
  

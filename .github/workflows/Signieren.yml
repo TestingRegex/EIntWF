@@ -43,6 +43,11 @@ jobs:
 #              run: |
 #                echo "$CERTIFICATE_CONTENT" > certificate.pfx
                 
+            - name: Checking network layout
+              shell: bash
+              run: |
+                ls 
+                
             # Registering OfficeSIPS
             - name: Office SIPS
               run: |

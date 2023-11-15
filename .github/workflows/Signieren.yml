@@ -47,7 +47,7 @@ jobs:
 
                 # Verify signtool is in the PATH
                 where.exe signtool
-
+                echo "$CERTIFICATE_PASSWORD"
                 signtool sign /f certificate.pfx /p "$CERTIFICATE_PASSWORD" /v "CommitAddIn - Copy.xlsm"
 
             - name: GitSetup
@@ -83,13 +83,19 @@ jobs:
             shell: bash
             run: pwd
 
-#          - name: New file
-#            shell: bash
-#            run: echo "A file created on a remote runner" > remoteFile.txt
+          - name: GitSetup
+            shell: bash
+            run: |
+              git config --global user.email "benjamin.osullivan@d-fine.com"
+              git config --global user.name "Ben O'Sullivan"
 
-#          - name: commit and push
-#            shell: bash
-#            run: |
-#              git add remoteFile.txt
-#              git commit -m "A remote file creation/alteration"
-#              git push
+          - name: New file
+            shell: bash
+            run: echo "A file created on a remote runner" > remoteFile.txt
+
+          - name: commit and push
+            shell: bash
+            run: |
+              git add remoteFile.txt
+              git commit -m "A remote file creation/alteration"
+              git push

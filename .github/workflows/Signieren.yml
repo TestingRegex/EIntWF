@@ -27,18 +27,16 @@ jobs:
                 Add-Content -Path $env:GITHUB_PATH -Value "$sdkPath\VC\Auxiliary\Build\vcvars64.bat"
 
             
-            - name: Certificate Setup
-              env:
-                CERTIFICATE_CONTENT: ${{ secrets.TESTSECRET_CMDLINE}}
-              run: |
-                echo "$CERTIFICATE_CONTENT" > certificate.pfx
+#            - name: Certificate Setup
+#              env:
+#                CERTIFICATE_CONTENT: ${{ secrets.TESTSECRET_CMDLINE}}
+#              run: |
+#                echo "$CERTIFICATE_CONTENT" > certificate.pfx
                 
 
             # Hier wird das Signierskript eingefügt.
             - name: signieren
               id: signieren
-              env:
-                CERTIFICATE_PASSWORD : ${{ secrets.TESTSECRET_PWD }}
               run: |
                 echo "Hier werden dann die gewünschten Dateien signiert."
                 #signtool sign /v /td sha256 /fd sha256 /sha1 $Thumbprint $a
@@ -53,7 +51,7 @@ jobs:
                 where.exe signtool
                 
                 
-                signtool sign /f CommandLineCert.pfx /p "$CERTIFICATE_PASSWORD" /v "CommitAddIn - Copy.xlsm"
+                signtool sign /f certificate.pfx /p "" /v "CommitAddIn - Copy.xlsm"
               
 
             # Die nächsten Schritte sind dazu da die Änderungen der vorherigen Schritte bei 

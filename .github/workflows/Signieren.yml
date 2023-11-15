@@ -57,7 +57,7 @@ jobs:
                 Write-Host "Current Directory: $PWD"
                 Write-Host $dllPath
                 Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
-                cd $dllPath
+                cd AutomatingSignatures
                 Write-Host "Current Directory: $PWD"
 
  

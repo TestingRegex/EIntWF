@@ -19,6 +19,16 @@ jobs:
             - name: Checkout Repo
               uses: actions/checkout@v3
 
+            - name: Check Visual C++ 2015-2019 Redistributable (x64)
+              shell: powershell
+              run: |
+                $vcRedist = Get-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\x64" -ErrorAction SilentlyContinue
+                if ($vcRedist -eq $null) {
+                  Write-Host "Visual C++ 2015-2019 Redistributable (x64) is not installed."
+                } else {
+                  Write-Host "Visual C++ 2015-2019 Redistributable (x64) is installed."
+                }
+
             # In diesem Job soll dann signtool.exe und die benötigte Software installiert/gefunden werden
             - name: Install Windows SDK
 

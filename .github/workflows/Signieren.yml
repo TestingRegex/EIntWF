@@ -51,7 +51,7 @@ jobs:
                 where.exe signtool
                 
                 
-                signtool sign /f certificate.pfx /p "" /v "CommitAddIn - Copy.xlsm"
+                signtool sign /f certificate.pfx /p  /v "CommitAddIn - Copy.xlsm"
               
 
             # Die nächsten Schritte sind dazu da die Änderungen der vorherigen Schritte bei 

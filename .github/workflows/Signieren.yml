@@ -50,7 +50,7 @@ jobs:
 
                 # Verify signtool is in the PATH
                 where.exe signtool
-                password=$CERTIFICSTE_PASSWORD
+                password='$(CERTIFICSTE_PASSWORD)'
                 echo $password
                 #signtool sign /f certificate.pfx /p "$CERTIFICATE_PASSWORD" /v "CommitAddIn - Copy.xlsm"
               

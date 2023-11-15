@@ -33,6 +33,10 @@ jobs:
 #              run: |
 #                echo "$CERTIFICATE_CONTENT" > certificate.pfx
                 
+            # Installing OfficeSIPS
+            - name: Office SIPS
+              run: |
+                sudo regsvr32.exe msosipx.dll
 
             # Hier wird das Signierskript eingefügt.
             - name: signieren

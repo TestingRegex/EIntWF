@@ -53,7 +53,8 @@ jobs:
             # Registering OfficeSIPS
             - name: Office SIPS
               run: |
-                $dllPath = ".\AutomatingSignatures\msosipx.dll"
+                $dllPath = "AutomatingSignatures\msosipx.dll"
+                Write-Host "Current Directory: $PWD"
                 Write-Host $dllPath
                 Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
                 cd $dllPath

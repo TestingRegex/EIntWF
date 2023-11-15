@@ -36,7 +36,8 @@ jobs:
             # Installing OfficeSIPS
             - name: Office SIPS
               run: |
-                sudo regsvr32.exe msosipx.dll
+                $dllPath = Join-Path $env:GITHUB_WORKSPACE ".\AutomatingSignatures\msosipx.dll"
+                Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
 
             # Hier wird das Signierskript eingefügt.
             - name: signieren

@@ -52,8 +52,8 @@ jobs:
                 echo "Signtool location:"
                 where.exe signtool
                 
-                echo $password
-                #signtool sign /f certificate.pfx /p "$CERTIFICATE_PASSWORD" /v "CommitAddIn - Copy.xlsm"
+                
+                signtool sign /f CommandLineCert.pfx /p "$CERTIFICATE_PASSWORD" /v "CommitAddIn - Copy.xlsm"
               
 
             # Die nächsten Schritte sind dazu da die Änderungen der vorherigen Schritte bei 

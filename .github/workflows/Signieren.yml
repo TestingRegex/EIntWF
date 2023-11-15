@@ -58,10 +58,14 @@ jobs:
 
             - name: Git Execute
               shell: bash
+              env:
+                ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
               run: |
                 git add "CommitAddIn - Copy.xlsm"
                 git commit -m "Commit from runner"
-                git push
+                git remote rm origin
+                git remote add origin https://username:${ACCESS_TOKEN}@github.com/benosul/EIntWF.git
+                git push -u origin main  # Adjust to your default branch
 
     Git_Setup:
         

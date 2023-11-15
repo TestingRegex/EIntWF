@@ -46,15 +46,17 @@ jobs:
             - name: Checking network layout
               shell: bash
               run: |
-                ls 
-                
+                ls ./AutomatingSignatures
+                where msosipx.dll
+
+
             # Registering OfficeSIPS
             - name: Office SIPS
               run: |
                 $dllPath = Join-Path $env:GITHUB_WORKSPACE "AutomatingSignatures\msosipx.dll"
                 Write-Host "$dllPath"
                 Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
-                cd dllPath
+                cd $dllPath
                 Write-Host "Current Directory: $PWD"
 
  

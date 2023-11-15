@@ -64,7 +64,9 @@ jobs:
               env:
                 ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
               run: |
-                git add "CommitAddIn - Copy.xlsm"
+                touch DeleteMe.txt
+                #git add "CommitAddIn - Copy.xlsm"
+                git add DeleteMe.txt
                 git commit -m "Commit from runner"
                 git remote rm origin
                 git remote add origin https://username:${ACCESS_TOKEN}@github.com/benosul/EIntWF.git

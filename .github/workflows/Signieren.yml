@@ -16,6 +16,9 @@ jobs:
 
         steps:
 
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+
             # In diesem Job soll dann signtool.exe und die benötigte Software installiert/gefunden werden
             - name: Install Windows SDK
 
@@ -66,40 +69,3 @@ jobs:
                 git remote rm origin
                 git remote add origin https://username:${ACCESS_TOKEN}@github.com/benosul/EIntWF.git
                 git push -u origin main  # Adjust to your default branch
-
-    Git_Setup:
-        
-        runs-on: windows-latest
-
-        steps:
-
-          # Checkout
-          - name: checkout
-            id: checkout
-            uses: actions/checkout@v3
-
-          - name: Init
-            shell: bash
-            run: |
-              git branch -a
-
-          - name: FindPath
-            shell: bash
-            run: pwd
-
-          - name: GitSetup
-            shell: bash
-            run: |
-              git config --global user.email "benjamin.osullivan@d-fine.com"
-              git config --global user.name "Ben O'Sullivan"
-
-          - name: New file
-            shell: bash
-            run: echo "A file created on a remote runner" > remoteFile.txt
-
-          - name: commit and push
-            shell: bash
-            run: |
-              git add remoteFile.txt
-              git commit -m "A remote file creation/alteration"
-              git push

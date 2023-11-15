@@ -43,11 +43,23 @@ jobs:
 #              run: |
 #                echo "$CERTIFICATE_CONTENT" > certificate.pfx
                 
-            # Installing OfficeSIPS
+            # Registering OfficeSIPS
             - name: Office SIPS
               run: |
                 $dllPath = Join-Path $env:GITHUB_WORKSPACE ".\AutomatingSignatures\msosipx.dll"
                 Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
+
+            #Checking if registration worked
+            - name: Check msosipx.dll registration (assuming it's a COM DLL)
+              shell: powershell
+              run: |
+                  $dllPath = Join-Path $env:GITHUB_WORKSPACE "path\to\msosipx.dll"
+                  $regsvr32Output = Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -PassThru -Wait -NoNewWindow -RedirectStandardOutput output.txt -ErrorAction SilentlyContinue
+                  if ($regsvr32Output.ExitCode -eq 0) {
+                    Write-Host "msosipx.dll registration succeeded."
+                  } else {
+                    Write-Host "msosipx.dll registration failed. Check output.txt for details."
+                  }
 
             # Hier wird das Signierskript eingefügt.
             - name: signieren

@@ -65,9 +65,10 @@ jobs:
                 ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
               run: |
                 touch DeleteMe.txt
+                git checkout workflow1
                 #git add "CommitAddIn - Copy.xlsm"
                 git add DeleteMe.txt
                 git commit -m "Commit from runner"
                 git remote rm origin
                 git remote add origin https://username:${ACCESS_TOKEN}@github.com/benosul/EIntWF.git
-                git push -u origin main  # Adjust to your default branch
+                git push -u origin workflow1  # Adjust to your default branch

@@ -61,7 +61,7 @@ jobs:
 
             - name: Git Execute
               env:
-                ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                ACCESS_TOKEN: ${{ secrets.FINEGRAIN_TOKEN }}
               run: |
                 touch DeleteMe.txt
                 git checkout workflow1

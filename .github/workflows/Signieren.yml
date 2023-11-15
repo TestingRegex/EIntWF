@@ -26,7 +26,6 @@ jobs:
             # Hier wird das Signierskript eingefügt.
             - name: signieren
               id: signieren
-              shell: bash
               run: |
                 echo "Hier werden dann die gewünschten Dateien signiert."
                 #signtool sign /v /td sha256 /fd sha256 /sha1 $Thumbprint $a

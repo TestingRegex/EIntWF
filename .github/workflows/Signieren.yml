@@ -12,6 +12,7 @@ jobs:
     Signieren:
 
         runs-on: windows-latest
+        
 
         steps:
 
@@ -22,6 +23,12 @@ jobs:
                 $sdkPath = Get-Command vswhere | ForEach-Object { $_.Source -replace '\\vswhere\.exe' }
                 Add-Content -Path $env:GITHUB_PATH -Value "$sdkPath\VC\Auxiliary\Build\vcvars64.bat"
 
+            
+            - name: Certificate Setup
+              env: 
+                CERTIFICATE_CONTENT: ${{ secrets.TESTSECRET_CMDLINE}}
+              run: |
+                echo "$CERTIFICATE_CONTENT" > certificate.pfx
 
             # Hier wird das Signierskript eingefügt.
             - name: signieren

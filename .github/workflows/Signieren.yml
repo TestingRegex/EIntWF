@@ -50,24 +50,32 @@ jobs:
 
                 # Verify signtool is in the PATH
                 where.exe signtool
-                echo "$CERTIFICATE_PASSWORD"
+                password = $CERTIFICSTE_PASSWORD
+                echo $password
                 #signtool sign /f certificate.pfx /p "$CERTIFICATE_PASSWORD" /v "CommitAddIn - Copy.xlsm"
+              
+
+            # Die nächsten Schritte sind dazu da die Änderungen der vorherigen Schritte bei 
+            # Git zu commiten und pushen. 
+            #
+            # Im Git Setup Schritt werden die Git Einstellungen konfiguriert.
 
             - name: GitSetup
               shell: bash
               run: |
-                git config --global user.email "benjamin.osullivan@d-fine.com"
-                git config --global user.name "Ben O'Sullivan"
-
+                #git config --global user.email "benjamin.osullivan@d-fine.com"
+                #git config --global user.name "Ben O'Sullivan"
+            
+            # In diesem Schritt werden die Änderungen zu Git commitet und gepusht.
             - name: Git Execute
               env:
                 ACCESS_TOKEN: ${{ secrets.FINEGRAIN_TOKEN }}
               run: |
-                touch DeleteMe.txt
-                git checkout workflow1
+                #touch DeleteMe.txt
+                #git checkout workflow1
                 #git add "CommitAddIn - Copy.xlsm"
-                git add DeleteMe.txt
-                git commit -m "Commit from runner"
-                git remote set-url origin https://username:${ACCESS_TOKEN}@github.com/benosul/EIntWF.git
+                #git add DeleteMe.txt
+                #git commit -m "Commit from runner"
+                #git remote set-url origin https://username:${ACCESS_TOKEN}@github.com/benosul/EIntWF.git
 
-                git push -u origin workflow1  # Adjust to your default branch
+                #git push -u origin workflow1  # Adjust to your default branch

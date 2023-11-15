@@ -15,7 +15,7 @@ jobs:
 
         steps:
 
-            # In diesem Job soll dann signtool.exe und die benötigte Software installiert werden
+            # In diesem Job soll dann signtool.exe und die benötigte Software installiert/gefunden werden
             - name: Install Windows SDK
               shell: bash
               run: |
@@ -23,7 +23,7 @@ jobs:
                 Add-Content -Path $env:GITHUB_PATH -Value "$sdkPath\VC\Auxiliary\Build\vcvars64.bat"
 
 
-            # Hier wird das Signierskript eingefügt
+            # Hier wird das Signierskript eingefügt.
             - name: signieren
               id: signieren
               shell: bash

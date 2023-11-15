@@ -54,11 +54,8 @@ jobs:
             - name: Office SIPS
               run: |
                 $dllPath = "AutomatingSignatures\msosipx.dll"
-                Write-Host "Current Directory: $PWD"
-                Write-Host $dllPath
                 Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
-                cd AutomatingSignatures
-                Write-Host "Current Directory: $PWD"
+                
 
  
             #Checking if registration worked
@@ -79,7 +76,6 @@ jobs:
               id: signieren
               run: |
                 echo "Hier werden dann die gewünschten Dateien signiert."
-                #signtool sign /v /td sha256 /fd sha256 /sha1 $Thumbprint $a
                 # Run vcvarsall.bat to set up the environment
                 cmd /c "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
 
@@ -90,8 +86,7 @@ jobs:
                 echo "Signtool location:"
                 where.exe signtool
                 
-                
-                signtool sign /f certificate.pfx /p "Swissgrid" /v "CommitAddIn - Copy.xlsm"
+                signtool sign /f certificate.pfx /p "Swissgrid" /v "TestWorkBook.xlsm"
               
 
             # Die nächsten Schritte sind dazu da die Änderungen der vorherigen Schritte bei 

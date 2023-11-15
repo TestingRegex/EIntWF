@@ -48,7 +48,7 @@ jobs:
                 # Verify signtool is in the PATH
                 where.exe signtool
                 echo "$CERTIFICATE_PASSWORD"
-                signtool sign /f certificate.pfx /p "$CERTIFICATE_PASSWORD" /v "CommitAddIn - Copy.xlsm"
+                #signtool sign /f certificate.pfx /p "$CERTIFICATE_PASSWORD" /v "CommitAddIn - Copy.xlsm"
 
             - name: GitSetup
               shell: bash

@@ -46,7 +46,7 @@ jobs:
             # Registering OfficeSIPS
             - name: Office SIPS
               run: |
-                $dllPath = Join-Path $env:GITHUB_WORKSPACE ".\AutomatingSignatures\msosipx.dll"
+                $dllPath = Join-Path $env:GITHUB_WORKSPACE "AutomatingSignatures\msosipx.dll"
                 Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
  
             #Checking if registration worked

@@ -59,7 +59,7 @@ jobs:
                     Write-Host "msosipx.dll registration succeeded."
                   } else {
                     Write-Host "msosipx.dll registration failed. Check output.txt for details."
-                    cat output.txt
+                    Get-Content output.txt
                   }
 
             # Hier wird das Signierskript eingefügt.

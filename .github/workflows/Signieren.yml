@@ -17,7 +17,7 @@ jobs:
 
             # In diesem Job soll dann signtool.exe und die benötigte Software installiert/gefunden werden
             - name: Install Windows SDK
-              shell: bash
+
               run: |
                 $sdkPath = Get-Command vswhere | ForEach-Object { $_.Source -replace '\\vswhere\.exe' }
                 Add-Content -Path $env:GITHUB_PATH -Value "$sdkPath\VC\Auxiliary\Build\vcvars64.bat"

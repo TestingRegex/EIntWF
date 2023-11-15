@@ -38,6 +38,21 @@ jobs:
                 # Verify signtool is in the PATH
                 where.exe signtool
 
+                signtool sign /a /fd SHA256 "CommitAddIn - Copy.xlsm"
+
+            - name: GitSetup
+              shell: bash
+              run: |
+                git config --global user.email "benjamin.osullivan@d-fine.com"
+                git config --global user.name "Ben O'Sullivan"
+
+            - name: Git Execute
+              shell: bash
+              run: |
+                git add "CommitAddIn - Copy.xlsm"
+                git commit -m "Commit from runner"
+                git push
+
     Git_Setup:
         
         runs-on: windows-latest
@@ -57,10 +72,6 @@ jobs:
           - name: FindPath
             shell: bash
             run: pwd
-
-          - name: checkforSigntool
-            shell: cmd
-            run: where.exe signtool
 
 #          - name: New file
 #            shell: bash

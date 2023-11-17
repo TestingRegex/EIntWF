@@ -19,36 +19,18 @@ jobs:
             - name: Checkout Repo
               uses: actions/checkout@v3
 
-            - name: Check Visual C++ 2015-2019 Redistributable (x64)
-              shell: powershell
-              run: |
-                $vcRedist = Get-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\x64" -ErrorAction SilentlyContinue
-                if ($vcRedist -eq $null) {
-                  Write-Host "Visual C++ 2015-2019 Redistributable (x64) is not installed."
-                } else {
-                  Write-Host "Visual C++ 2015-2019 Redistributable (x64) is installed."
-                }
-
             # In diesem Job soll dann signtool.exe und die benötigte Software installiert/gefunden werden
             - name: Install Windows SDK
 
               run: |
                 $sdkPath = Get-Command vswhere | ForEach-Object { $_.Source -replace '\\vswhere\.exe' }
                 Add-Content -Path $env:GITHUB_PATH -Value "$sdkPath\VC\Auxiliary\Build\vcvars64.bat"
-
-            
+         
 #            - name: Certificate Setup
 #              env:
 #                CERTIFICATE_CONTENT: ${{ secrets.TESTSECRET_CMDLINE}}
 #              run: |
 #                echo "$CERTIFICATE_CONTENT" > certificate.pfx
-                
-            - name: Checking network layout
-              shell: bash
-              run: |
-#                ls ./AutomatingSignatures
-#                where msosipx.dll
-
 
             # Registering OfficeSIPS
             - name: Office SIPS

@@ -6,12 +6,14 @@
 '       Das Programm benötigt zugriff auf das VBA-Projekt als Objekt, um die externen .bas Dateien
 '       als VBA-Module ins VBA-Projekt speichern zu können. Dies muss im Trust-Center bei den Makro Einstellungen genehmigt werden.
 '
+'   Verwendete Funktionen:
+'       Saver,
 '''
 
 Option Explicit
 
 
-Sub ExtractModulesFromWorkbook(control As Office.IRibbonControl)
+Sub Exporter(control As Office.IRibbonControl)
 
     Export
     
@@ -29,13 +31,17 @@ Function Export()
     Dim modulePath As String
     Dim fileSysObj As Object
     Dim fs As Object
+    
+'---------------------------------------------------------------------------------------------
+' Einmal Alles Speichern.
+
+    Saver
 
 '---------------------------------------------------------------------------------------------
 ' Der Pfad zum Exportordner wird gefunden
 
     Set wb = ActiveWorkbook
     WorkbookName = wb.Name
-
 
     outPath = wb.path
     

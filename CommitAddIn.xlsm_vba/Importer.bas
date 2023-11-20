@@ -6,6 +6,8 @@
 '       Das Programm benötigt zugriff auf das VBA-Projekt als Objekt, um die externen .bas Dateien
 '       als VBA-Module ins VBA-Projekt speichern zu können. Dies muss im Trust-Center bei den Makro Einstellungen genehmigt werden.
 '
+'   Verwendete Funktionen:
+'       SelectFolder,ModulNamenSuchen, UserPromptYesNo, UserInputText,
 '''
 
 Option Explicit
@@ -103,6 +105,8 @@ Function Import()
             End If
         End If
     Next file
+
+    Saver
 
     ' Clean up.
     Set fs = Nothing

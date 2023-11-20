@@ -8,17 +8,13 @@ Sub Push_Test()
 '------------------------------------------------------------------------
 ' Das richtige Directory finden
 
-    ' Get the path of the current workbook
-    WorkbookPath = ActiveWorkbook.path
-
-    ' Moving into the git repo
-    ChDir WorkbookPath
+    Pathing
     
 '-----------------------------------------------------------------------
 ' git push ausführen
     
     GitCommand = "git push"
-    Shell GitCommand, vbNormalFocus
+    shell GitCommand, vbNormalFocus
     
     MsgBox "Committed Änderungen wurden gepusht."
 

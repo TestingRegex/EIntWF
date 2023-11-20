@@ -5,6 +5,8 @@
 '   Allgemeines:
 '       Das Programm gibt die gewünschten Git-Befehle an eine Shell-Instanz weiter damit diese ausgeführt werden.
 '
+'   Verwendete Funktionen:
+'       Pathing,
 '''
 
 Option Explicit
@@ -23,17 +25,13 @@ Function Push()
 '------------------------------------------------------------------------
 ' Das richtige Directory finden
 
-    ' Get the path of the current workbook
-    WorkbookPath = ActiveWorkbook.path
-
-    ' Moving into the git repo
-    ChDir WorkbookPath
+    Pathing
     
 '-----------------------------------------------------------------------
 ' git push ausführen
     
     GitCommand = "git push"
-    Shell GitCommand, vbNormalFocus
+    shell GitCommand, vbNormalFocus
     
     MsgBox "Committed Änderungen wurden gepusht."
 

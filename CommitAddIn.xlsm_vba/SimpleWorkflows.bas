@@ -10,7 +10,7 @@ Option Explicit
 Sub workflowExportCommitPush(ByRef control As Office.IRibbonControl)
     
     Export
-    Commit
+    Commit (False)
     Push
 
 End Sub

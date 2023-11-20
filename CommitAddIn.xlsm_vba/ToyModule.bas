@@ -8,34 +8,25 @@
 Option Explicit
 
 
-Sub ModuleSearch()
-
-    
-    MsgBox ModulNamenSuchen("pusher")
-
-
-End Sub
-
-Sub TestRemoveModule()
-
-    RemoveModule ("Module1")
-
-End Sub
-
-
 Sub TagRetrieval()
 
 ' Variablen:
-
+    Dim temp As Integer
 
 '-------------------------------------------------------
 ' Pfad:
     Pathing
     
 '-------------------------------------------------------
+    
+    temp = ShellCommand("git show v1.0 > temp/", "Yay", "Nay")
+    
+End Sub
 
-    MsgBox GetShellOutput("git tag")
+Sub Testing()
 
-
+    ChDir "C:\Users\d60157\"
+    MsgBox GetShellOutput("cmd /c cd")
+    
 End Sub
 

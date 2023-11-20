@@ -85,5 +85,4 @@ Function Tag()
     
     temp = shell.Run("git push origin --tags", vbNormalFocus, True)
 
-
 End Function

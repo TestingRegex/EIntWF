@@ -66,7 +66,7 @@ Function Import()
             If ModulNamenSuchen(moduleName) Then
                 benutzerMeinung = UserPromptYesNo(" Es gibt bereits ein Modul mit dem Namen '" + moduleName + "'. Soll das bereitsexistierende Modul überschrieben werden?")
                 If benutzerMeinung = vbYes Then
-                    MsgBox "You want to overwrite the old module"
+                    MsgBox "Sie wollen ein altes Modul überschreiben."
                     ' Remove the old Modul
                     RemoveModule (moduleName)
                     ' Import the .bas file into the workbook's VBA project.
@@ -99,7 +99,7 @@ Function Import()
                     End If
                 End If
             Else
-                MsgBox moduleName
+                Debug.Print moduleName
                 Set vbComp = wb.VBProject.VBComponents.Import(file.path)
                 vbComp.Name = moduleName
             End If

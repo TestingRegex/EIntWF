@@ -3,7 +3,7 @@ Option Explicit
 Sub Push_Test()
 
     Dim GitCommand As String
-    Dim WorkbookPath As String
+    Dim temp As Integer
 
 '------------------------------------------------------------------------
 ' Das richtige Directory finden

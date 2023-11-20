@@ -12,6 +12,30 @@ Function GetUser()
 
 End Function
 
+' Simpler weg Ja/Nein Userprompt zu starten
+' Benutzt in: Committer;
+Function UserPromptYesNo(ByVal message As String)
+    
+    UserPromptYesNo = MsgBox(message, vbYesNo)
+    
+End Function
+
+' Präformatiertes Benutzereingabe Fenster, weil ich mir InputBox nicht merken konnte...
+' Benutzt in: Committer; Tagger;
+Function UserInputText(ByVal message As String, ByVal titleText As String, ByVal fillText As String)
+
+    UserInputText = InputBox(message, titleText, fillText)
+
+End Function
+
+' Eine Funktion um das Workbook und die Module zu speichern.
+' Benutzt in: Committer, Exporter, Importer
+Function Saver()
+
+    ActiveWorkbook.Save
+
+End Function
+
 ' Funktion die ein Ordner-Auswahl-Fenster öffnet
 ' Bentutz in: Importer;
 Function SelectFolder()
@@ -28,22 +52,6 @@ Function SelectFolder()
     End If
 
     Set diaFolder = Nothing
-End Function
-
-' Simpler weg Ja/Nein Userprompt zu starten
-' Benutzt in: Committer;
-Function UserPromptYesNo(ByVal message As String)
-    
-    UserPromptYesNo = MsgBox(message, vbYesNo)
-    
-End Function
-
-' Präformatiertes Benutzereingabe Fenster, weil ich mir InputBox nicht merken konnte...
-' Benutzt in: Committer; Tagger;
-Function UserInputText(ByVal message As String, ByVal titleText As String, ByVal fillText As String)
-
-    UserInputText = InputBox(message, titleText, fillText)
-
 End Function
 
 ' Eine Funktion die prüft ob ein Modul mit dem gegebenen Namen bereits existiert.
@@ -86,13 +94,7 @@ Function RemoveModule(ByVal removeName As String)
     MsgBox moduleName & " wurde in diesem VBA-Projekt nicht gefunden.", vbExclamation
 End Function
 
-' Eine Funktion um das Workbook und die Module zu speichern.
-' Benutzt in: Committer, Exporter, Importer
-Function Saver()
 
-    ActiveWorkbook.Save
-
-End Function
 
 ' Eine Funktion, die den Pfad zum Git Repo angeben kann.
 ' Momentan gibt es einfach den Pfad zum aktiven Workbook an.
@@ -158,7 +160,9 @@ Function ShellCommand(command As String, successMessage As String, failureMessag
         MsgBox failureMessage
     End If
     
-    ShellCommand = 1
+    ShellCommand = errorCode
+    
+    Set shell = Nothing
 
 End Function
 
@@ -166,15 +170,15 @@ End Function
 Function GetShellOutput(ByVal command As String)
 
     Dim shell As Object
-    Dim executioner As Object
+    Dim exec As Object
     Dim output As String
     
     'Shellinstanz erstellen
     Set shell = CreateObject("WScript.Shell")
 
     ' Command ausführen und Output schnappen
-    Set executioner = shell.exec(command)
-    output = executioner.StdOut.ReadAll
+    Set exec = shell.exec(command)
+    output = exec.StdOut.ReadAll
 
     ' Return the output
     GetShellOutput = output

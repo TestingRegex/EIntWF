@@ -28,6 +28,7 @@ Function Tag()
     Dim VersionInput As String
     Dim TagMessage As String
     Dim StringCheck As Boolean
+    Dim shell As Object
     
 '------------------------------------------------------
 ' Git-Pfad finden
@@ -71,10 +72,18 @@ Function Tag()
     
     GitCommand = "git tag -a " & VersionInput & " -m  """ & TagMessage & " - " & GetUser() & """"
     
-    'MsgBox GitCommand
-    shell GitCommand, vbNormalFocus
+    'Debug.Print GitCommand
     
-    shell "git push origin --tags", vbNormalFocus
+'-------------------------------------------------------------------------
+'Commands werden an die Shell weitergegeben
+
+    Dim temp As Integer
+        
+    temp = ShellCommand(GitCommand, "Der Tag wurde erfolgreich erstellt.", "Der Tag konnte nicht erstellt werden.")
+    
+    Set shell = CreateObject("WScript.Shell")
+    
+    temp = shell.Run("git push origin --tags", vbNormalFocus, True)
 
 
 End Function

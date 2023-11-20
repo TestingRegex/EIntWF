@@ -125,7 +125,7 @@ Function BadCharacterFilter(ByVal inputString As String, Optional ByVal Purpose 
             End If
         Next i
     ElseIf Purpose = "Commit" Then
-        invalidCharacters = " ""#$^:;'<>[]{}@"
+        invalidCharacters = """#$^:;'<>[]{}@"
         For i = 1 To Len(inputString)
             If InStr(invalidCharacters, Mid(inputString, i, 1)) > 0 Then
                 ' If an invalid character is found, return True
@@ -137,4 +137,46 @@ Function BadCharacterFilter(ByVal inputString As String, Optional ByVal Purpose 
         BadCharacterFilter = False
     End If
     
+End Function
+
+' Eine Funktion, die dafür sorgt das Shell commands ausgeführt werden
+' und überprüft wird ob sie erfolgreich waren oder nicht
+Function ShellCommand(command As String, successMessage As String, failureMessage As String)
+    
+    Dim shell As Object
+    Dim errorCode As Integer
+
+    Set shell = CreateObject("WScript.Shell")
+    
+    errorCode = shell.Run(command, 0, True)
+    
+    If errorCode = 0 Then
+    
+        MsgBox successMessage
+
+    Else
+        MsgBox failureMessage
+    End If
+    
+    ShellCommand = 1
+
+End Function
+
+' Den Output der ShellCommands einlesen
+Function GetShellOutput(ByVal command As String)
+
+    Dim shell As Object
+    Dim executioner As Object
+    Dim output As String
+    
+    'Shellinstanz erstellen
+    Set shell = CreateObject("WScript.Shell")
+
+    ' Command ausführen und Output schnappen
+    Set executioner = shell.exec(command)
+    output = executioner.StdOut.ReadAll
+
+    ' Return the output
+    GetShellOutput = output
+
 End Function

@@ -14,8 +14,6 @@ Sub Push_Test()
 ' git push ausführen
     
     GitCommand = "git push"
-    shell GitCommand, vbNormalFocus
-    
-    MsgBox "Committed Änderungen wurden gepusht."
+    temp = ShellCommand(GitCommand, "Committed Änderungen wurden gepusht.", "Der Push-Vorgang ist gescheitert.")
 
 End Sub

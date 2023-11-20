@@ -89,8 +89,10 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
     End If
     
     GitCommand = "git commit -m """ & commitMessage & """"
-    shell GitCommand, vbNormalFocus
+    'Debug.Print "GitCommand:"; GitCommand
     
-    MsgBox "Die Änderungen wurden committet."
-
+    Dim temp As Integer
+    
+    temp = ShellCommand(GitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
+    
 End Function

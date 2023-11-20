@@ -20,6 +20,7 @@ End Sub
 Function Pull()
 
     Dim GitCommand As String
+    Dim temp As Integer
 
 '------------------------------------------------------------------------
 ' Das richtige Directory finden
@@ -30,10 +31,7 @@ Function Pull()
 ' git push ausführen
     
     GitCommand = "git pull"
-    shell GitCommand, vbNormalFocus
-    
-    MsgBox "Updates wurden von GitHub gepullt."
-
+    temp = ShellCommand(GitCommand, "Updates wurden von GitHub gepulled.", "Es konnten keine Updates gepulled werden.")
 
 
 End Function

@@ -68,6 +68,9 @@ Sub CommitToGit_Test()
             
             
             commitMessage = customCommitMessage & " - " & GetUser()
+        Else
+            ' Standard Commit Nachricht wird erstellt
+            commitMessage = "Commit erstellt von " & GetUser()
         End If
     Else
         ' Standard Commit Nachricht wird erstellt
@@ -75,7 +78,10 @@ Sub CommitToGit_Test()
     End If
     
     GitCommand = "git commit -m """ & commitMessage & """"
-    shell GitCommand, vbNormalFocus
+    'MsgBox GitCommand
     
-    MsgBox "Die Änderungen wurden committet."
+    Dim temp As Integer
+    
+    temp = ShellCommand(GitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
+    
 End Sub

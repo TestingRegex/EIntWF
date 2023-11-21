@@ -62,6 +62,57 @@ jobs:
                     Get-Content output.txt
                   }
 
+            # In diesem Job soll dann signtool.exe und die benötigte Software installiert/gefunden werden
+            - name: Install Windows SDK
+
+              run: |
+                $sdkPath = Get-Command vswhere | ForEach-Object { $_.Source -replace '\\vswhere\.exe' }
+                Add-Content -Path $env:GITHUB_PATH -Value "$sdkPath\VC\Auxiliary\Build\vcvars64.bat"
+
+            
+#            - name: Certificate Setup
+#              env:
+#                CERTIFICATE_CONTENT: ${{ secrets.TESTSECRET_CMDLINE}}
+#              run: |
+#                echo "$CERTIFICATE_CONTENT" > certificate.pfx
+                
+            - name: Checking network layout
+              shell: bash
+              run: |
+#                ls ./AutomatingSignatures
+#                where msosipx.dll
+
+
+            # Registering OfficeSIPS
+            - name: Office SIPS
+              shell: bash
+              run: |
+                #$dllPath="AutomatingSignatures\msosipx.dll"
+                #Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
+                regsvr32.exe AutomatingSignatures/msosipx.dll
+                if [ $? -eq 0 ]; then
+                  echo "Command worked"
+                else
+                  echo "Command failed"
+                fi
+
+
+                
+
+ 
+            #Checking if registration worked
+            - name: Check msosipx.dll registration (assuming it's a COM DLL)
+              shell: powershell
+              run: |
+                  $dllPath = Join-Path $env:GITHUB_WORKSPACE "path\to\msosipx.dll"
+                  $regsvr32Output = Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -PassThru -Wait -NoNewWindow -RedirectStandardOutput output.txt -ErrorAction SilentlyContinue
+                  if ($regsvr32Output.ExitCode -eq 0) {
+                    Write-Host "msosipx.dll registration succeeded."
+                  } else {
+                    Write-Host "msosipx.dll registration failed. Check output.txt for details."
+                    Get-Content output.txt
+                  }
+
             # Hier wird das Signierskript eingefügt.
             - name: signieren
               id: signieren

@@ -12,17 +12,113 @@ jobs:
     Signieren:
 
         runs-on: windows-latest
+        
 
         steps:
-            # In diesem Job soll dann signtool.exe und die benötigte Software installiert werden
-            - name: build
-              id: build
-              run: |
-                echo "Hier soll signtool.exe installiert werden"
 
-            # Hier wird das Signierskript eingefügt
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+
+            - name: Check Visual C++ 2015-2019 Redistributable (x64)
+              shell: powershell
+              run: |
+                $vcRedist = Get-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\x64" -ErrorAction SilentlyContinue
+                if ($vcRedist -eq $null) {
+                  Write-Host "Visual C++ 2015-2019 Redistributable (x64) is not installed."
+                } else {
+                  Write-Host "Visual C++ 2015-2019 Redistributable (x64) is installed."
+                }
+
+            # In diesem Job soll dann signtool.exe und die benötigte Software installiert/gefunden werden
+            - name: Install Windows SDK
+
+              run: |
+                $sdkPath = Get-Command vswhere | ForEach-Object { $_.Source -replace '\\vswhere\.exe' }
+                Add-Content -Path $env:GITHUB_PATH -Value "$sdkPath\VC\Auxiliary\Build\vcvars64.bat"
+
+            
+#            - name: Certificate Setup
+#              env:
+#                CERTIFICATE_CONTENT: ${{ secrets.TESTSECRET_CMDLINE}}
+#              run: |
+#                echo "$CERTIFICATE_CONTENT" > certificate.pfx
+                
+            - name: Checking network layout
+              shell: bash
+              run: |
+#                ls ./AutomatingSignatures
+#                where msosipx.dll
+
+
+            # Registering OfficeSIPS
+            - name: Office SIPS
+              shell: bash
+              run: |
+                #$dllPath="AutomatingSignatures\msosipx.dll"
+                #Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -Verb RunAs
+                regsvr32.exe AutomatingSignatures/msosipx.dll
+                if [ $? -eq 0 ]; then
+                  echo "Command worked"
+                else
+                  echo "Command failed"
+                fi
+
+
+                
+
+ 
+            #Checking if registration worked
+            - name: Check msosipx.dll registration (assuming it's a COM DLL)
+              shell: powershell
+              run: |
+                  $dllPath = Join-Path $env:GITHUB_WORKSPACE "path\to\msosipx.dll"
+                  $regsvr32Output = Start-Process regsvr32.exe -ArgumentList "/s $dllPath" -PassThru -Wait -NoNewWindow -RedirectStandardOutput output.txt -ErrorAction SilentlyContinue
+                  if ($regsvr32Output.ExitCode -eq 0) {
+                    Write-Host "msosipx.dll registration succeeded."
+                  } else {
+                    Write-Host "msosipx.dll registration failed. Check output.txt for details."
+                    Get-Content output.txt
+                  }
+
+            # Hier wird das Signierskript eingefügt.
             - name: signieren
               id: signieren
               run: |
                 echo "Hier werden dann die gewünschten Dateien signiert."
-                #signtool.exe sign /v /td sha256 /fd sha256 /sha1 $Thumbprint $a
+                # Run vcvarsall.bat to set up the environment
+                cmd /c "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
+
+                # Add the location of signtool to the PATH
+                $env:PATH = $env:PATH + ";" + "${env:ProgramFiles(x86)}\Windows Kits\10\bin\10.0.19041.0\x64"
+
+                # Verify signtool is in the PATH
+                echo "Signtool location:"
+                where.exe signtool
+                
+                signtool sign /f certificate.pfx /p "Swissgrid" /v "TestWorkBook.xlsm"
+              
+
+            # Die nächsten Schritte sind dazu da die Änderungen der vorherigen Schritte bei 
+            # Git zu commiten und pushen. 
+            #
+            # Im Git Setup Schritt werden die Git Einstellungen konfiguriert.
+
+            - name: GitSetup
+              shell: bash
+              run: |
+                #git config --global user.email "benjamin.osullivan@d-fine.com"
+                #git config --global user.name "Ben O'Sullivan"
+            
+            # In diesem Schritt werden die Änderungen zu Git commitet und gepusht.
+            - name: Git Execute
+              env:
+                ACCESS_TOKEN: ${{ secrets.FINEGRAIN_TOKEN }}
+              run: |
+                #touch DeleteMe.txt
+                #git checkout workflow1
+                #git add "CommitAddIn - Copy.xlsm"
+                #git add DeleteMe.txt
+                #git commit -m "Commit from runner"
+                #git remote set-url origin https://username:${ACCESS_TOKEN}@github.com/benosul/EIntWF.git
+
+                #git push -u origin workflow1  # Adjust to your default branch

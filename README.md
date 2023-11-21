@@ -52,6 +52,19 @@ Es besteht die Option eine eigene Commit-Nachricht zu schreiben die am Ende mit 
 
 -
 
+### Git Tag
+
+#### Bestehende Funktionen:
+
+#### Gewünschte Funktionen:
+
+
+### Git Tag-Retreival
+
+#### Bestehende Funktionen:
+
+#### Gewünschte Funktionen:
+
 ### Git Push
 
 #### Bestehende Funktionen:
@@ -66,5 +79,7 @@ Unter der Annahme, dass das Workbook im lokalen Repository liegt.
 ### Git Pull
 
 #### Bestehende Funktionen:
+
+Die neusten Updates werden vom Remote Repo gezogen.
 
 #### Gewünschte Funktionen:

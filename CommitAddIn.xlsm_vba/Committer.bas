@@ -79,9 +79,10 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
                     Exit Function
                 End If
             Loop
-            
-            
             commitMessage = customCommitMessage & " - " & GetUser()
+        Else
+            ' Standard Commit Nachricht wird erstellt
+            commitMessage = "Commit erstellt von " & GetUser()
         End If
     Else
         ' Standard Commit Nachricht wird erstellt

@@ -13,7 +13,7 @@
 Option Explicit
 
 
-Sub Exporter(control As Office.IRibbonControl)
+Sub ExportSub(control As Office.IRibbonControl)
 
     Export
     

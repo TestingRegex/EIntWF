@@ -19,7 +19,7 @@ End Sub
 
 Function Push()
 
-    Dim GitCommand As String
+    Dim gitCommand As String
     Dim temp As Integer
 
 '------------------------------------------------------------------------
@@ -30,9 +30,9 @@ Function Push()
 '-----------------------------------------------------------------------
 ' git push ausführen
     
-    GitCommand = "git push"
+    gitCommand = "git push"
     
-    temp = ShellCommand(GitCommand, "Committed Änderungen wurden gepusht.", "Der Push-Vorgang ist gescheitert.")
+    temp = ShellCommand(gitCommand, "Committed Änderungen wurden gepusht.", "Der Push-Vorgang ist gescheitert.")
     
 
 End Function

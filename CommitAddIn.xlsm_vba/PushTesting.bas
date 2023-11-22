@@ -2,7 +2,7 @@ Option Explicit
 
 Sub Push_Test()
 
-    Dim GitCommand As String
+    Dim gitCommand As String
     Dim temp As Integer
 
 '------------------------------------------------------------------------
@@ -13,7 +13,7 @@ Sub Push_Test()
 '-----------------------------------------------------------------------
 ' git push ausführen
     
-    GitCommand = "git push"
-    temp = ShellCommand(GitCommand, "Committed Änderungen wurden gepusht.", "Der Push-Vorgang ist gescheitert.")
+    gitCommand = "git push"
+    temp = ShellCommand(gitCommand, "Committed Änderungen wurden gepusht.", "Der Push-Vorgang ist gescheitert.")
 
 End Sub

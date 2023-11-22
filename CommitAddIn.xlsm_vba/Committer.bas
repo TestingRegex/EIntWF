@@ -19,7 +19,7 @@ End Sub
 
 Function Commit(ByVal ForcedStandardCommit As Boolean)
 
-    Dim GitCommand As String
+    Dim gitCommand As String
     Dim WorkbookPath As String
     Dim customCommit As Long
     Dim customCommitMessage As String
@@ -43,18 +43,18 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
     
     
     ' All Änderungen im Git Repo werden aufeinmal hinzugefügt
-    GitCommand = "git add --all"
-    shell GitCommand, vbNormalFocus
+    gitCommand = "git add --all"
+    shell gitCommand, vbNormalFocus
     
     ' Nochmal spezifisch den Exportierordner angeben
     ' Eigentlich nicht mehr notwendig!!
-    GitCommand = "git add """ & WorkbookPath & "\" & ActiveWorkbook.Name & "_vba" & """"
-    shell GitCommand, vbNormalFocus
+    gitCommand = "git add """ & WorkbookPath & "\" & ActiveWorkbook.Name & "_vba" & """"
+    shell gitCommand, vbNormalFocus
     
     ' Spezifisch das Aktive Workbook stagen
     
-    GitCommand = "git add """ & ActiveWorkbook.Name & """"
-    shell GitCommand, vbNormalFocus
+    gitCommand = "git add """ & ActiveWorkbook.Name & """"
+    shell gitCommand, vbNormalFocus
     
 '-------------------------------------------------------------------------------------
 ' Commit Prozess fängt an
@@ -89,11 +89,11 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
         commitMessage = "Commit erstellt von " & GetUser()
     End If
     
-    GitCommand = "git commit -m """ & commitMessage & """"""
-    Debug.Print "GitCommand:"; GitCommand
+    gitCommand = "git commit -m """ & commitMessage & """"""
+    Debug.Print "GitCommand:"; gitCommand
     
     Dim temp As Integer
     
-    temp = ShellCommand(GitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
+    temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
     
 End Function

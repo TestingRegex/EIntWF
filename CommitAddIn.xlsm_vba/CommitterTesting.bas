@@ -78,10 +78,10 @@ Sub CommitToGit_Test()
     End If
     
     gitCommand = "git commit -m """ & commitMessage & """"
-    'MsgBox GitCommand
+    Debug.Print gitCommand
     
-    Dim temp As Integer
+    'Dim temp As Integer
     
-    temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
+    'temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
     
 End Sub

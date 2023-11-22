@@ -72,7 +72,7 @@ Sub TagFileRetrieval()
     gitCommand = "cmd.exe /C git show " & versionTag & ":" & oldFile & " > " & tempFile
     
     Debug.Print gitCommand
-    'Debug.Print GetShellOutput("git branch -a")
+    
     temp = ShellCommand(gitCommand, "Die alte Version von " & oldFile & " wurde erfolgreich im Ordner " & tempDirectory & " abgelegt.", "Der Vorgang ist gescheitert, versuchen Sie es nochmal oder manuell.")
 
 

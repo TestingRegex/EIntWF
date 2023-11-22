@@ -89,7 +89,7 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
         commitMessage = "Commit erstellt von " & GetUser()
     End If
     
-    gitCommand = "git commit -m """ & commitMessage & """"""
+    gitCommand = "git commit -m """ & commitMessage & """"
     Debug.Print "GitCommand:"; gitCommand
     
     Dim temp As Integer

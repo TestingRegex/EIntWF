@@ -48,7 +48,7 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
     
     ' Nochmal spezifisch den Exportierordner angeben
     ' Eigentlich nicht mehr notwendig!!
-    gitCommand = "git add " & WorkbookPath & "\" & ActiveWorkbook.Name & "_vba" & "\*"
+    gitCommand = "git add " & ActiveWorkbook.Name & "_vba" & "\*"
     shell gitCommand, vbNormalFocus
     
     ' Spezifisch das Aktive Workbook stagen

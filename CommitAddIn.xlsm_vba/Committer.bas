@@ -43,17 +43,17 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
     
     
     ' All Änderungen im Git Repo werden aufeinmal hinzugefügt
-    gitCommand = "git add --all"
+    gitCommand = "git add -u"
     shell gitCommand, vbNormalFocus
     
     ' Nochmal spezifisch den Exportierordner angeben
     ' Eigentlich nicht mehr notwendig!!
-    gitCommand = "git add """ & WorkbookPath & "\" & ActiveWorkbook.Name & "_vba" & """"
+    gitCommand = "git add " & WorkbookPath & "\" & ActiveWorkbook.Name & "_vba" & ""
     shell gitCommand, vbNormalFocus
     
     ' Spezifisch das Aktive Workbook stagen
     
-    gitCommand = "git add """ & ActiveWorkbook.Name & """"
+    gitCommand = "git add " & ActiveWorkbook.Name & ""
     shell gitCommand, vbNormalFocus
     
 '-------------------------------------------------------------------------------------

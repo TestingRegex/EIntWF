@@ -2,26 +2,32 @@ Option Explicit
 
 Sub GitGetOld(ByRef control As Office.IRibbonControl)
 
-    ' Get Userinput as to whether we want to retrieve the entire repo at version vX.XX
-    ' or whether it should only retrieve a certain file
+    Dim myForm As Object
+    
+    Set myForm = New RetrievalForm
+    
+    myForm.Show
+
 
 End Sub
 
 
-Sub TagFullRetrieval()
+Function TagFullRetrieval(ByVal version As String)
 
 ' Variablen:
     Dim temp As Integer
     Dim fs As Object
     Dim tempDirectory As String
+    Dim tempSubDirectory As String
     Dim tempBranch As String
     Dim gitURL As String
     Dim versionTag As String
     
     Set fs = CreateObject("Scripting.FileSystemObject")
     
-    versionTag = "v1.0"
-    tempDirectory = "temp_" & versionTag
+    versionTag = version
+    tempDirectory = "temp"
+    tempSubDirectory = "temp_" & versionTag
     tempBranch = "tempBranch"
     
     
@@ -30,18 +36,25 @@ Sub TagFullRetrieval()
     Pathing
     
 '-------------------------------------------------------
+' Creating the new folders if they don't exist yet.
     If Not fs.FolderExists(tempDirectory) Then
                 fs.CreateFolder tempDirectory
     End If
     
+                
+    If Not fs.FolderExists(tempDirectory & "\" & tempSubDirectory) Then
+        fs.CreateFolder tempDirectory & "\" & tempSubDirectory
+    End If
+    
+    
     gitURL = GetShellOutput("git config --get remote.origin.url")
     gitURL = Replace(gitURL, vbLf, "")
     
-    temp = ShellCommand("git clone --branch " & versionTag & " --single-branch " & gitURL & " " & tempDirectory, "Das Repository wurde in den Ordner " & tempDirectoy & "geladen.", "Die ältere Version des Repositorys konnte nicht geladen werden.")
+    temp = ShellCommand("git clone --branch " & versionTag & " --single-branch " & gitURL & " " & tempDirectory & "\" & tempSubDirectory, "Das Repository wurde in den Ordner " & tempDirectory & "\" & tempSubDirectory & "geladen.", "Die ältere Version des Repositorys konnte nicht geladen werden.")
         
-End Sub
+End Function
 
-Sub TagFileRetrieval()
+Function TagFileRetrieval(ByVal version As String)
 
     Dim temp As Integer
     Dim gitCommand As String
@@ -65,7 +78,7 @@ Sub TagFileRetrieval()
     End If
     
     oldFile = "CommitAddIn.xlsm"
-    versionTag = "v1.0"
+    versionTag = version
     tempFile = tempDirectory & "\" & Replace(versionTag, ".", "_") & "_" & oldFile
     tempVersionTag = Replace(versionTag, ".", "_")
     
@@ -76,26 +89,22 @@ Sub TagFileRetrieval()
     temp = ShellCommand(gitCommand, "Die alte Version von " & oldFile & " wurde erfolgreich im Ordner " & tempDirectory & " abgelegt.", "Der Vorgang ist gescheitert, versuchen Sie es nochmal oder manuell.")
 
 
-End Sub
+End Function
 
-Sub TagCleanUp()
+Function FindTags()
 
-' Variablen:
-
+    Dim existingTagsRaw As String
+    Dim existingTags() As String
+    Dim i As Integer
     
-'-----------------------------------
-' Pfad:
     Pathing
     
-'-----------------------------------
-' Suche nach "temp_*" Ordnern
-
-
-'------------------------------------
-' die gefundenen ordner löschen
-
-'----------------------------------
-' Suche nach temp Ordner
-
-
-End Sub
+    existingTagsRaw = GetShellOutput("git tag")
+    
+    existingTags = Split(existingTagsRaw, vbLf)
+    
+    ReDim Preserve existingTags(UBound(existingTags) - 1)
+    
+    FindTags = existingTags
+    
+End Function

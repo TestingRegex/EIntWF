@@ -63,7 +63,7 @@ Function Export()
 
     ' Es wird durch alle Komponenten des VBA Projekts durch iteriert und alle Module werden exportiert.
     For Each vbProj In wb.VBProject.VBComponents
-        If vbProj.Type = 1 Then ' Module
+        'If vbProj.Type = 1 Then ' Module
             moduleName = vbProj.Name
             
             ' Prüfen ob das Modul nicht einfach leer ist.
@@ -107,7 +107,7 @@ Function Export()
                 Debug.Print moduleCode
                 End If
             End If
-        End If
+        'End If
     Next vbProj
     
 '---------------------------------------------------------------------------------------------

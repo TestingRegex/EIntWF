@@ -13,6 +13,7 @@ Option Explicit
 
 Sub CommitToGit(control As Office.IRibbonControl)
 
+    Saver
     Commit (False)
     
 End Sub

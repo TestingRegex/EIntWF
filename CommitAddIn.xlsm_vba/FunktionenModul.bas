@@ -62,7 +62,7 @@ Function ModulNamenSuchen(ByVal moduleName As String)
     
     For Each vbComponent In ActiveWorkbook.VBProject.VBComponents
     
-        If vbComponent.Type = 1 And vbComponent.Name = moduleName Then
+        If vbComponent.Name = moduleName Then
             ModulNamenSuchen = True
             Exit Function
         End If

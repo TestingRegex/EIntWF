@@ -106,15 +106,6 @@ Function Import()
         End If
     Next file
 
-    Saver
-
-    ' Clean up.
-    Set fs = Nothing
-    Set folder = Nothing
-    Set file = Nothing
-    Set wb = Nothing
-    Set vbComp = Nothing
-
     MsgBox "Alle gewünschten .bas Dateien aus " & selectedFolder & " wurden importiert."
 
 End Function

@@ -48,7 +48,8 @@ Function Export()
     Set fs = CreateObject("Scripting.FileSystemObject")
     
     Dim vbaDirectory As String
-    vbaDirectory = outPath & "\" & WorkbookName & "_vba\"
+    
+    vbaDirectory = Replace(outPath & "\" & WorkbookName & "_vba\", " ", "_")
     
 '---------------------------------------------------------------------------------------------
 ' Exportordner wird erstellt falls noch nicht vorhanden
@@ -109,13 +110,4 @@ Function Export()
             End If
         'End If
     Next vbProj
-    
-'---------------------------------------------------------------------------------------------
-' Aufräumen
-    
-    Set fs = Nothing
-    Set vbComp = Nothing
-    Set wb = Nothing
-    Set vbProj = Nothing
-    Set fileSysObj = Nothing
 End Function

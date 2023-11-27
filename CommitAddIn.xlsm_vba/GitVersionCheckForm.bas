@@ -50,7 +50,7 @@ Private Sub WeiterButton_Click()
                     ' Close the UserForm
                     Unload Me
                 ElseIf RetrievalForm.retrievalType = "Gesamtes Repository" Then
-                    MsgBox "Want to call TagFullRetriaval"
+                    'MsgBox "Want to call TagFullRetriaval"
                     TagFullRetrieval (Frame1.Controls(i).Caption)
                     
                     ' Close the UserForm

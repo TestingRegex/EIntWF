@@ -6,14 +6,14 @@
 '       Das Programm gibt die gewünschten Git-Befehle an eine Shell-Instanz weiter damit diese ausgeführt werden.
 '
 '   Verwendete Funktionen:
-'       Saver, Pathing, BadCharacterFilter, UserPromptYesNo, UserInputText
+'       Saver, Pathing, BadCharacterFilter, UserPromptYesNo, UserPromptText
 '''
 
 Option Explicit
 
 Sub CommitToGit(control As Office.IRibbonControl)
 
-    Saver
+    
     Commit (False)
     
 End Sub
@@ -27,20 +27,18 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
     Dim commitMessage As String
 
 '---------------------------------------------------------------------------------------------
-' Einmal Alles Speichern.
+' Save everything in the workbook before committing it to git.
 
     Saver
 
 '-----------------------------------------------------------------------------------
-' Git Repo wird ausgewählt
-' Momentan wird angenommen dass das Workbook im gleichen Ort liegt wie das Repo
-
-    
+' Move to the desired git repo.
+'
     Pathing
     
 '-----------------------------------------------------------------------------------
-' Die Dateien die gestaged werden werden ausgewählt
-' Momentan werden alle Änderung gestaged
+' Staging files to be committed
+' Currently we add all already tracked files and the new workbook and directory
     
     
     ' All Änderungen im Git Repo werden aufeinmal hinzugefügt
@@ -54,19 +52,20 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
     
     ' Spezifisch das Aktive Workbook stagen
     
-    gitCommand = "git add " & ActiveWorkbook.Name & ""
+    gitCommand = "git add " & ActiveWorkbook.Name
     shell gitCommand, vbNormalFocus
     
 '-------------------------------------------------------------------------------------
-' Commit Prozess fängt an
+' Commit Message Dialoge:
+
     If Not ForcedStandardCommit Then
         customCommit = UserPromptYesNo("Möchten Sie eine Commit Nachricht selber erstellen?")
         
         If customCommit = vbYes Then
-            ' Custom Commit Nachricht wird erstellt
-            customCommitMessage = UserInputText("Bitte gebe hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben")
+            ' Get user input for commit message.
+            customCommitMessage = UserPromptText("Bitte gebe hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben")
             
-            ' Leere Commit Nachricht prüfen:
+            ' Commit messages should not be empty
             If customCommitMessage = "" Then
                 MsgBox "Es wurde keine Commit Nachricht eingegeben der Commit Vorgang wird abgebrochen."
                 Exit Function
@@ -74,7 +73,7 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
             
             Do While BadCharacterFilter(customCommitMessage, "Commit")
             
-                customCommitMessage = UserInputText("Die eingegebene Commit Nachricht war ungültig. Bitte geben Sie hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben")
+                customCommitMessage = UserPromptText("Die eingegebene Commit Nachricht war ungültig. Bitte geben Sie hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben")
                 If customCommitMessage = "" Then
                     MsgBox "Es wurde keine Commit Nachricht eingegeben der Commit Vorgang wird abgebrochen."
                     Exit Function
@@ -82,17 +81,20 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
             Loop
             commitMessage = customCommitMessage & " - " & GetUser()
         Else
-            ' Standard Commit Nachricht wird erstellt
+            ' Standardized commit message
             commitMessage = "Commit erstellt von " & GetUser()
         End If
     Else
-        ' Standard Commit Nachricht wird erstellt
+        ' Standardized Commit message
         commitMessage = "Commit erstellt von " & GetUser()
     End If
     
     gitCommand = "git commit -m """ & commitMessage & """"
     Debug.Print "GitCommand:"; gitCommand
     
+'-------------------------------------------------------------------------------------------
+' Executing commit command.
+
     Dim temp As Integer
     
     temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")

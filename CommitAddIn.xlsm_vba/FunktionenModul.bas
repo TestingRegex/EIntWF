@@ -22,9 +22,14 @@ End Function
 
 ' Präformatiertes Benutzereingabe Fenster, weil ich mir InputBox nicht merken konnte...
 ' Benutzt in: Committer; Tagger;
-Function UserInputText(ByVal message As String, ByVal titleText As String, ByVal fillText As String)
-
-    UserInputText = InputBox(message, titleText, fillText)
+Function UserPromptText(ByVal message As String, ByVal titleText As String, ByVal fillText As String, Optional ByVal Purpose As String)
+    
+    UserPromptText = InputBox(message, titleText, fillText)
+    
+    Do While BadCharacterFilter(UserPromptText, Purpose)
+        MsgBox "Ihre Eingabe hat ungewünschte Zeichen enthalten, bitte versuchen Sie es erneut."
+        UserPromptText = InputBox(message, titleText, fillText)
+    Loop
 
 End Function
 
@@ -117,8 +122,10 @@ Function BadCharacterFilter(ByVal inputString As String, Optional ByVal Purpose 
     Dim invalidCharacters As String
     Dim i As Integer
     
+    BadCharacterFilter = False
+    
     If Purpose = "Tag" Then
-        invalidCharacters = " ~!@#$%^&*()+,{}[]|\;:'""<>/?="
+        invalidCharacters = " ~!@#$%^&*()+,{}[]|\;:'""<>/|?="
         For i = 1 To Len(inputString)
             If InStr(invalidCharacters, Mid(inputString, i, 1)) > 0 Then
                 ' If an invalid character is found, return True
@@ -127,7 +134,7 @@ Function BadCharacterFilter(ByVal inputString As String, Optional ByVal Purpose 
             End If
         Next i
     ElseIf Purpose = "Commit" Then
-        invalidCharacters = """#$^:;'<>[]{}@"
+        invalidCharacters = """#$^:;'<>[]{}@|"
         For i = 1 To Len(inputString)
             If InStr(invalidCharacters, Mid(inputString, i, 1)) > 0 Then
                 ' If an invalid character is found, return True
@@ -135,8 +142,16 @@ Function BadCharacterFilter(ByVal inputString As String, Optional ByVal Purpose 
                 Exit Function
             End If
         Next i
-    Else
-        BadCharacterFilter = False
+    ElseIf Purpose = "File" Then
+        ' Add Conditions we don't want in Filenames.
+        invalidCharacters = """/\*~$!&=?!{[]}.;:'><,^@€²³|"
+        For i = 1 To Len(inputString)
+            If InStr(invalidCharacters, Mid(inputString, i, 1)) > 0 Then
+                ' If an invalid character is found, return True
+                BadCharacterFilter = True
+                Exit Function
+            End If
+        Next i
     End If
     
 End Function

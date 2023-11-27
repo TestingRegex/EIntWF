@@ -11,16 +11,18 @@ Sub GitGetOld(ByRef control As Office.IRibbonControl)
 
 End Sub
 
-
+' A function that clones the repository one is currently using into a folder called "temp" next to the workbook, that contains the current repository checked out at a chosen tag.
 Function TagFullRetrieval(ByVal version As String)
 
-' Variablen:
+' Variables:
+
     Dim temp As Integer
     Dim fs As Object
     Dim tempDirectory As String
     Dim tempSubDirectory As String
     Dim tempBranch As String
     Dim gitURL As String
+    Dim gitCommand As String
     Dim versionTag As String
     
     Set fs = CreateObject("Scripting.FileSystemObject")
@@ -32,11 +34,13 @@ Function TagFullRetrieval(ByVal version As String)
     
     
 '-------------------------------------------------------
-' Pfad:
+' Getting the right path:
+
     Pathing
     
 '-------------------------------------------------------
 ' Creating the new folders if they don't exist yet.
+
     If Not fs.FolderExists(tempDirectory) Then
                 fs.CreateFolder tempDirectory
     End If
@@ -46,14 +50,22 @@ Function TagFullRetrieval(ByVal version As String)
         fs.CreateFolder tempDirectory & "\" & tempSubDirectory
     End If
     
-    
+'----------------------------------------------------------
+' Retrieve adress of the current repository in order to clone it into the specified subdirectory
+
     gitURL = GetShellOutput("git config --get remote.origin.url")
     gitURL = Replace(gitURL, vbLf, "")
+
+'----------------------------------------------------------
+' Execute the shell command
     
-    temp = ShellCommand("git clone --branch " & versionTag & " --single-branch " & gitURL & " " & tempDirectory & "\" & tempSubDirectory, "Das Repository wurde in den Ordner " & tempDirectory & "\" & tempSubDirectory & "geladen.", "Die ältere Version des Repositorys konnte nicht geladen werden.")
+    gitCommand = "git clone --branch " & versionTag & " --single-branch " & gitURL & " " & tempDirectory & "\" & tempSubDirectory
+    
+    temp = ShellCommand(gitCommand, "Das Repository wurde in den Ordner " & tempDirectory & "\" & tempSubDirectory & "geladen.", "Die ältere Version des Repositorys konnte nicht geladen werden.")
         
 End Function
 
+' A function that checks out a specific file at a certain tag and saves in the temp subdirectory.
 Function TagFileRetrieval(ByVal version As String)
 
     Dim temp As Integer
@@ -66,10 +78,12 @@ Function TagFileRetrieval(ByVal version As String)
     Dim tempDirectory As String
     
 '-------------------------------------------------------
-' Pfad:
+' Getting the right location:
     Pathing
     
 '-------------------------------------------------------
+' Creating the temp directory:
+
     Set fs = CreateObject("Scripting.FileSystemObject")
     tempDirectory = "temp"
     
@@ -77,11 +91,20 @@ Function TagFileRetrieval(ByVal version As String)
                 fs.CreateFolder tempDirectory
     End If
     
-    oldFile = "CommitAddIn.xlsm"
+'-----------------------------------------------------
+' Getting the desired file to be checked out:
+    
+    oldFile = UserPromptText("Welche Datei möchten Sie laden?", "Datei auswählen", "", "Filename")
+    
+   
+    
     versionTag = version
     tempFile = tempDirectory & "\" & Replace(versionTag, ".", "_") & "_" & oldFile
     tempVersionTag = Replace(versionTag, ".", "_")
     
+'-----------------------------------------------------
+' Executing the desired command:
+
     gitCommand = "cmd.exe /C git show " & versionTag & ":" & oldFile & " > " & tempFile
     
     Debug.Print gitCommand
@@ -91,6 +114,7 @@ Function TagFileRetrieval(ByVal version As String)
 
 End Function
 
+' A function that retrieves the tags that exist in the current repository.
 Function FindTags()
 
     Dim existingTagsRaw As String

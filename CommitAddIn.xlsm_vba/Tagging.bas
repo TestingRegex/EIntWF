@@ -7,7 +7,7 @@
 '   Codes erreicht wird.
 '
 '   Verwendete Funktionen:
-'       Pathing, UserInputText, BadCharacterFilter
+'       Pathing, UserPromptText
 '''
 
 Option Explicit
@@ -24,7 +24,7 @@ End Sub
 
 Function Tag()
 
-' Benötigten Variablen init:
+' Variables:
 
     Dim gitCommand As String
     Dim VersionInput As String
@@ -33,51 +33,37 @@ Function Tag()
     Dim shell As Object
     
 '------------------------------------------------------
-' Git-Pfad finden
+' Find desired path
 
     Pathing
     
 '------------------------------------------------------
 ' Core:
-'       Es wird auch noch geprüft ob der UserInput kosher ist.
+'
 
-    VersionInput = UserInputText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._")
-    StringCheck = BadCharacterFilter(VersionInput, "Tag")
+    VersionInput = UserPromptText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._", "Tag")
+    
     If VersionInput = "" Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
         Exit Function
     End If
-    Do While StringCheck
-        VersionInput = UserInputText("Der Eingebene Versionsname ist ungültig. Bitte geben Sie einen anderen Namen ein und vermeiden Sie die Zeichen: ' ~!@#$%^&*()+,{}[]|\;:'""<>/?='", "Versionsname", "_._")
-        StringCheck = BadCharacterFilter(VersionInput, "Tag")
-        If VersionInput = "" Then
-        MsgBox "Der Tag Vorgang wird abgebrochen."
-        Exit Function
-    End If
-    Loop
+    '------------------------------------
+    ' Validating userInput to not contain undesirable characters.
     
     
-    TagMessage = UserInputText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "")
-    StringCheck = BadCharacterFilter(TagMessage)
+    TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "")
     If TagMessage = "" Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
         Exit Function
     End If
-    Do While StringCheck
-        TagMessage = UserInputText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "")
-        StringCheck = BadCharacterFilter(TagMessage)
-        If TagMessage = "" Then
-        MsgBox "Der Tag Vorgang wird abgebrochen."
-        Exit Function
-        End If
-    Loop
+    
     
     gitCommand = "git tag -a " & VersionInput & " -m  """ & TagMessage & " - " & GetUser() & """"
     
     'Debug.Print GitCommand
     
 '-------------------------------------------------------------------------
-'Commands werden an die Shell weitergegeben
+'Commands are passed to the shell
 
     Dim temp As Integer
         

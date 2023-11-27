@@ -23,12 +23,12 @@ Function Push()
     Dim temp As Integer
 
 '------------------------------------------------------------------------
-' Das richtige Directory finden
+' get desired path
 
     Pathing
     
 '-----------------------------------------------------------------------
-' git push ausführen
+' execute commands
     
     gitCommand = "git push"
     

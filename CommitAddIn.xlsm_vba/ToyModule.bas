@@ -3,6 +3,8 @@
 ' A module to contain temporary tests that are used to test functions of my own or ones that are new to me.
 ' Dev Versions of the main functions are saved here.
 '
+'
+' We note that the language in this module is not consistent.
 '''
 
 Option Explicit
@@ -107,7 +109,7 @@ Sub ImportMacros_Test()
                     
                     If benutzerMeinung = vbYes Then
                         
-                        newModuleName = UserInputText("Wie soll das Modul heißen?", "", "")
+                        newModuleName = UserPromptText("Wie soll das Modul heißen?", "", "")
                         
                         Do While ModulNamenSuchen(newModuleName)
                             '---------------------------------------------------------------------------------------------------------
@@ -123,7 +125,7 @@ Sub ImportMacros_Test()
                             End If
                             
                             If Not skip Then
-                            newModuleName = UserInputText("Wählen Sie bitte einen neuen Namen für das importierte Modul aus.", "", "Neuer Modulname")
+                            newModuleName = UserPromptText("Wählen Sie bitte einen neuen Namen für das importierte Modul aus.", "", "Neuer Modulname")
                             End If
                         
                         Loop
@@ -180,14 +182,14 @@ Sub Tag_Test()
 '------------------------------------------------------
 ' Basic Ablauf:
 
-    VersionInput = UserInputText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._")
+    VersionInput = UserPromptText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._")
     StringCheck = BadCharacterFilter(VersionInput, "Tag")
     If VersionInput = "" Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
         Exit Sub
     End If
     Do While StringCheck
-        VersionInput = UserInputText("Der Eingebene Versionsname ist ungültig. Bitte geben Sie einen anderen Namen ein und vermeiden Sie die Zeichen: ' ~!@#$%^&*()+,{}[]|\;:'""<>/?='", "Versionsname", "_._")
+        VersionInput = UserPromptText("Der Eingebene Versionsname ist ungültig. Bitte geben Sie einen anderen Namen ein und vermeiden Sie die Zeichen: ' ~!@#$%^&*()+,{}[]|\;:'""<>/?='", "Versionsname", "_._")
         StringCheck = BadCharacterFilter(VersionInput, "Tag")
         If VersionInput = "" Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
@@ -196,14 +198,14 @@ Sub Tag_Test()
     Loop
     
     
-    TagMessage = UserInputText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "")
+    TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "")
     StringCheck = BadCharacterFilter(TagMessage)
     If TagMessage = "" Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
         Exit Sub
     End If
     Do While StringCheck
-        TagMessage = UserInputText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "")
+        TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "")
         StringCheck = BadCharacterFilter(TagMessage)
         If TagMessage = "" Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
@@ -374,7 +376,7 @@ Sub CommitToGit_Test()
         
         If customCommit = vbYes Then
             ' Custom Commit Nachricht wird erstellt
-            customCommitMessage = UserInputText("Bitte gebe hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben")
+            customCommitMessage = UserPromptText("Bitte gebe hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben")
             
             ' Leere Commit Nachricht prüfen:
             If customCommitMessage = "" Then
@@ -384,7 +386,7 @@ Sub CommitToGit_Test()
             
             Do While BadCharacterFilter(customCommitMessage, "Commit")
             
-                customCommitMessage = UserInputText("Die eingegebene Commit Nachricht war ungültig. Bitte geben Sie hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben")
+                customCommitMessage = UserPromptText("Die eingegebene Commit Nachricht war ungültig. Bitte geben Sie hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben")
                 If customCommitMessage = "" Then
                     MsgBox "Es wurde keine Commit Nachricht eingegeben der Commit Vorgang wird abgebrochen."
                     Exit Sub

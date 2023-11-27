@@ -19,19 +19,19 @@ End Sub
 
 Function Pull()
 
-    Dim GitCommand As String
+    Dim gitCommand As String
     Dim temp As Integer
 
 '------------------------------------------------------------------------
-' Das richtige Directory finden
+' Get the desired path
 
     Pathing
     
 '-----------------------------------------------------------------------
-' git push ausführen
+' execute commands
     
-    GitCommand = "git pull"
-    temp = ShellCommand(GitCommand, "Updates wurden von GitHub gepulled.", "Es konnten keine Updates gepulled werden.")
+    gitCommand = "git pull"
+    temp = ShellCommand(gitCommand, "Updates wurden von GitHub gepulled.", "Es konnten keine Updates gepulled werden.")
 
 
 End Function

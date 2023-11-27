@@ -56,12 +56,19 @@ Es besteht die Option eine eigene Commit-Nachricht zu schreiben die am Ende mit 
 
 #### Bestehende Funktionen:
 
+Es wird ein neuer Commit erstellt und dieser wird dann mit einem neuen Tag versehen.
+
 #### Gewünschte Funktionen:
 
+-
 
 ### Git Tag-Retreival
 
 #### Bestehende Funktionen:
+
+Wir können entweder einzelne Dateien oder das Ganze Repository in dem Zustand eines bestimmten Tags zurückholen. Die zurückgeholten Dateien werden in einem Temporären Ordner abgelegt.
+
+<mark> Man merke hier an, dass der Benutzer sich selber darum kümmern muss die alten Versionen zu entsorgen, wenn sie nich mehr benötigt sind. </mark>
 
 #### Gewünschte Funktionen:
 

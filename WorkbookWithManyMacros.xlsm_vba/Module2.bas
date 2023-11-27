@@ -14,3 +14,5 @@ Sub accessMacro()
    appAccess.CloseCurrentDatabase
 
 End Sub
+
+password123=".dsafdsf"

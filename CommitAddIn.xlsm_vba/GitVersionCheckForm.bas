@@ -6,8 +6,17 @@ Sub UserForm_Initialize()
     ' Example array of choices
     Dim choices() As String
     choices = FindTags()
-'    Debug.Print UBound(choices)
+    'Debug.Print UBound(choices)
 
+    
+    Me.Width = 250
+    Me.Frame1.Height = UBound(choices) * 38 + 10
+    
+    Me.WeiterButton.Top = Me.Frame1.Top + Me.Frame1.Height + 10
+    Me.CancelButton.Top = Me.Frame1.Top + Me.Frame1.Height + 10
+    
+    Me.Height = Me.Frame1.Height + Me.WeiterButton.Height + 75
+    
     ' Generate option buttons based on the array
     Dim i As Integer
     For i = LBound(choices) To UBound(choices)
@@ -21,6 +30,8 @@ Sub UserForm_Initialize()
         optButton.Left = 20 ' Adjust the left position based on your layout
     Next i
 End Sub
+
+
 
 Private Sub WeiterButton_Click()
     ' Handle the OK button click event

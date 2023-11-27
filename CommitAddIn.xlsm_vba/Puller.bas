@@ -1,6 +1,6 @@
 '''
-'   Ein Excel Makro was an den Button im Add-in Tab gebunden ist und
-'   die Aufgabe des Pushen übernimmt
+'   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
+'   die Aufgabe des Export, Commit, und Push aufeinmal übernimmt
 '
 '   Allgemeines:
 '       Das Programm gibt die gewünschten Git-Befehle an eine Shell-Instanz weiter damit diese ausgeführt werden.
@@ -11,28 +11,27 @@
 
 Option Explicit
 
-Sub PushToGit(ByRef control As Office.IRibbonControl)
+Sub GitPull(ByRef contral As Office.IRibbonControl)
 
-    Push
-    
+    Pull
+
 End Sub
 
-Function Push()
+Function Pull()
 
     Dim gitCommand As String
     Dim temp As Integer
 
 '------------------------------------------------------------------------
-' get desired path
+' Get the desired path
 
     Pathing
     
 '-----------------------------------------------------------------------
 ' execute commands
     
-    gitCommand = "git push"
-    
-    temp = ShellCommand(gitCommand, "Committed Änderungen wurden gepusht.", "Der Push-Vorgang ist gescheitert.")
-    
+    gitCommand = "git pull"
+    temp = ShellCommand(gitCommand, "Updates wurden von GitHub gepulled.", "Es konnten keine Updates gepulled werden.")
+
 
 End Function

@@ -1,3 +1,8 @@
 .idea/
 
+# Temporäre Dateien die durch offene Office Dateien entstehen ignorieren,
+# sonst geht das automatische Committen nicht während Excel offen ist.
 ~*
+temp/*
+Vorlage_Protokoll_WVP_-_KORREX.xlsm_vba/
+Struktur.xlsm_vba/

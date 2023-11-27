@@ -80,9 +80,7 @@ Function Export()
                     ' Get content of already exported version.
                     Dim textStream As Object
                     Set textStream = fs.OpenTextFile(modulePath, 1) ' 1: ForReading
-                    
-                    Debug.Print modulePath
-                    
+                                        
                     Dim fileContent As String
                     fileContent = textStream.ReadAll
                     textStream.Close

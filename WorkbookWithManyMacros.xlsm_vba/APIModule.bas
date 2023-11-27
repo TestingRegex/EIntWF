@@ -18,7 +18,7 @@ Function GetApiResponse(endpoint As String) As String
     xmlhttp.setRequestHeader "Content-Type", "application/json"
     xmlhttp.setRequestHeader "Authorization", "Bearer " & ApiKey
     xmlhttp.send
-
+    'asdfdsf
     ' Return the API response
     GetApiResponse = xmlhttp.responseText
 End Function

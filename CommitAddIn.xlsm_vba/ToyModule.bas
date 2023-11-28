@@ -305,8 +305,8 @@ Sub Export_Test()
                 textStreamNew.Write moduleCode
                 textStreamNew.Close
             
-                Debug.Print "Module Name: " & moduleName
-                Debug.Print moduleCode
+                'Debug.Print "Module Name: " & moduleName
+                'Debug.Print moduleCode
                 End If
             End If
         End If

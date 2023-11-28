@@ -79,17 +79,18 @@ End Function
 
 ' Eine Funktion die ein Modul mit dem gegebenen Namen entfernt sofern es existiert.
 ' Benutzt in: Importer
-Function RemoveModule(ByVal removeName As String)
+Function RemoveModule(ByVal Workbook As Workbook, ByVal removeName As String)
     Dim moduleName As String
     Dim vbComponent As Object
+    Dim wb As Workbook
     moduleName = removeName ' Replace with the name of the module you want to remove
-    
+    Set wb = Workbook
     ' Iterate through all VBComponents in the project
-    For Each vbComponent In ThisWorkbook.VBProject.VBComponents
+    For Each vbComponent In wb.VBProject.VBComponents
         ' Check if the current component is a module and has the specified name
         If vbComponent.Type = 1 And vbComponent.Name = moduleName Then
             ' Remove the module
-            ThisWorkbook.VBProject.VBComponents.Remove vbComponent
+            wb.VBProject.VBComponents.Remove vbComponent
             MsgBox moduleName & " removed from the VBA project.", vbInformation
             Exit Function
         End If

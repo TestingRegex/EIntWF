@@ -13,7 +13,6 @@ Option Explicit
 
 Sub CommitToGit(control As Office.IRibbonControl)
 
-    
     Commit (False)
     
 End Sub
@@ -90,7 +89,7 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
     End If
     
     gitCommand = "git commit -m """ & commitMessage & """"
-    Debug.Print "GitCommand:"; gitCommand
+    'Debug.Print "GitCommand:"; gitCommand
     
 '-------------------------------------------------------------------------------------------
 ' Executing commit command.

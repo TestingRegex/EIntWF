@@ -81,5 +81,6 @@ Sub unprotected()
     End If
 End Sub
 
+Protect " asdfsaf"
 
 

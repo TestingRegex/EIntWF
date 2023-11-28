@@ -61,20 +61,25 @@ Function Import()
     ' Currently we are only import .bas files.
     Set folder = fs.GetFolder(selectedFolder)
     Set wb = ActiveWorkbook
-
+    'Debug.Print "ActiveWorkbook: " & wb.Name
     For Each file In folder.Files
         If LCase(Right(file.Name, 4)) = ".bas" Then
              moduleName = Left(file.Name, Len(file.Name) - 4) ' Remove the last 4 characters (".bas") to get module name.
              
             '-----------------------------------------------------------------------------------
-            ' The module name is not allowed to already be ascribed to a module in the current workbook the following tries to resolve this conflict:
+            ' VBA does not do well with placing modules
+            If moduleName = "ThisWorkbook" Or Left(moduleName, 5) = "Sheet" Then
+                moduleName = moduleName & "_import"
+            End If
             
+            '-----------------------------------------------------------------------------------
+            ' The module name is not allowed to already be ascribed to a module in the current workbook the following tries to resolve this conflict:
             If ModulNamenSuchen(moduleName) Then
-                benutzerMeinung = UserPromptYesNo(" Es gibt bereits ein Modul mit dem Namen '" + moduleName + "'. Soll das bereitsexistierende Modul überschrieben werden?")
+                benutzerMeinung = UserPromptYesNo("Es gibt bereits ein Modul mit dem Namen '" + moduleName + "'. Soll das bereitsexistierende Modul überschrieben werden?")
                 If benutzerMeinung = vbYes Then
                     MsgBox "Sie wollen ein altes Modul überschreiben."
                     ' Remove the old Modul
-                    RemoveModule (moduleName)
+                    RemoveModule wb, moduleName
                     ' Import the .bas file into the workbook's VBA project.
                     Set vbComp = wb.VBProject.VBComponents.Import(file.path)
                     vbComp.Name = moduleName
@@ -107,7 +112,7 @@ Function Import()
             '----------------------------------------------------
             ' No module of the same name exists in the current workbook
             
-                Debug.Print moduleName
+                'Debug.Print moduleName
                 Set vbComp = wb.VBProject.VBComponents.Import(file.path)
                 vbComp.Name = moduleName
             End If
@@ -117,4 +122,3 @@ Function Import()
     MsgBox "Alle gewünschten .bas Dateien aus " & selectedFolder & " wurden importiert."
 
 End Function
-

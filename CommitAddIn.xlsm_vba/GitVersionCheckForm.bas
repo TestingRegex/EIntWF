@@ -35,22 +35,19 @@ End Sub
 
 Private Sub WeiterButton_Click()
     ' Handle the OK button click event
-    Debug.Print "RetrievalForm.retrievalType: " & RetrievalForm.retrievalType
+    'Debug.Print "RetrievalForm.retrievalType: " & RetrievalForm.retrievalType
     ' Loop through the option buttons to find the selected one
     Dim i As Integer
     For i = 0 To Frame1.Controls.Count - 1
         If TypeOf Frame1.Controls(i) Is MSForms.OptionButton Then
             If Frame1.Controls(i).Value = True Then
                 ' The option button is selected
-                'MsgBox "Selected option: " & Frame1.Controls(i).Caption
                 If RetrievalForm.retrievalType = "Individuelle Datei" Then
-                   'MsgBox "Want to call TagFileRetriaval"
                     TagFileRetrieval (Frame1.Controls(i).Caption)
                     
                     ' Close the UserForm
                     Unload Me
                 ElseIf RetrievalForm.retrievalType = "Gesamtes Repository" Then
-                    'MsgBox "Want to call TagFullRetriaval"
                     TagFullRetrieval (Frame1.Controls(i).Caption)
                     
                     ' Close the UserForm

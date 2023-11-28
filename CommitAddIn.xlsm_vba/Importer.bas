@@ -61,7 +61,7 @@ Function Import()
     ' Currently we are only import .bas files.
     Set folder = fs.GetFolder(selectedFolder)
     Set wb = ActiveWorkbook
-    Debug.Print "ActiveWorkbook: " & wb.Name
+    'Debug.Print "ActiveWorkbook: " & wb.Name
     For Each file In folder.Files
         If LCase(Right(file.Name, 4)) = ".bas" Then
              moduleName = Left(file.Name, Len(file.Name) - 4) ' Remove the last 4 characters (".bas") to get module name.
@@ -112,7 +112,7 @@ Function Import()
             '----------------------------------------------------
             ' No module of the same name exists in the current workbook
             
-                Debug.Print moduleName
+                'Debug.Print moduleName
                 Set vbComp = wb.VBProject.VBComponents.Import(file.path)
                 vbComp.Name = moduleName
             End If

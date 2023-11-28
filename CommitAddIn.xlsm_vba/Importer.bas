@@ -30,6 +30,7 @@ Function Import()
     Dim moduleName As String ' name of the module we are trying to import
     Dim newModuleName As String ' name of the module we will save the code in
     Dim benutzerMeinung As Long ' Varaible to save user input (yes/no)
+    Dim suffix As String
 
 '-----------------------------------------------------------------
 ' Choosing the directory to import from.
@@ -63,58 +64,68 @@ Function Import()
     Set wb = ActiveWorkbook
     'Debug.Print "ActiveWorkbook: " & wb.Name
     For Each file In folder.Files
-        If LCase(Right(file.Name, 4)) = ".bas" Then
-             moduleName = Left(file.Name, Len(file.Name) - 4) ' Remove the last 4 characters (".bas") to get module name.
-             
-            '-----------------------------------------------------------------------------------
-            ' VBA does not do well with placing modules
-            If moduleName = "ThisWorkbook" Or Left(moduleName, 5) = "Sheet" Then
-                moduleName = moduleName & "_import"
-            End If
-            
-            '-----------------------------------------------------------------------------------
-            ' The module name is not allowed to already be ascribed to a module in the current workbook the following tries to resolve this conflict:
-            If ModulNamenSuchen(moduleName) Then
-                benutzerMeinung = UserPromptYesNo("Es gibt bereits ein Modul mit dem Namen '" + moduleName + "'. Soll das bereitsexistierende Modul überschrieben werden?")
-                If benutzerMeinung = vbYes Then
-                    MsgBox "Sie wollen ein altes Modul überschreiben."
-                    ' Remove the old Modul
+        suffix = LCase(Right(file.Name, 4))
+        If Not suffix = ".frx" And (suffix = ".bas" Or suffix = ".cls" Or suffix = ".frm") Then ' Do not import .frx files or other files that we not exported properly!!!
+        'If LCase(Right(file.Name, 4)) = ".bas" Then
+        moduleName = Left(file.Name, Len(file.Name) - 4) ' Remove the last 4 characters (".bas") to get module name.
+        Debug.Print file.Name
+            If LCase(Right(file.Name, 4)) = ".frm" Then ' If we change the name of a userform everything breaks.
+                If ModulNamenSuchen(moduleName) Then
                     RemoveModule wb, moduleName
-                    ' Import the .bas file into the workbook's VBA project.
-                    Set vbComp = wb.VBProject.VBComponents.Import(file.path)
-                    vbComp.Name = moduleName
-                
-                Else
-                    benutzerMeinung = UserPromptYesNo(" Möchten Sie das Modul '" + moduleName + "' unter einem anderen Namen speichern? (Bei 'Nein' wird das Modul übersprungen.)")
-                    If benutzerMeinung = vbYes Then
-                        newModuleName = UserPromptText("Wie soll das Modul heißen?", "", "")
-                        Do While ModulNamenSuchen(newModuleName)
-                            benutzerMeinung = UserPromptYesNo("Dieser Name ist bereits vergeben. Soll dieses Modul doch Übersprungen werden?")
-                            If benutzerMeinung = vbYes Then
-                                Dim skip As Boolean
-                                skip = True
-                                Exit Do
-                            End If
-                            If Not skip Then
-                            newModuleName = UserPromptText("Wählen Sie bitte einen neuen Namen für das importierte Modul aus.", "", "Neuer Modulname")
-                            End If
-                        Loop
-                        If Not skip Then
-                        ' Import the .bas file into the workbook's VBA project.
-                        Set vbComp = wb.VBProject.VBComponents.Import(file.path)
-                        vbComp.Name = newModuleName
-                        End If
-                    Else
-                        MsgBox "Das Modul '" + moduleName + "' wird nicht neu importiert."
-                    End If
                 End If
-            Else
-            '----------------------------------------------------
-            ' No module of the same name exists in the current workbook
-            
-                'Debug.Print moduleName
                 Set vbComp = wb.VBProject.VBComponents.Import(file.path)
                 vbComp.Name = moduleName
+            Else
+                '-----------------------------------------------------------------------------------
+                ' VBA does not do well with placing modules
+                If moduleName = "ThisWorkbook" Or Left(moduleName, 5) = "Sheet" Then
+                    moduleName = moduleName & "_import"
+                End If
+                
+                '-----------------------------------------------------------------------------------
+                ' The module name is not allowed to already be ascribed to a module in the current workbook the following tries to resolve this conflict:
+                If ModulNamenSuchen(moduleName) Then
+                    benutzerMeinung = UserPromptYesNo("Es gibt bereits ein Modul mit dem Namen '" + moduleName + "'. Soll das bereitsexistierende Modul überschrieben werden?")
+                    If benutzerMeinung = vbYes Then
+                        MsgBox "Sie wollen ein altes Modul überschreiben."
+                        ' Remove the old Modul
+                        RemoveModule wb, moduleName
+                        ' Import the .bas file into the workbook's VBA project.
+                        Set vbComp = wb.VBProject.VBComponents.Import(file.path)
+                        vbComp.Name = moduleName
+                    
+                    Else
+                        benutzerMeinung = UserPromptYesNo(" Möchten Sie das Modul '" + moduleName + "' unter einem anderen Namen speichern? (Bei 'Nein' wird das Modul übersprungen.)")
+                        If benutzerMeinung = vbYes Then
+                            newModuleName = UserPromptText("Wie soll das Modul heißen?", "", "")
+                            Do While ModulNamenSuchen(newModuleName)
+                                benutzerMeinung = UserPromptYesNo("Dieser Name ist bereits vergeben. Soll dieses Modul doch Übersprungen werden?")
+                                If benutzerMeinung = vbYes Then
+                                    Dim skip As Boolean
+                                    skip = True
+                                    Exit Do
+                                End If
+                                If Not skip Then
+                                newModuleName = UserPromptText("Wählen Sie bitte einen neuen Namen für das importierte Modul aus.", "", "Neuer Modulname")
+                                End If
+                            Loop
+                            If Not skip Then
+                            ' Import the .bas file into the workbook's VBA project.
+                            Set vbComp = wb.VBProject.VBComponents.Import(file.path)
+                            vbComp.Name = newModuleName
+                            End If
+                        Else
+                            MsgBox "Das Modul '" + moduleName + "' wird nicht neu importiert."
+                        End If
+                    End If
+                Else
+                '----------------------------------------------------
+                ' No module of the same name exists in the current workbook
+                
+                    'Debug.Print moduleName
+                    Set vbComp = wb.VBProject.VBComponents.Import(file.path)
+                    vbComp.Name = moduleName
+                End If
             End If
         End If
     Next file

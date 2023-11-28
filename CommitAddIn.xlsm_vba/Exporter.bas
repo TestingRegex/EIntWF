@@ -108,10 +108,12 @@ Function Export()
             End If
         'End If
     Next vbProj
+    
     'Clean Up
     Set textStream = Nothing
     Set vbProj = Nothing
     Set textStreamNew = Nothing
     Set textStreamOverwrite = Nothing
     Set fs = Nothing
+    
 End Function

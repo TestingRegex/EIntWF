@@ -51,6 +51,7 @@ Sub ImportMacros_Test()
     Dim moduleName As String ' Der Name der importierten Module
     Dim newModuleName As String ' Der neue Modul Name des zu importierenden Moduls
     Dim benutzerMeinung As Long ' Entscheidung ob bereitsvorhandene Module überschrieben werden sollen oder nicht
+    Dim temp As Object
 
     ' Set a reference to the Microsoft Scripting Runtime library.
     Set fs = CreateObject("Scripting.FileSystemObject")
@@ -98,7 +99,7 @@ Sub ImportMacros_Test()
                 If benutzerMeinung = vbYes Then
                     
                     ' Remove the old Modul
-                    RemoveModule (moduleName)
+                    temp = RemoveModule(wb, moduleName)
                     ' Import the .bas file into the workbook's VBA project.
                     Set vbComp = wb.VBProject.VBComponents.Import(file.path)
                     vbComp.Name = moduleName

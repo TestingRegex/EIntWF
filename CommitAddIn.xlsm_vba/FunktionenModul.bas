@@ -88,10 +88,10 @@ Function RemoveModule(ByVal Workbook As Workbook, ByVal removeName As String)
     ' Iterate through all VBComponents in the project
     For Each vbComponent In wb.VBProject.VBComponents
         ' Check if the current component is a module and has the specified name
-        If vbComponent.Type = 1 And vbComponent.Name = moduleName Then
+        If Not vbComponent.Type = 100 And vbComponent.Name = moduleName Then
             ' Remove the module
             wb.VBProject.VBComponents.Remove vbComponent
-            MsgBox moduleName & " removed from the VBA project.", vbInformation
+            'MsgBox moduleName & " removed from the VBA project.", vbInformation
             Exit Function
         End If
     Next vbComponent

@@ -1,3 +1,4 @@
+Attribute VB_Name = "ToyModule"
 '''
 '
 ' A module to contain temporary tests that are used to test functions of my own or ones that are new to me.
@@ -413,5 +414,6 @@ Sub CommitToGit_Test()
     'temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
     
 End Sub
+
 
 

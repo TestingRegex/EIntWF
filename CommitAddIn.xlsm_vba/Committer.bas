@@ -1,3 +1,4 @@
+Attribute VB_Name = "Committer"
 '''
 '   Ein Excel Makro was an den Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Committen übernimmt
@@ -45,15 +46,10 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
     shell gitCommand, vbNormalFocus
     
     ' Nochmal spezifisch den Exportierordner angeben
-    ' Eigentlich nicht mehr notwendig!!
-    gitCommand = "git add " & ActiveWorkbook.Name & "_vba" & "/*"
+    gitCommand = "git add " & ActiveWorkbook.Name & "_vba" & "/* " & ActiveWorkbook.Name
     shell gitCommand, vbNormalFocus
     
-    ' Spezifisch das Aktive Workbook stagen
-    
-    gitCommand = "git add " & ActiveWorkbook.Name
-    shell gitCommand, vbNormalFocus
-    
+        
 '-------------------------------------------------------------------------------------
 ' Commit Message Dialoge:
 

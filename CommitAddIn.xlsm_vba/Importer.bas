@@ -1,3 +1,4 @@
+Attribute VB_Name = "Importer"
 '''
 '   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Importieren der Module eines bestimmten Ordners übernimmt

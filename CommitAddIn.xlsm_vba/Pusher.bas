@@ -1,3 +1,4 @@
+Attribute VB_Name = "Pusher"
 '''
 '   Ein Excel Makro was an den Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Pushen übernimmt

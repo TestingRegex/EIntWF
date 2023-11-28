@@ -1,4 +1,3 @@
-Attribute VB_Name = "GetTag"
 Option Explicit
 
 Sub GitGetOld(ByRef control As Office.IRibbonControl)

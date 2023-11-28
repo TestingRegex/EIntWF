@@ -1,4 +1,3 @@
-Attribute VB_Name = "FunktionenModul"
 '''
 '   Eine Sammlung von vielleicht nützlichen Funktionen die in verschiedenen
 '   Makros wieder verwendet werden
@@ -201,4 +200,3 @@ Function GetShellOutput(ByVal command As String)
     GetShellOutput = output
 
 End Function
-

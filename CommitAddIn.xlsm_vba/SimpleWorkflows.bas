@@ -1,4 +1,3 @@
-Attribute VB_Name = "SimpleWorkflows"
 '''
 '   Eine Sammlung von Excel Makros, die die einzelnen Arbeitsschritte zusammenlegen.
 '

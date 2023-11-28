@@ -1,4 +1,3 @@
-Attribute VB_Name = "ToyModule"
 '''
 '
 ' A module to contain temporary tests that are used to test functions of my own or ones that are new to me.
@@ -273,7 +272,7 @@ Sub Export_Test()
             ' Prüfen ob das Modul nicht einfach leer ist.
             If vbProj.CodeModule.CountOfLines > 0 Then
             
-                moduleCode = vbProj.CodeModule.Lines(1, vbProj.CodeModule.CountOfLines)
+                moduleCode = vbProj.CodeModule.lines(1, vbProj.CodeModule.CountOfLines)
             
                 ' Inhalt des Moduls wird als String Variable geladen
                 modulePath = vbaDirectory & moduleName & ".bas"
@@ -414,6 +413,5 @@ Sub CommitToGit_Test()
     'temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
     
 End Sub
-
 
 

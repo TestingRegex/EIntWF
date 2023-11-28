@@ -1,4 +1,3 @@
-Attribute VB_Name = "Tagging"
 '''
 '   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Taggens der letzten Änderungen und des letzten Commits übernimmt.

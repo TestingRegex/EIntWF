@@ -1,4 +1,3 @@
-Attribute VB_Name = "Committer"
 '''
 '   Ein Excel Makro was an den Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Committen übernimmt

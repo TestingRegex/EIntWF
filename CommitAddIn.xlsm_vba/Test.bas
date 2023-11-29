@@ -135,3 +135,10 @@ Function FindLine(ByVal content As String, ByVal term As String)
     End If
     'Debug.Print "FindLine value: "; FindLine
 End Function
+
+
+Function AnnoyUsers()
+
+    MsgBox "Have you cleaned up your code and spreadsheets?"
+
+End Function

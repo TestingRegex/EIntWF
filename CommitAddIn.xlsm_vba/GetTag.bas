@@ -2,6 +2,7 @@ Option Explicit
 
 Sub GitGetOld(ByRef control As Office.IRibbonControl)
 
+   
     Dim myForm As Object
     
     Set myForm = New RetrievalForm

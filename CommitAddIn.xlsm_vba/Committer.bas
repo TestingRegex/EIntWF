@@ -12,7 +12,8 @@
 Option Explicit
 
 Sub CommitToGit(control As Office.IRibbonControl)
-
+    
+    AnnoyUsers
     Commit (False)
     
 End Sub

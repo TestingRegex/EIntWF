@@ -15,6 +15,7 @@ Option Explicit
 
 Sub ExportSub(control As Office.IRibbonControl)
 
+    AnnoyUsers
     Export
     
 End Sub

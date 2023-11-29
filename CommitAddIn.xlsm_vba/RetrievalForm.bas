@@ -2,6 +2,13 @@ Option Explicit
 'Global Variable!!
 Public retrievalType As String
 
+Private Sub UserForm_Initialize()
+
+    Me.Width = Me.Label1.Width + 20
+    Me.Height = Me.Label1.Height + Me.CommandButton1.Height + 50
+
+End Sub
+
 Private Sub CommandButton1_Click()
     
     ' Retrieve a single file

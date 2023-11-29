@@ -44,8 +44,6 @@ Function AltExporter()
 
     For Each vbComp In wb.VBProject.VBComponents
     
-'        Debug.Print "Component name: " & vbComp.Name; "Compenent type: " & vbComp.Type
-        
         Select Case vbComp.Type
             Case 2
                 suffix = ".cls" ' Class modules
@@ -59,18 +57,17 @@ Function AltExporter()
                 suffix = ""
         End Select
         
-        
-        
-        If vbComp.Name = "Module1" Or vbComp.Name = "Module2" Then
+
+        'If vbComp.Name = "Module1" Or vbComp.Name = "Module2" Then
         If suffix <> "" And vbComp.CodeModule.CountOfLines > 0 Then
         
-            'Debug.Print vbComp.CodeModule.Lines(1, vbComp.CodeModule.CountOfLines)
+
             modulePath = vbaDirectory & "\" & _
                             vbComp.Name & suffix
         
-        ' Add check to see if code content has changed.
-        ' If the module has been exported before we check whether we need to overwrite it incase of an update.
-            If fs.FileExists(modulePath) And Dir(modulePath) <> "" And Not vbComp.Name = "ThisWorkbook" Then
+            ' Add check to see if code content has changed.
+            ' If the module has been exported before we check whether we need to overwrite it incase of an update.
+            If fs.FileExists(modulePath) And Dir(modulePath) <> "" Then
                 
                 
                 moduleContent = vbComp.CodeModule.lines(1, vbComp.CodeModule.CountOfLines)
@@ -80,33 +77,36 @@ Function AltExporter()
                 fileContent = textStream.ReadAll
                 textStream.Close
                         
-
+                
                 startLine = FindLine(fileContent, "Option Explicit")
                 
-                Set textStream = fs.OpenTextFile(modulePath, 1) ' 1: ForReading
-                    For i = 1 To startLine
-                        textStream.Skipline
-                    Next i
-                            
-                fileContent = textStream.ReadAll
-                textStream.Close
+                If Not startLine = 0 Then
                 
-                Debug.Print vbComp.Name
-                Debug.Print "file: "; Len(fileContent)
-                Debug.Print "module: "; Len(moduleContent)
-                
-                ' Check if the content of file and component differ, if yes then overwrite file content with component content.
-                If Mid(fileContent, 1, Len(fileContent) - 2) <> moduleContent Then
-                    vbComp.Export _
-                        filename:=modulePath
+                    ' If we find either Option Explicit or ''' at the beginning of a line in an exported module we use this as our first line of code visible in the VBE
+                    Set textStream = fs.OpenTextFile(modulePath, 1) ' 1: ForReading
+                    'Not so elegant and could/should be improved
+                        For i = 1 To startLine
+                            textStream.Skipline
+                        Next i
+                                
+                    fileContent = textStream.ReadAll
+                    textStream.Close
+                    
+                    ' Check if the content of file and component differ, if yes then overwrite file content with component content.
+                    If Mid(fileContent, 1, Len(fileContent) - 2) <> moduleContent Then
+                    
+                        Debug.Print vbComp.Name
+                        Debug.Print startLine
+                        vbComp.Export _
+                            filename:=modulePath
+                    End If
                 End If
-                
             Else
                 vbComp.Export _
                         filename:=modulePath
             End If
         End If
-        End If
+        'End If
     Next vbComp
 
     'Clean Up
@@ -123,9 +123,8 @@ Function FindLine(ByVal content As String, ByVal term As String)
     Else
         Dim lines As Variant
         Dim i As Integer
-        Dim j As Integer
         
-        lines = Split(content, vbCr)
+        lines = Split(content, vbCrLf)
         For i = LBound(lines) To UBound(lines)
             If Left(lines(i), Len(term)) = term Or Left(lines(i), 3) = "'''" Then
                 'Debug.Print lines(i)
@@ -134,5 +133,5 @@ Function FindLine(ByVal content As String, ByVal term As String)
             End If
         Next i
     End If
-    'Debug.Print FindLine
+    'Debug.Print "FindLine value: "; FindLine
 End Function

@@ -65,7 +65,7 @@ Function Import()
     'Debug.Print "ActiveWorkbook: " & wb.Name
     For Each file In folder.Files
         suffix = LCase(Right(file.Name, 4))
-        If Not suffix = ".frx" And (suffix = ".bas" Or suffix = ".cls" Or suffix = ".frm") Then ' Do not import .frx files or other files that we not exported properly!!!
+        If suffix = ".bas" Or suffix = ".frm" Or suffix = ".cls" Then ' Do not import .frx files or other files that we not exported properly!!!
         'If LCase(Right(file.Name, 4)) = ".bas" Then
         moduleName = Left(file.Name, Len(file.Name) - 4) ' Remove the last 4 characters (".bas") to get module name.
         Debug.Print file.Name

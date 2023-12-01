@@ -1,5 +1,8 @@
 # Excel Integrierter Workflow
-Ein erster Ansatz einen Arbeitsprozess für DevSecOps möglichst in Excel abzuwickeln
+
+A small change to see how merge conflicts might look.
+
+Ein erster Ansatz einen Arbeitsprozess für DevSecOps möglichst in Excel abzuwickeln.
 
 Bisher beinhaltet die CommitAddIn.xlsm Datei ein Workbook und VBA-Module die zu einem Excel Add-In (.xlam) umgespeichtert werden können mit den folgenden Funktionen:
 

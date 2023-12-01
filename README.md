@@ -11,7 +11,7 @@ Bisher beinhaltet die CommitAddIn.xlsm Datei ein Workbook und VBA-Module die zu 
     6. In einem Schritt exportieren, commiten, und pushen
     7. In einem Schritten pullen und den Importprozes starten.
 
-
+A change in a different position to see how mergeconflicts might look.
 
 ## Genaueres zu den Funktionen
 

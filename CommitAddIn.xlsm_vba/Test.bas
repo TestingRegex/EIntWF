@@ -13,6 +13,6 @@ End Sub
 
 Function AnnoyUsers()
 
-    MsgBox "Have you cleaned up your code and spreadsheets?"
-
+    AnnoyUsers = UserPromptYesNo("Have you cleaned up your code and spreadsheets?")
+    
 End Function

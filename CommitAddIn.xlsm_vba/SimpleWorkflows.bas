@@ -9,11 +9,12 @@ Option Explicit
 
 Sub workflowExportCommitPush(ByRef control As Office.IRibbonControl)
 On Error GoTo ErrHandler
-
-    Export
-    Commit (False)
-    Push
-
+    If AnnoyUsers = vbYes Then
+        Export
+        Commit (False)
+        Push
+    End If
+    
 ExitSub:
     Exit Sub
     

@@ -15,8 +15,9 @@ Sub CommitToGit(control As Office.IRibbonControl)
     
 On Error GoTo ErrHandler:
 
-    AnnoyUsers
-    Commit (False)
+    If AnnoyUsers = vbYes Then
+        Commit (False)
+    End If
     
 ExitSub:
     Exit Sub

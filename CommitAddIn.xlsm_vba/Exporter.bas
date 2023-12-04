@@ -17,8 +17,9 @@ Sub ExportSub(control As Office.IRibbonControl)
 
 On Error GoTo ErrHandler:
 
-    AnnoyUsers
-    AltExporter
+    If AnnoyUsers = vbYes Then
+        AltExporter
+    End If
     
 ExitSub:
         

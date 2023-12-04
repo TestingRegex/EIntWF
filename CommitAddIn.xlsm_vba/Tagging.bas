@@ -31,6 +31,7 @@ Function Tag()
     Dim TagMessage As String
     Dim StringCheck As Boolean
     Dim shell As Object
+    Dim temp As Integer
     
 '------------------------------------------------------
 ' Find desired path
@@ -41,7 +42,7 @@ Function Tag()
 ' Core:
 '
 
-    VersionInput = UserPromptText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._", "Tag")
+    VersionInput = UserPromptText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._", "Version")
     
     If VersionInput = "" Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
@@ -51,7 +52,7 @@ Function Tag()
     ' Validating userInput to not contain undesirable characters.
     
     
-    TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "")
+    TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "", "Tag")
     If TagMessage = "" Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
         Exit Function
@@ -65,7 +66,7 @@ Function Tag()
 '-------------------------------------------------------------------------
 'Commands are passed to the shell
 
-    Dim temp As Integer
+    
         
     temp = ShellCommand(gitCommand, "Der Tag wurde erfolgreich erstellt.", "Der Tag konnte nicht erstellt werden.")
     

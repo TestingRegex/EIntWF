@@ -1,13 +1,17 @@
-'''
-'   Ein Excel Makro was an den Button im Add-in Tab gebunden ist und
-'   die Aufgabe des Committen übernimmt
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'   This module contains the macros and major functions used in the 'Änderungen Commiten'
+'   button.
 '
-'   Allgemeines:
-'       Das Programm gibt die gewünschten Git-Befehle an eine Shell-Instanz weiter damit diese ausgeführt werden.
+'   Purpose:
+'       All changes to the tracked files in the repository are staged, as well as explicitly
+'       staging any changes to the active workbook or the workbook _vba directory.
+'       Then the user is prompted to either create a custom commit message or use the
+'       standard commit message.
 '
-'   Verwendete Funktionen:
-'       Saver, Pathing, BadCharacterFilter, UserPromptYesNo, UserPromptText
-'''
+'   Used homemade functions:
+'       AnnoyUsers, Saver, Pathing, BadCharacterFilter, UserPromptYesNo, UserPromptText,
+'       ShellCommand
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Option Explicit
 

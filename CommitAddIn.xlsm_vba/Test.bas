@@ -11,8 +11,3 @@ Sub TestSub(ByRef control As Office.IRibbonControl)
     
 End Sub
 
-Function AnnoyUsers()
-
-    AnnoyUsers = UserPromptYesNo("Have you cleaned up your code and spreadsheets?")
-    
-End Function

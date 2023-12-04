@@ -124,21 +124,3 @@ Function TagFileRetrieval(ByVal version As String)
 
 End Function
 
-' A function that retrieves the tags that exist in the current repository.
-Function FindTags()
-
-    Dim existingTagsRaw As String
-    Dim existingTags() As String
-    Dim i As Integer
-    
-    Pathing
-    
-    existingTagsRaw = GetShellOutput("git tag")
-    
-    existingTags = Split(existingTagsRaw, vbLf)
-    
-    ReDim Preserve existingTags(UBound(existingTags) - 1)
-    
-    FindTags = existingTags
-    
-End Function

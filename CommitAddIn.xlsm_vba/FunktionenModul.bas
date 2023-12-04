@@ -1,8 +1,76 @@
-'''
-'   Eine Sammlung von vielleicht nützlichen Funktionen die in verschiedenen
-'   Makros wieder verwendet werden
+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'   A module that collects all homemade functions that take over a minor part of some process.
 '
-'''
+'   The following is a list of all functions in this module with a brief description and a
+'   list of module where the function is called
+'
+'
+'   GetUser
+'       Description: A short function that retrieves the environment username
+'       Called in: Committer, Tagging
+'
+'   Saver
+'       Description: A short function that saves the active workbook
+'       Called in: Committer, Exporter
+'
+'   Pathing
+'       Description: A short function that retrieves the path to the current workbook, may be extended.
+'       Called in: Exporter, Committer, GetTag, Puller, Pusher, Tagging
+'
+'   UserPromptYesNo
+'       Description: A short function that prompts the user to decide yes or no,
+'           was easier for me to remember for some reason.
+'       Called in: Committer, AnnoyUser, Importer
+'
+'   UserPromptText
+'       Description: A function that preformats a text prompt window, similar to UserPromptYesNo
+'       Called in:  Committer, Tagging,
+'
+'   SelectFolder
+'       Description: A function that opens a folder selection window
+'       Called in: Importer
+'
+'   ModulNamenSuchen
+'       Description: A function that checks whether a module of a given name exists in the current vba project
+'       Called in: Importer
+'
+'   RemoveModule
+'       Description: A function that deletes a module of a given name from the current vba project
+'       Called in: Importer
+'
+'   BadCharacterFilter
+'       Description: A function that checks whether a user input contains any undesirable characters,
+'            there are different cases included in the function that can be passed arguments.
+'       Called in:
+'
+'   BadCharacterLoop
+'       Description: A function used by BadCharacterFilter when the code was
+'       Called in:
+'
+'   ShellCommand
+'       Description:
+'       Called in:
+'
+'   GetShellOutput
+'       Description:
+'       Called in:
+'
+'   FindLine
+'       Description:
+'       Called in:
+'
+'   AnnoyUsers
+'       Description:
+'       Called in:
+'
+'   FindTags
+'       Description:
+'       Called in:
+'
+'
+'
+'
+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Option Explicit
 
@@ -210,4 +278,49 @@ Function GetShellOutput(ByVal command As String)
     ' Return the output
     GetShellOutput = output
 
+End Function
+
+Function FindLine(ByVal content As String, ByVal term As String)
+    ' A function that should help with finding the "proper" start to the code often either Option Explicit or a comment, _
+    to avoid the overhead lines created when exporting with the inbuild export method.
+    
+    If term = "" Or content = "" Then
+        MsgBox "Invalid input for FindString"
+    Else
+        Dim lines As Variant
+        Dim i As Integer
+        
+        lines = Split(content, vbCrLf)
+        For i = LBound(lines) To UBound(lines)
+            If Left(lines(i), Len(term)) = term Or Left(lines(i), 3) = "'''" Then
+                FindLine = i
+                Exit For
+            End If
+        Next i
+    End If
+End Function
+
+Function AnnoyUsers()
+
+    AnnoyUsers = UserPromptYesNo("Have you cleaned up your code and spreadsheets?")
+    
+End Function
+
+' A function that retrieves the tags that exist in the current repository.
+Function FindTags()
+
+    Dim existingTagsRaw As String
+    Dim existingTags() As String
+    Dim i As Integer
+    
+    Pathing
+    
+    existingTagsRaw = GetShellOutput("git tag")
+    
+    existingTags = Split(existingTagsRaw, vbLf)
+    
+    ReDim Preserve existingTags(UBound(existingTags) - 1)
+    
+    FindTags = existingTags
+    
 End Function

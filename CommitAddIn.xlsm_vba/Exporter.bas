@@ -1,14 +1,15 @@
-'''
-'   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
-'   die Aufgabe des Exportieren der Module im VBA Projekt übernimmt
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'   This module contains the macros and major functions used in the 'VBA Projekt exportieren'
+'   button.
 '
-'   Allgemeines:
-'       Das Programm benötigt zugriff auf das VBA-Projekt als Objekt, um die externen .bas Dateien
-'       als VBA-Module ins VBA-Projekt speichern zu können. Dies muss im Trust-Center bei den Makro Einstellungen genehmigt werden.
+'   Purpose:
+'       The module exports all vba project components ( this requires access to the vba
+'       project object) as the correct file type so that they may be imported correctly later
+'       on.
 '
 '   Verwendete Funktionen:
-'       Saver,
-'''
+'       AnnoyUsers, Saver, FindLine
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Option Explicit
 
@@ -228,25 +229,4 @@ Function AltExporter()
     Set vbComp = Nothing
     Set fs = Nothing
     
-End Function
-
-
-Function FindLine(ByVal content As String, ByVal term As String)
-    ' A function that should help with finding the "proper" start to the code often either Option Explicit or a comment, _
-    to avoid the overhead lines created when exporting with the inbuild export method.
-    
-    If term = "" Or content = "" Then
-        MsgBox "Invalid input for FindString"
-    Else
-        Dim lines As Variant
-        Dim i As Integer
-        
-        lines = Split(content, vbCrLf)
-        For i = LBound(lines) To UBound(lines)
-            If Left(lines(i), Len(term)) = term Or Left(lines(i), 3) = "'''" Then
-                FindLine = i
-                Exit For
-            End If
-        Next i
-    End If
 End Function

@@ -32,7 +32,7 @@ Function Push()
     
     gitCommand = "git push"
     
-    temp = ShellCommand(gitCommand, "Committed Änderungen wurden gepusht.", "Der Push-Vorgang ist gescheitert.")
+    temp = ShellCommand(gitCommand, "Die gecommiteten Änderungen wurden hochgeladen.", "Der Push Vorgang ist gescheitert.")
     
 
 End Function

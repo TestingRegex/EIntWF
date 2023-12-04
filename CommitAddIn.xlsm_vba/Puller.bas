@@ -31,7 +31,7 @@ Function Pull()
 ' execute commands
     
     gitCommand = "git pull"
-    temp = ShellCommand(gitCommand, "Updates wurden von GitHub gepulled.", "Es konnten keine Updates gepulled werden.")
+    temp = ShellCommand(gitCommand, "Updates wurden von GitHub heruntergeladen.", "Es konnten keine Updates heruntergeladen werden.")
 
 
 End Function

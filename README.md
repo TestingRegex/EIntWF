@@ -1,6 +1,5 @@
 # Excel Integrierter Workflow
 
-A small change to see how.
 
 Ein erster Ansatz einen Arbeitsprozess für DevSecOps möglichst in Excel abzuwickeln.
 

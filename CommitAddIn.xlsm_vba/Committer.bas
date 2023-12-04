@@ -12,10 +12,19 @@
 Option Explicit
 
 Sub CommitToGit(control As Office.IRibbonControl)
-
     
+On Error GoTo ErrHandler:
+
     AnnoyUsers
     Commit (False)
+    
+ExitSub:
+    Exit Sub
+    
+ErrHandler:
+    MsgBox "Something went wrong."
+    Resume ExitSub
+    Resume
     
 End Sub
 
@@ -67,7 +76,6 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
                 Exit Function
             End If
             
-           
             commitMessage = customCommitMessage & " - " & GetUser()
         Else
             ' Standardized commit message

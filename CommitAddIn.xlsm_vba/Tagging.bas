@@ -13,9 +13,18 @@
 Option Explicit
 
 Sub GitTag(ByRef control As Office.IRibbonControl)
-    
+On Error GoTo ErrHandler
+
     Commit (True)
     Tag
+    
+ExitSub:
+    Exit Sub
+    
+ErrHandler:
+    MsgBox "Something went wrong."
+    Resume ExitSub
+    Resume
 
 End Sub
 

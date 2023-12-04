@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} RetrievalForm 
    Caption         =   "Tag Laden"
-   ClientHeight    =   1300
-   ClientLeft      =   -75
-   ClientTop       =   -300
-   ClientWidth     =   3150
+   ClientHeight    =   1340
+   ClientLeft      =   -230
+   ClientTop       =   -900
+   ClientWidth     =   1420
    OleObjectBlob   =   "RetrievalForm.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -16,6 +16,13 @@ Attribute VB_Exposed = False
 Option Explicit
 'Global Variable!!
 Public retrievalType As String
+
+Private Sub UserForm_Initialize()
+
+    Me.Width = Me.Label1.Width + 20
+    Me.Height = Me.Label1.Height + Me.CommandButton1.Height + 50
+
+End Sub
 
 Private Sub CommandButton1_Click()
     

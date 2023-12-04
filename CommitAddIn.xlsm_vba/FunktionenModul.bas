@@ -123,22 +123,6 @@ Function RemoveModule(ByVal Workbook As Workbook, ByVal removeName As String)
     MsgBox moduleName & " wurde in diesem VBA-Projekt nicht gefunden.", vbExclamation
 End Function
 
-
-
-' Eine Funktion, die den Pfad zum Git Repo angeben kann.
-' Momentan gibt es einfach den Pfad zum aktiven Workbook an.
-' Benutzt in: Importer, Committer, Tagger,Pusher,Puller,
-
-Function Pathing()
-
-    Dim WorkbookPath As String
-
-    WorkbookPath = ActiveWorkbook.path
-
-    ChDir WorkbookPath
-
-End Function
-
 ' Eine Funktion die überprüft ob ein InputString unerwünschte Zeichen beinhaltet
 ' Benutzt in: Committer, Tagger,
 Function BadCharacterFilter(ByVal inputString As String, ByVal Purpose As String)

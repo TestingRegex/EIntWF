@@ -13,9 +13,18 @@
 Option Explicit
 
 Sub ImportMacros(ByRef control As Office.IRibbonControl)
+On Error GoTo ErrHandler
 
     Import
     
+ExitSub:
+    Exit Sub
+    
+ErrHandler:
+    MsgBox "Something went wrong."
+    Resume ExitSub
+    Resume
+ 
 End Sub
 
 Function Import()

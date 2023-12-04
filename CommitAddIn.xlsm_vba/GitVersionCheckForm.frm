@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} GitVersionCheckForm 
    Caption         =   "Versionswahl"
-   ClientHeight    =   790
-   ClientLeft      =   -885
-   ClientTop       =   -3450
-   ClientWidth     =   1410
+   ClientHeight    =   520
+   ClientLeft      =   -960
+   ClientTop       =   -3750
+   ClientWidth     =   620
    OleObjectBlob   =   "GitVersionCheckForm.frx":0000
    StartUpPosition =   1  'CenterOwner
 End

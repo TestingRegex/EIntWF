@@ -1,7 +1,7 @@
 Option Explicit
 
 Sub GitGetOld(ByRef control As Office.IRibbonControl)
-
+On Error GoTo ErrHandler
    
     Dim myForm As Object
     
@@ -9,6 +9,13 @@ Sub GitGetOld(ByRef control As Office.IRibbonControl)
     
     myForm.Show
 
+ExitSub:
+    Exit Sub
+    
+ErrHandler:
+    MsgBox "Something went wrong."
+    Resume ExitSub
+    Resume
 
 End Sub
 

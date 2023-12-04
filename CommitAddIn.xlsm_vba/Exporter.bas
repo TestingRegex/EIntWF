@@ -15,8 +15,20 @@ Option Explicit
 
 Sub ExportSub(control As Office.IRibbonControl)
 
+On Error GoTo ErrHandler:
+
     AnnoyUsers
     AltExporter
+    
+ExitSub:
+        
+    Exit Sub
+      
+ErrHandler:
+    
+    MsgBox "Something went wrong."
+    Resume ExitSub
+    Resume
     
 End Sub
 
@@ -137,15 +149,13 @@ Function AltExporter()
     Set wb = ActiveWorkbook
     Set fs = CreateObject("Scripting.FileSystemObject")
     
-    vbaDirectory = Replace(wb.path & "\" & wb.Name & "_vbaTesting\", " ", "_")
+    vbaDirectory = Replace(wb.path & "\" & wb.Name & "_vba", " ", "_")
     
 '---------------------------------------------------------------------------------------------
 ' Creating the export directory if it does not exist yet
-    
     If Not fs.FolderExists(vbaDirectory) Then
         fs.CreateFolder vbaDirectory
     End If
-
 '---------------------------------------------------------------------------------------------
 ' The actual export process:
 
@@ -159,13 +169,13 @@ Function AltExporter()
             Case 1
                 suffix = ".bas" ' Standard Modules
             Case 100
-                suffix = ".txt" 'Objects contained in the "Microsoft Excel Objects" folder
+                suffix = ".cls" 'Objects contained in the "Microsoft Excel Objects" folder
             Case Else
                 suffix = ""
         End Select
         
 
-        'If vbComp.Name = "Module1" Or vbComp.Name = "Module2" Then
+        ' Checking if the component needs to be exported at all, does it contain any code?
         If suffix <> "" And vbComp.CodeModule.CountOfLines > 0 Then
         
 
@@ -173,7 +183,7 @@ Function AltExporter()
                             vbComp.Name & suffix
         
             ' Add check to see if code content has changed.
-            ' If the module has been exported before we check whether we need to overwrite it incase of an update.
+            ' If the module has been exported before we check whether we need to overwrite it incase of a change.
             If fs.FileExists(modulePath) And Dir(modulePath) <> "" Then
                 
                 
@@ -191,7 +201,7 @@ Function AltExporter()
                 
                     ' If we find either Option Explicit or ''' at the beginning of a line in an exported module we use this as our first line of code visible in the VBE
                     Set textStream = fs.OpenTextFile(modulePath, 1) ' 1: ForReading
-                    'Not so elegant and could/should be improved
+                    ' Not so elegant and could/should be improved
                         For i = 1 To startLine
                             textStream.Skipline
                         Next i
@@ -201,9 +211,6 @@ Function AltExporter()
                     
                     ' Check if the content of file and component differ, if yes then overwrite file content with component content.
                     If Mid(fileContent, 1, Len(fileContent) - 2) <> moduleContent Then
-                    
-                        Debug.Print vbComp.Name
-                        Debug.Print startLine
                         vbComp.Export _
                             filename:=modulePath
                     End If
@@ -213,7 +220,6 @@ Function AltExporter()
                         filename:=modulePath
             End If
         End If
-        'End If
     Next vbComp
 
     'Clean Up
@@ -223,7 +229,10 @@ Function AltExporter()
     
 End Function
 
+
 Function FindLine(ByVal content As String, ByVal term As String)
+    ' A function that should help with finding the "proper" start to the code often either Option Explicit or a comment, _
+    to avoid the overhead lines created when exporting with the inbuild export method.
     
     If term = "" Or content = "" Then
         MsgBox "Invalid input for FindString"
@@ -234,11 +243,9 @@ Function FindLine(ByVal content As String, ByVal term As String)
         lines = Split(content, vbCrLf)
         For i = LBound(lines) To UBound(lines)
             If Left(lines(i), Len(term)) = term Or Left(lines(i), 3) = "'''" Then
-                'Debug.Print lines(i)
                 FindLine = i
                 Exit For
             End If
         Next i
     End If
-    'Debug.Print "FindLine value: "; FindLine
 End Function

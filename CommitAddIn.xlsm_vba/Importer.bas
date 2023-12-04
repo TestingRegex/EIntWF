@@ -97,7 +97,11 @@ Function Import()
                     Else
                         benutzerMeinung = UserPromptYesNo(" Möchten Sie das Modul '" + moduleName + "' unter einem anderen Namen speichern? (Bei 'Nein' wird das Modul übersprungen.)")
                         If benutzerMeinung = vbYes Then
-                            newModuleName = UserPromptText("Wie soll das Modul heißen?", "", "")
+                            newModuleName = UserPromptText("Wie soll das Modul heißen?", "", "", "Module")
+                            If newModuleName = "" Then
+                                MsgBox "Vorgang abgebrochen."
+                                Exit Function
+                            End If
                             Do While ModulNamenSuchen(newModuleName)
                                 benutzerMeinung = UserPromptYesNo("Dieser Name ist bereits vergeben. Soll dieses Modul doch Übersprungen werden?")
                                 If benutzerMeinung = vbYes Then
@@ -106,7 +110,11 @@ Function Import()
                                     Exit Do
                                 End If
                                 If Not skip Then
-                                newModuleName = UserPromptText("Wählen Sie bitte einen neuen Namen für das importierte Modul aus.", "", "Neuer Modulname")
+                                newModuleName = UserPromptText("Wählen Sie bitte einen neuen Namen für das importierte Modul aus.", "", "Neuer Modulname", "Module")
+                                    If newModuleName = "" Then
+                                        MsgBox "Vorgang abgebrochen."
+                                        Exit Function
+                                    End If
                                 End If
                             Loop
                             If Not skip Then

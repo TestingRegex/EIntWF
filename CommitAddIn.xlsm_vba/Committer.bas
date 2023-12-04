@@ -58,7 +58,7 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
         
         If customCommit = vbYes Then
             ' Get user input for commit message.
-            customCommitMessage = UserPromptText("Bitte gebe hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben")
+            customCommitMessage = UserPromptText("Bitte gebe hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben", "Commit")
             
             ' Commit messages should not be empty
             If customCommitMessage = "" Then
@@ -66,14 +66,6 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
                 Exit Function
             End If
             
-            Do While BadCharacterFilter(customCommitMessage, "Commit")
-            
-                customCommitMessage = UserPromptText("Die eingegebene Commit Nachricht war ungültig. Bitte geben Sie hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben")
-                If customCommitMessage = "" Then
-                    MsgBox "Es wurde keine Commit Nachricht eingegeben der Commit Vorgang wird abgebrochen."
-                    Exit Function
-                End If
-            Loop
             commitMessage = customCommitMessage & " - " & GetUser()
         Else
             ' Standardized commit message

@@ -13,6 +13,21 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'
+' A Userform used in the 'Version Laden' button that allows users to select whether they
+' would like to load a version of the entire repository or just a single file is sufficient.
+'
+' Given that this userform is not dynamic in nature the size is also static.
+'
+'
+'
+'
+'
+'
+'
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 Option Explicit
 'Global Variable!!
 Public retrievalType As String

@@ -1,3 +1,4 @@
+Attribute VB_Name = "FunktionenModul"
 '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 '   A module that collects all homemade functions that take over a minor part of some process.
 '
@@ -23,7 +24,8 @@
 '       Called in: Committer, AnnoyUser, Importer
 '
 '   UserPromptText
-'       Description: A function that preformats a text prompt window, similar to UserPromptYesNo
+'       Description: A function that preformats a text prompt window, similar to UserPromptYesNo, but also
+'           scans the user input for unwanted characters, could maybe be extended to unwanted phrases?
 '       Called in:  Committer, Tagging,
 '
 '   SelectFolder
@@ -41,31 +43,33 @@
 '   BadCharacterFilter
 '       Description: A function that checks whether a user input contains any undesirable characters,
 '            there are different cases included in the function that can be passed arguments.
-'       Called in:
+'       Called in: UserInputText
 '
 '   BadCharacterLoop
-'       Description: A function used by BadCharacterFilter when the code was
-'       Called in:
+'       Description: A function used by BadCharacterFilter to find the bad characters
+'       Called in: BadCharacterFilter
 '
 '   ShellCommand
-'       Description:
-'       Called in:
+'       Description: A preformatted shell command function that also takes a positive and negative result message as inputs
+'       Called in: Committer, GetTag, Tagging, Pusher, Puller
 '
 '   GetShellOutput
-'       Description:
-'       Called in:
+'       Description: A function that also passes commands to the shell, but also fetches the shell output
+'       Called in: FindTags
 '
 '   FindLine
-'       Description:
-'       Called in:
+'       Description: A function used to ignore the extra data added to sourcecode files when using manual/proper export methods
+'       Called in: (Alt)Exporter
 '
 '   AnnoyUsers
-'       Description:
-'       Called in:
+'       Description: A placeholder function that is supposed to act as a reminder for users to adhere to coding best practices,
+'           might not make it to final production
+'       Called in: Committer, Exporter, Tagging, SimpleWorkflows
 '
 '   FindTags
-'       Description:
-'       Called in:
+'       Description: A function that retrieves all tags created in the given repository so that users may choose
+'           which tag they wish to checkout
+'       Called in: GitVersionCheckForm
 '
 '
 '

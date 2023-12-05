@@ -1,3 +1,4 @@
+Attribute VB_Name = "Exporter"
 '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 '   This module contains the macros and major functions used in the 'VBA Projekt exportieren'
 '   button.
@@ -19,7 +20,7 @@ Sub ExportSub(control As Office.IRibbonControl)
 On Error GoTo ErrHandler:
 
     If AnnoyUsers = vbYes Then
-        AltExporter
+        Export
     End If
     
 ExitSub:
@@ -28,14 +29,14 @@ ExitSub:
       
 ErrHandler:
     
-    MsgBox "Something went wrong."
+    MsgBox "Ein unerwarteter Fehler ist aufgetreten und der Vorgang wurde abgebrochen."
     Resume ExitSub
     Resume
     
 End Sub
 
 'A firts export function, that does its job but does not respect the various vba project component types, replaced by "AltExporter"
-Function Export()
+Function RetiredExport()
 
     Dim wb As Workbook 'Zeigt auf das aktive Workbook
     Dim WorkbookName As String 'Beinhaltet den namen des Workbooks
@@ -134,7 +135,7 @@ End Function
 
 ' This is a more sophisticated version of the export function that respects the various types of VBA project components!
 
-Function AltExporter()
+Function Export()
 
     Dim wb As Workbook
     Dim vbComp As Object

@@ -1,3 +1,4 @@
+Attribute VB_Name = "Committer"
 '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 '   This module contains the macros and major functions used in the 'Änderungen Commiten'
 '   button.
@@ -27,7 +28,7 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Something went wrong."
+    MsgBox "Ein unerwarteter Fehler ist aufgetreten und der Vorgang wurde abgebrochen."
     Resume ExitSub
     Resume
     

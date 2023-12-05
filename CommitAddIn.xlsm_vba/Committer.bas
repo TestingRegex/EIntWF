@@ -28,7 +28,7 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Ein unerwarteter Fehler ist aufgetreten und der Vorgang wurde abgebrochen."
+    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
     Resume ExitSub
     Resume
     
@@ -100,6 +100,6 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
 
     Dim temp As Integer
     
-    temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
+    temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.", "Commit")
     
 End Function

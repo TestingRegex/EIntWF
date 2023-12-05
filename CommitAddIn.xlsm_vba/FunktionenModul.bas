@@ -118,7 +118,7 @@ End Function
 
 ' Präformatiertes Benutzereingabe Fenster, weil ich mir InputBox nicht merken konnte...
 ' Benutzt in: Committer; Tagger;
-Function UserPromptText(ByVal message As String, ByVal titleText As String, ByVal fillText As String, ByVal Purpose As String)
+Function UserPromptText(ByVal message As String, ByVal titleText As String, ByVal fillText As String, ByVal purpose As String)
     
     UserPromptText = InputBox(message, titleText, fillText)
     
@@ -126,7 +126,7 @@ Function UserPromptText(ByVal message As String, ByVal titleText As String, ByVa
         Exit Function
     End If
         
-    Do While BadCharacterFilter(UserPromptText, Purpose)
+    Do While BadCharacterFilter(UserPromptText, purpose)
         MsgBox "Ihre Eingabe hat ungewünschte Zeichen enthalten. Bitte versuchen Sie es erneut."
         UserPromptText = InputBox(message, titleText, fillText)
         If UserPromptText = "" Then
@@ -197,13 +197,13 @@ End Function
 
 ' Eine Funktion die überprüft ob ein InputString unerwünschte Zeichen beinhaltet
 ' Benutzt in: Committer, Tagger,
-Function BadCharacterFilter(ByVal inputString As String, ByVal Purpose As String)
+Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As String)
 
     Dim invalidCharacters As String
     
     BadCharacterFilter = False
     
-    Select Case Purpose
+    Select Case purpose
     '----------------------------------------------------------------------
         Case "Tag"
             invalidCharacters = " ~!@#$%^&*()+,{}[]|\;:'""<>/|?="
@@ -242,10 +242,11 @@ End Function
 
 ' Eine Funktion, die dafür sorgt das Shell commands ausgeführt werden
 ' und überprüft wird ob sie erfolgreich waren oder nicht
-Function ShellCommand(command As String, successMessage As String, failureMessage As String)
+Function ShellCommand(command As String, successMessage As String, failureMessage As String, Optional ByVal purpose As String)
     
     Dim shell As Object
     Dim errorCode As Integer
+    Dim ErrNumber As Long
 
     Set shell = CreateObject("WScript.Shell")
     
@@ -256,7 +257,23 @@ Function ShellCommand(command As String, successMessage As String, failureMessag
         MsgBox successMessage
 
     Else
-        MsgBox failureMessage
+        Select Case purpose
+            Case "Tag"
+                ErrNumber = 1234
+            Case "Commit"
+                ErrNumber = 1235
+            Case "Push"
+                ErrNumber = 1236
+            Case "Pull"
+                ErrNumber = 1237
+            Case "TagFileRetrieval"
+                ErrNumber = 1238
+            Case "TagFullRetrieval"
+                ErrNumber = 1239
+            Case Else
+                ErrNumber = 0
+        End Select
+        Err.Raise 1234, purpose, failureMessage
     End If
     
     ShellCommand = errorCode
@@ -264,6 +281,7 @@ Function ShellCommand(command As String, successMessage As String, failureMessag
     Set shell = Nothing
 
 End Function
+
 
 ' Den Output der ShellCommands einlesen
 Function GetShellOutput(ByVal command As String)

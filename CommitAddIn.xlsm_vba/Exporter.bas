@@ -29,7 +29,7 @@ ExitSub:
       
 ErrHandler:
     
-    MsgBox "Ein unerwarteter Fehler ist aufgetreten und der Vorgang wurde abgebrochen."
+    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
     Resume ExitSub
     Resume
     

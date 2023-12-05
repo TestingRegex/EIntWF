@@ -187,7 +187,7 @@ Function Export()
         
             ' Add check to see if code content has changed.
             ' If the module has been exported before we check whether we need to overwrite it incase of a change.
-            If fs.FileExists(modulePath) And Dir(modulePath) <> "" Then
+            If fs.FileExists(modulePath) Then
                 
                 
                 moduleContent = vbComp.CodeModule.lines(1, vbComp.CodeModule.CountOfLines)
@@ -199,15 +199,14 @@ Function Export()
                         
                 
                 startLine = FindLine(fileContent, "Option Explicit")
-                
-                If Not startLine = 0 Then
+                If Not startLine = -1 Then
                 
                     ' If we find either Option Explicit or ''' at the beginning of a line in an exported module we use this as our first line of code visible in the VBE
                     Set textStream = fs.OpenTextFile(modulePath, 1) ' 1: ForReading
                     ' Not so elegant and could/should be improved
-                        For i = 1 To startLine
-                            textStream.Skipline
-                        Next i
+                    For i = 1 To startLine
+                        textStream.Skipline
+                    Next i
                                 
                     fileContent = textStream.ReadAll
                     textStream.Close
@@ -216,13 +215,18 @@ Function Export()
                     If Mid(fileContent, 1, Len(fileContent) - 2) <> moduleContent Then
                         vbComp.Export _
                             filename:=modulePath
+                        Debug.Print vbCrLf & vbComp.Name & " has been exported after having changed."
+                        Debug.Print vbComp.Name; " startline = "; startLine
                     End If
                 End If
             Else
                 vbComp.Export _
                         filename:=modulePath
             End If
+        Else
+            Debug.Print vbComp.Name & " is being ignored by the function..."
         End If
+        fileContent = ""
     Next vbComp
 
     'Clean Up

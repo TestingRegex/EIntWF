@@ -1,3 +1,4 @@
+Attribute VB_Name = "Tagging"
 '''
 '   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Taggens der letzten Änderungen und des letzten Commits übernimmt.
@@ -24,7 +25,7 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Something went wrong."
+    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
     Resume ExitSub
     Resume
 
@@ -79,7 +80,7 @@ Function Tag()
 
     
         
-    temp = ShellCommand(gitCommand, "Der Tag wurde erfolgreich erstellt.", "Der Tag konnte nicht erstellt werden.")
+    temp = ShellCommand(gitCommand, "Der Tag wurde erfolgreich erstellt.", "Der Tag konnte nicht erstellt werden.", "Tag")
     
     Set shell = CreateObject("WScript.Shell")
     

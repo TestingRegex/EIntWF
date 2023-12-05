@@ -305,16 +305,17 @@ End Function
 Function FindLine(ByVal content As String, ByVal term As String)
     ' A function that should help with finding the "proper" start to the code often either Option Explicit or a comment, _
     to avoid the overhead lines created when exporting with the inbuild export method.
-    
+    FindLine = -1
     If term = "" Or content = "" Then
         MsgBox "Invalid input for FindString"
+        Exit Function
     Else
         Dim lines As Variant
         Dim i As Integer
         
         lines = Split(content, vbCrLf)
         For i = LBound(lines) To UBound(lines)
-            If Left(lines(i), Len(term)) = term Or Left(lines(i), 3) = "'''" Then
+            If Left(lines(i), Len(term)) = term Or Left(lines(i), 1) = "'" Then
                 FindLine = i
                 Exit For
             End If

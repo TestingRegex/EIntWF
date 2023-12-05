@@ -1,3 +1,4 @@
+Attribute VB_Name = "SimpleWorkflows"
 '''
 '   Eine Sammlung von Excel Makros, die die einzelnen Arbeitsschritte zusammenlegen.
 '
@@ -19,7 +20,7 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Something went wrong."
+    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
     Resume ExitSub
     Resume
 
@@ -36,7 +37,7 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Something went wrong."
+    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
     Resume ExitSub
     Resume
     

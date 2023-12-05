@@ -1,3 +1,4 @@
+Attribute VB_Name = "Importer"
 '''
 '   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Importieren der Module eines bestimmten Ordners übernimmt
@@ -8,6 +9,7 @@
 '
 '   Verwendete Funktionen:
 '       SelectFolder,ModulNamenSuchen, UserPromptYesNo, UserPromptText,
+'
 '''
 
 Option Explicit
@@ -21,7 +23,7 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Something went wrong."
+    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
     Resume ExitSub
     Resume
  

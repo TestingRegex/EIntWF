@@ -1,3 +1,4 @@
+Attribute VB_Name = "GetTag"
 Option Explicit
 
 Sub GitGetOld(ByRef control As Office.IRibbonControl)
@@ -15,7 +16,7 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Something went wrong."
+    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
     Resume ExitSub
     Resume
 
@@ -71,7 +72,7 @@ Function TagFullRetrieval(ByVal version As String)
     
     gitCommand = "git clone --branch " & versionTag & " --single-branch " & gitURL & " " & tempDirectory & "\" & tempSubDirectory
     
-    temp = ShellCommand(gitCommand, "Das Repository wurde in den Ordner " & tempDirectory & "\" & tempSubDirectory & "geladen.", "Die ältere Version des Repositorys konnte nicht geladen werden.")
+    temp = ShellCommand(gitCommand, "Das Repository wurde in den Ordner " & tempDirectory & "\" & tempSubDirectory & "geladen.", "Die ältere Version des Repositorys konnte nicht geladen werden.", "TagFullRetrieval")
         
 End Function
 
@@ -119,8 +120,9 @@ Function TagFileRetrieval(ByVal version As String)
     
     'Debug.Print gitCommand
     
-    temp = ShellCommand(gitCommand, "Die alte Version von " & oldFile & " wurde erfolgreich im Ordner " & tempDirectory & " abgelegt.", "Der Vorgang ist gescheitert, versuchen Sie es nochmal oder manuell.")
+    temp = ShellCommand(gitCommand, "Die alte Version von " & oldFile & " wurde erfolgreich im Ordner " & tempDirectory & " abgelegt.", "Der Vorgang ist gescheitert, versuchen Sie es nochmal oder manuell.", "TagFileRetrieval")
 
 
 End Function
+
 

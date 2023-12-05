@@ -1,3 +1,4 @@
+Attribute VB_Name = "ToyModule"
 '''
 '
 ' A module to contain temporary tests that are used to test functions of my own or ones that are new to me.
@@ -36,7 +37,7 @@ Sub Push_Test()
 ' git push ausführen
     
     gitCommand = "git push"
-    temp = ShellCommand(gitCommand, "Committed Änderungen wurden gepusht.", "Der Push-Vorgang ist gescheitert.")
+    temp = ShellCommand(gitCommand, "Committed Änderungen wurden gepusht.", "Der Push-Vorgang ist gescheitert.", "Push")
 
 End Sub
 
@@ -389,5 +390,6 @@ Sub CommitToGit_Test()
     'temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
     
 End Sub
+
 
 

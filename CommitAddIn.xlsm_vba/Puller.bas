@@ -1,3 +1,4 @@
+Attribute VB_Name = "Puller"
 '''
 '   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Export, Commit, und Push aufeinmal übernimmt
@@ -12,8 +13,19 @@
 Option Explicit
 
 Sub GitPull(ByRef contral As Office.IRibbonControl)
+On Error GoTo ErrHandler
 
-    Pull
+    If AnnoyUsers = vbYes Then
+        Pull
+    End If
+    
+ExitSub:
+    Exit Sub
+    
+ErrHandler:
+    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
+    Resume ExitSub
+    Resume
 
 End Sub
 
@@ -31,7 +43,8 @@ Function Pull()
 ' execute commands
     
     gitCommand = "git pull"
-    temp = ShellCommand(gitCommand, "Updates wurden von GitHub gepulled.", "Es konnten keine Updates gepulled werden.")
+    temp = ShellCommand(gitCommand, "Updates wurden von GitHub heruntergeladen.", "Es konnten keine Updates heruntergeladen werden.", "Pull")
 
 
 End Function
+

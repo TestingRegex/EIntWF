@@ -1,8 +1,80 @@
-'''
-'   Eine Sammlung von vielleicht nützlichen Funktionen die in verschiedenen
-'   Makros wieder verwendet werden
+Attribute VB_Name = "FunktionenModul"
+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'   A module that collects all homemade functions that take over a minor part of some process.
 '
-'''
+'   The following is a list of all functions in this module with a brief description and a
+'   list of module where the function is called
+'
+'
+'   GetUser
+'       Description: A short function that retrieves the environment username
+'       Called in: Committer, Tagging
+'
+'   Saver
+'       Description: A short function that saves the active workbook
+'       Called in: Committer, Exporter
+'
+'   Pathing
+'       Description: A short function that retrieves the path to the current workbook, may be extended.
+'       Called in: Exporter, Committer, GetTag, Puller, Pusher, Tagging
+'
+'   UserPromptYesNo
+'       Description: A short function that prompts the user to decide yes or no,
+'           was easier for me to remember for some reason.
+'       Called in: Committer, AnnoyUser, Importer
+'
+'   UserPromptText
+'       Description: A function that preformats a text prompt window, similar to UserPromptYesNo, but also
+'           scans the user input for unwanted characters, could maybe be extended to unwanted phrases?
+'       Called in:  Committer, Tagging,
+'
+'   SelectFolder
+'       Description: A function that opens a folder selection window
+'       Called in: Importer
+'
+'   ModulNamenSuchen
+'       Description: A function that checks whether a module of a given name exists in the current vba project
+'       Called in: Importer
+'
+'   RemoveModule
+'       Description: A function that deletes a module of a given name from the current vba project
+'       Called in: Importer
+'
+'   BadCharacterFilter
+'       Description: A function that checks whether a user input contains any undesirable characters,
+'            there are different cases included in the function that can be passed arguments.
+'       Called in: UserInputText
+'
+'   BadCharacterLoop
+'       Description: A function used by BadCharacterFilter to find the bad characters
+'       Called in: BadCharacterFilter
+'
+'   ShellCommand
+'       Description: A preformatted shell command function that also takes a positive and negative result message as inputs
+'       Called in: Committer, GetTag, Tagging, Pusher, Puller
+'
+'   GetShellOutput
+'       Description: A function that also passes commands to the shell, but also fetches the shell output
+'       Called in: FindTags
+'
+'   FindLine
+'       Description: A function used to ignore the extra data added to sourcecode files when using manual/proper export methods
+'       Called in: (Alt)Exporter
+'
+'   AnnoyUsers
+'       Description: A placeholder function that is supposed to act as a reminder for users to adhere to coding best practices,
+'           might not make it to final production
+'       Called in: Committer, Exporter, Tagging, SimpleWorkflows
+'
+'   FindTags
+'       Description: A function that retrieves all tags created in the given repository so that users may choose
+'           which tag they wish to checkout
+'       Called in: GitVersionCheckForm
+'
+'
+'
+'
+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Option Explicit
 
@@ -46,7 +118,7 @@ End Function
 
 ' Präformatiertes Benutzereingabe Fenster, weil ich mir InputBox nicht merken konnte...
 ' Benutzt in: Committer; Tagger;
-Function UserPromptText(ByVal message As String, ByVal titleText As String, ByVal fillText As String, ByVal Purpose As String)
+Function UserPromptText(ByVal message As String, ByVal titleText As String, ByVal fillText As String, ByVal purpose As String)
     
     UserPromptText = InputBox(message, titleText, fillText)
     
@@ -54,7 +126,7 @@ Function UserPromptText(ByVal message As String, ByVal titleText As String, ByVa
         Exit Function
     End If
         
-    Do While BadCharacterFilter(UserPromptText, Purpose)
+    Do While BadCharacterFilter(UserPromptText, purpose)
         MsgBox "Ihre Eingabe hat ungewünschte Zeichen enthalten. Bitte versuchen Sie es erneut."
         UserPromptText = InputBox(message, titleText, fillText)
         If UserPromptText = "" Then
@@ -125,13 +197,13 @@ End Function
 
 ' Eine Funktion die überprüft ob ein InputString unerwünschte Zeichen beinhaltet
 ' Benutzt in: Committer, Tagger,
-Function BadCharacterFilter(ByVal inputString As String, ByVal Purpose As String)
+Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As String)
 
     Dim invalidCharacters As String
     
     BadCharacterFilter = False
     
-    Select Case Purpose
+    Select Case purpose
     '----------------------------------------------------------------------
         Case "Tag"
             invalidCharacters = " ~!@#$%^&*()+,{}[]|\;:'""<>/|?="
@@ -170,10 +242,11 @@ End Function
 
 ' Eine Funktion, die dafür sorgt das Shell commands ausgeführt werden
 ' und überprüft wird ob sie erfolgreich waren oder nicht
-Function ShellCommand(command As String, successMessage As String, failureMessage As String)
+Function ShellCommand(command As String, successMessage As String, failureMessage As String, Optional ByVal purpose As String)
     
     Dim shell As Object
     Dim errorCode As Integer
+    Dim ErrNumber As Long
 
     Set shell = CreateObject("WScript.Shell")
     
@@ -184,7 +257,23 @@ Function ShellCommand(command As String, successMessage As String, failureMessag
         MsgBox successMessage
 
     Else
-        MsgBox failureMessage
+        Select Case purpose
+            Case "Tag"
+                ErrNumber = 1234
+            Case "Commit"
+                ErrNumber = 1235
+            Case "Push"
+                ErrNumber = 1236
+            Case "Pull"
+                ErrNumber = 1237
+            Case "TagFileRetrieval"
+                ErrNumber = 1238
+            Case "TagFullRetrieval"
+                ErrNumber = 1239
+            Case Else
+                ErrNumber = 0
+        End Select
+        Err.Raise 1234, purpose, failureMessage
     End If
     
     ShellCommand = errorCode
@@ -192,6 +281,7 @@ Function ShellCommand(command As String, successMessage As String, failureMessag
     Set shell = Nothing
 
 End Function
+
 
 ' Den Output der ShellCommands einlesen
 Function GetShellOutput(ByVal command As String)
@@ -210,4 +300,50 @@ Function GetShellOutput(ByVal command As String)
     ' Return the output
     GetShellOutput = output
 
+End Function
+
+Function FindLine(ByVal content As String, ByVal term As String)
+    ' A function that should help with finding the "proper" start to the code often either Option Explicit or a comment, _
+    to avoid the overhead lines created when exporting with the inbuild export method.
+    FindLine = -1
+    If term = "" Or content = "" Then
+        MsgBox "Invalid input for FindString"
+        Exit Function
+    Else
+        Dim lines As Variant
+        Dim i As Integer
+        
+        lines = Split(content, vbCrLf)
+        For i = LBound(lines) To UBound(lines)
+            If Left(lines(i), Len(term)) = term Or Left(lines(i), 1) = "'" Then
+                FindLine = i
+                Exit For
+            End If
+        Next i
+    End If
+End Function
+
+Function AnnoyUsers()
+
+    AnnoyUsers = UserPromptYesNo("Have you cleaned up your code and spreadsheets?")
+    
+End Function
+
+' A function that retrieves the tags that exist in the current repository.
+Function FindTags()
+
+    Dim existingTagsRaw As String
+    Dim existingTags() As String
+    Dim i As Integer
+    
+    Pathing
+    
+    existingTagsRaw = GetShellOutput("git tag")
+    
+    existingTags = Split(existingTagsRaw, vbLf)
+    
+    ReDim Preserve existingTags(UBound(existingTags) - 1)
+    
+    FindTags = existingTags
+    
 End Function

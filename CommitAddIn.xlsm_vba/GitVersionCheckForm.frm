@@ -13,6 +13,24 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'
+' A Userform used in the 'Version Laden' button that allows users to select which tag/version
+' they would like to load.
+'
+' The Userform's size/layout is dynamically sized in order to accomodate a varying number of
+' existing tags/versions within a given repository.
+'
+'
+'
+'
+'
+'
+'
+'
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 Option Explicit
 
 Sub UserForm_Initialize()
@@ -21,7 +39,6 @@ Sub UserForm_Initialize()
     ' Example array of choices
     Dim choices() As String
     choices = FindTags()
-    'Debug.Print UBound(choices)
 
     
     Me.Width = 250

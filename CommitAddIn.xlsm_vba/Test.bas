@@ -1,3 +1,4 @@
+Attribute VB_Name = "Test"
 '''
 ' A test for the exporter
 '''
@@ -7,12 +8,8 @@ Option Explicit
 
 Sub TestSub(ByRef control As Office.IRibbonControl)
 
-    AltExporter
+    'AltExporter
     
 End Sub
 
-Function AnnoyUsers()
 
-    MsgBox "Have you cleaned up your code and spreadsheets?"
-
-End Function

@@ -1,13 +1,18 @@
-'''
-'   Ein Excel Makro was an den Button im Add-in Tab gebunden ist und
-'   die Aufgabe des Committen übernimmt
+Attribute VB_Name = "Committer"
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'   This module contains the macros and major functions used in the 'Änderungen Commiten'
+'   button.
 '
-'   Allgemeines:
-'       Das Programm gibt die gewünschten Git-Befehle an eine Shell-Instanz weiter damit diese ausgeführt werden.
+'   Purpose:
+'       All changes to the tracked files in the repository are staged, as well as explicitly
+'       staging any changes to the active workbook or the workbook _vba directory.
+'       Then the user is prompted to either create a custom commit message or use the
+'       standard commit message.
 '
-'   Verwendete Funktionen:
-'       Saver, Pathing, BadCharacterFilter, UserPromptYesNo, UserPromptText
-'''
+'   Used homemade functions:
+'       AnnoyUsers, Saver, Pathing, BadCharacterFilter, UserPromptYesNo, UserPromptText,
+'       ShellCommand
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Option Explicit
 
@@ -15,14 +20,15 @@ Sub CommitToGit(control As Office.IRibbonControl)
     
 On Error GoTo ErrHandler:
 
-    AnnoyUsers
-    Commit (False)
+    If AnnoyUsers = vbYes Then
+        Commit (False)
+    End If
     
 ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Something went wrong."
+    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
     Resume ExitSub
     Resume
     
@@ -94,6 +100,6 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
 
     Dim temp As Integer
     
-    temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.")
+    temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.", "Commit")
     
 End Function

@@ -1,3 +1,4 @@
+Attribute VB_Name = "Pusher"
 '''
 '   Ein Excel Makro was an den Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Pushen übernimmt
@@ -12,9 +13,19 @@
 Option Explicit
 
 Sub PushToGit(ByRef control As Office.IRibbonControl)
+On Error GoTo ErrHandler
 
-    Push
+    If AnnoyUsers = vbYes Then
+        Push
+    End If
     
+ExitSub:
+    Exit Sub
+    
+ErrHandler:
+    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
+    Resume ExitSub
+    Resume
 End Sub
 
 Function Push()
@@ -32,7 +43,7 @@ Function Push()
     
     gitCommand = "git push"
     
-    temp = ShellCommand(gitCommand, "Committed Änderungen wurden gepusht.", "Der Push-Vorgang ist gescheitert.")
+    temp = ShellCommand(gitCommand, "Die gecommiteten Änderungen wurden hochgeladen.", "Der Push Vorgang ist gescheitert.", "Push")
     
 
 End Function

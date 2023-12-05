@@ -148,12 +148,21 @@ Function Export()
     Dim textStream As Object
     Dim startLine As Integer
     Dim i As Integer
+    Dim UserInput As Long
     
     Set wb = ActiveWorkbook
     Set fs = CreateObject("Scripting.FileSystemObject")
     
-    vbaDirectory = Replace(wb.path & "\" & wb.Name & "_vba", " ", "_")
-    
+    ' Remove the vbNo definition when other functions are updated to reflect the flexibility as well.
+    UserInput = vbNo 'UserPromptYesNo("Möchten Sie Ihr VBA Projekt in einen spezifischen Ordner exportieren?" _
+                                    & vbCrLf & "Ansonsten wird das Projekt in den " _
+                                    & wb.Name & "_vba Ordner exportiert.")
+                                    
+    If UserInput = vbYes Then
+        vbaDirectory = SelectFolder
+    Else
+        vbaDirectory = Replace(wb.path & "\" & wb.Name & "_vba", " ", "_")
+    End If
 '---------------------------------------------------------------------------------------------
 ' Creating the export directory if it does not exist yet
     If Not fs.FolderExists(vbaDirectory) Then
@@ -215,18 +224,13 @@ Function Export()
                     If Mid(fileContent, 1, Len(fileContent) - 2) <> moduleContent Then
                         vbComp.Export _
                             filename:=modulePath
-                        Debug.Print vbCrLf & vbComp.Name & " has been exported after having changed."
-                        Debug.Print vbComp.Name; " startline = "; startLine
                     End If
                 End If
             Else
                 vbComp.Export _
                         filename:=modulePath
             End If
-        Else
-            Debug.Print vbComp.Name & " is being ignored by the function..."
         End If
-        fileContent = ""
     Next vbComp
 
     'Clean Up

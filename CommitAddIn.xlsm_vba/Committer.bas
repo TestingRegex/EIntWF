@@ -16,7 +16,7 @@ Attribute VB_Name = "Committer"
 
 Option Explicit
 
-Sub CommitToGit(control As Office.IRibbonControl)
+Private Sub CommitToGit(control As Office.IRibbonControl)
     
 On Error GoTo ErrHandler:
 
@@ -33,8 +33,8 @@ ErrHandler:
     Resume
     
 End Sub
-
-Function Commit(ByVal ForcedStandardCommit As Boolean)
+' The function
+Public Function Commit(ByVal ForcedStandardCommit As Boolean) As Variant
 
     Dim gitCommand As String
     Dim WorkbookPath As String
@@ -77,7 +77,7 @@ Function Commit(ByVal ForcedStandardCommit As Boolean)
             customCommitMessage = UserPromptText("Bitte gebe hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben", "Commit")
             
             ' Commit messages should not be empty
-            If customCommitMessage = "" Then
+            If customCommitMessage = vbNullString Then
                 MsgBox "Es wurde keine Commit Nachricht eingegeben der Commit Vorgang wird abgebrochen."
                 Exit Function
             End If

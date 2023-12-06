@@ -15,7 +15,7 @@ Attribute VB_Name = "Exporter"
 Option Explicit
 
 
-Sub ExportSub(control As Office.IRibbonControl)
+Private Sub ExportSub(control As Office.IRibbonControl)
 
 On Error GoTo ErrHandler:
 

@@ -12,7 +12,7 @@ Attribute VB_Name = "Pusher"
 
 Option Explicit
 
-Sub PushToGit(ByRef control As Office.IRibbonControl)
+Private Sub PushToGit(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler
 
     If AnnoyUsers = vbYes Then
@@ -28,7 +28,7 @@ ErrHandler:
     Resume
 End Sub
 
-Function Push()
+Public Sub Push()
 
     Dim gitCommand As String
     Dim temp As Integer
@@ -46,4 +46,4 @@ Function Push()
     temp = ShellCommand(gitCommand, "Die gecommiteten Änderungen wurden hochgeladen.", "Der Push Vorgang ist gescheitert.", "Push")
     
 
-End Function
+End Sub

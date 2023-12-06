@@ -15,7 +15,7 @@ Attribute VB_Name = "Exporter"
 Option Explicit
 
 
-Private Sub ExportSub(control As Office.IRibbonControl)
+Private Sub ExportSub(ByVal control As Office.IRibbonControl)
 
 On Error GoTo ErrHandler:
 
@@ -36,17 +36,16 @@ ErrHandler:
 End Sub
 
 'A firts export function, that does its job but does not respect the various vba project component types, replaced by "AltExporter"
-Function RetiredExport()
+Public Sub RetiredExport()
 
-    Dim wb As Workbook 'Zeigt auf das aktive Workbook
+    Dim liveWorkbook As Workbook 'Zeigt auf das aktive Workbook
     Dim WorkbookName As String 'Beinhaltet den namen des Workbooks
     Dim vbComp As Object 'Used as Iterator for components of the VBA project
-    Dim vbProj As Object ' Points to the vba project
     Dim moduleName As String 'Contains the name of the current module
     Dim moduleCode As String 'Contains the code within the current module
     Dim outPath As String 'The location of our workbook
     Dim modulePath As String 'the location of the module
-    Dim fs As Object 'the object that allows us to interact with the FileSystem
+    Dim fileSystemObject As Object 'the object that allows us to interact with the FileSystem
     
     
 '---------------------------------------------------------------------------------------------
@@ -57,12 +56,12 @@ Function RetiredExport()
 '---------------------------------------------------------------------------------------------
 ' The path to the export-directory is found
 
-    Set wb = ActiveWorkbook
-    WorkbookName = wb.Name
+    Set liveWorkbook = activeWorkbook
+    WorkbookName = liveWorkbook.Name
 
-    outPath = wb.path
+    outPath = liveWorkbook.path
     
-    Set fs = CreateObject("Scripting.FileSystemObject")
+    Set fileSystemObject = CreateObject("Scripting.FileSystemObject")
     
     Dim vbaDirectory As String
     
@@ -71,8 +70,8 @@ Function RetiredExport()
 '---------------------------------------------------------------------------------------------
 ' Creating the export directory if it does not exist yet
 
-    If Not fs.FolderExists(vbaDirectory) Then
-        fs.CreateFolder vbaDirectory
+    If Not fileSystemObject.FolderExists(vbaDirectory) Then
+        fileSystemObject.CreateFolder vbaDirectory
     End If
 
 '---------------------------------------------------------------------------------------------
@@ -80,23 +79,23 @@ Function RetiredExport()
 
 
     ' We iterate through all components of the vba project and export them.
-    For Each vbProj In wb.VBProject.VBComponents
+    For Each vbComp In liveWorkbook.VBProject.VBComponents
         'If vbProj.Type = 1 Then    ' this line can be uncommented if one wants to export only the modules.
-            moduleName = vbProj.Name
+            moduleName = vbComp.Name
             
             ' If the component is empty we do not need to export it.
-            If vbProj.CodeModule.CountOfLines > 0 Then
+            If vbComp.CodeModule.CountOfLines > 0 Then
             
-                moduleCode = vbProj.CodeModule.lines(1, vbProj.CodeModule.CountOfLines)
+                moduleCode = vbComp.CodeModule.lines(1, vbComp.CodeModule.CountOfLines)
 
                 modulePath = vbaDirectory & moduleName & ".bas"
 
                 ' If the module has been exported before we check whether we need to overwrite it incase of an update.
-                If fs.FileExists(modulePath) And Dir(modulePath) <> "" And Not moduleName = "ThisWorkbook" Then
+                If fileSystemObject.FileExists(modulePath) And Dir(modulePath) <> vbNullString And Not moduleName = "ThisWorkbook" Then
                 
                     ' Get content of already exported version.
                     Dim textStream As Object
-                    Set textStream = fs.OpenTextFile(modulePath, 1) ' 1: ForReading
+                    Set textStream = fileSystemObject.OpenTextFile(modulePath, 1) ' 1: ForReading
                                         
                     Dim fileContent As String
                     fileContent = textStream.ReadAll
@@ -106,7 +105,7 @@ Function RetiredExport()
                     If fileContent <> moduleCode Then
                         
                         Dim textStreamOverwrite As Object
-                        Set textStreamOverwrite = fs.CreateTextFile(modulePath, True)
+                        Set textStreamOverwrite = fileSystemObject.CreateTextFile(modulePath, True)
                         textStreamOverwrite.Write moduleCode
                         textStreamOverwrite.Close
                     End If
@@ -116,7 +115,7 @@ Function RetiredExport()
                 
                 ' new .bas file is created.
                 Dim textStreamNew As Object
-                Set textStreamNew = fs.CreateTextFile(modulePath, True)
+                Set textStreamNew = fileSystemObject.CreateTextFile(modulePath, True)
             
                 textStreamNew.Write moduleCode
                 textStreamNew.Close
@@ -124,54 +123,54 @@ Function RetiredExport()
                 End If
             End If
         'End If
-    Next vbProj
+    Next vbComp
     'Clean Up
     Set textStream = Nothing
-    Set vbProj = Nothing
+    Set vbComp = Nothing
     Set textStreamNew = Nothing
     Set textStreamOverwrite = Nothing
-    Set fs = Nothing
-End Function
+    Set fileSystemObject = Nothing
+End Sub
 
 ' This is a more sophisticated version of the export function that respects the various types of VBA project components!
 
-Function Export()
+Public Sub Export()
 
-    Dim wb As Workbook
+    Dim liveWorkbook As Workbook
     Dim vbComp As Object
     Dim suffix As String
     Dim vbaDirectory As String
-    Dim fs As Object 'the object that allows us to interact with the FileSystem
+    Dim fileSystemObject As Object 'the object that allows us to interact with the FileSystem
     Dim fileContent As String
     Dim moduleContent As String
     Dim modulePath As String
     Dim textStream As Object
-    Dim startLine As Integer
-    Dim i As Integer
+    Dim startLine As Long
+    Dim i As Long
     Dim UserInput As Long
     
-    Set wb = ActiveWorkbook
-    Set fs = CreateObject("Scripting.FileSystemObject")
+    Set liveWorkbook = activeWorkbook
+    Set fileSystemObject = CreateObject("Scripting.FileSystemObject")
     
     ' Remove the vbNo definition when other functions are updated to reflect the flexibility as well.
     UserInput = vbNo 'UserPromptYesNo("Möchten Sie Ihr VBA Projekt in einen spezifischen Ordner exportieren?" _
                                     & vbCrLf & "Ansonsten wird das Projekt in den " _
-                                    & wb.Name & "_vba Ordner exportiert.")
+                                    & liveWorkbook.Name & "_vba Ordner exportiert.")
                                     
     If UserInput = vbYes Then
         vbaDirectory = SelectFolder
     Else
-        vbaDirectory = Replace(wb.path & "\" & wb.Name & "_vba", " ", "_")
+        vbaDirectory = Replace(liveWorkbook.path & "\" & liveWorkbook.Name & "_vba", " ", "_")
     End If
 '---------------------------------------------------------------------------------------------
 ' Creating the export directory if it does not exist yet
-    If Not fs.FolderExists(vbaDirectory) Then
-        fs.CreateFolder vbaDirectory
+    If Not fileSystemObject.FolderExists(vbaDirectory) Then
+        fileSystemObject.CreateFolder vbaDirectory
     End If
 '---------------------------------------------------------------------------------------------
 ' The actual export process:
 
-    For Each vbComp In wb.VBProject.VBComponents
+    For Each vbComp In liveWorkbook.VBProject.VBComponents
     
         Select Case vbComp.Type
             Case 2
@@ -183,12 +182,12 @@ Function Export()
             Case 100
                 suffix = ".cls" 'Objects contained in the "Microsoft Excel Objects" folder
             Case Else
-                suffix = ""
+                suffix = vbNullString
         End Select
         
 
         ' Checking if the component needs to be exported at all, does it contain any code?
-        If suffix <> "" And vbComp.CodeModule.CountOfLines > 0 Then
+        If suffix <> vbNullString And vbComp.CodeModule.CountOfLines > 0 Then
         
 
             modulePath = vbaDirectory & "\" & _
@@ -196,13 +195,13 @@ Function Export()
         
             ' Add check to see if code content has changed.
             ' If the module has been exported before we check whether we need to overwrite it incase of a change.
-            If fs.FileExists(modulePath) Then
+            If fileSystemObject.FileExists(modulePath) Then
                 
                 
                 moduleContent = vbComp.CodeModule.lines(1, vbComp.CodeModule.CountOfLines)
                 
                 ' Get content of already exported version.
-                Set textStream = fs.OpenTextFile(modulePath, 1) ' 1: ForReading
+                Set textStream = fileSystemObject.OpenTextFile(modulePath, 1) ' 1: ForReading
                 fileContent = textStream.ReadAll
                 textStream.Close
                         
@@ -211,7 +210,7 @@ Function Export()
                 If Not startLine = -1 Then
                 
                     ' If we find either Option Explicit or ''' at the beginning of a line in an exported module we use this as our first line of code visible in the VBE
-                    Set textStream = fs.OpenTextFile(modulePath, 1) ' 1: ForReading
+                    Set textStream = fileSystemObject.OpenTextFile(modulePath, 1) ' 1: ForReading
                     ' Not so elegant and could/should be improved
                     For i = 1 To startLine
                         textStream.Skipline
@@ -236,6 +235,6 @@ Function Export()
     'Clean Up
     Set textStream = Nothing
     Set vbComp = Nothing
-    Set fs = Nothing
+    Set fileSystemObject = Nothing
     
-End Function
+End Sub

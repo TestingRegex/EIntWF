@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} GitVersionCheckForm 
    Caption         =   "Versionswahl"
-   ClientHeight    =   520
+   ClientHeight    =   5120
    ClientLeft      =   -960
    ClientTop       =   -3750
-   ClientWidth     =   620
+   ClientWidth     =   8160
    OleObjectBlob   =   "GitVersionCheckForm.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -33,7 +33,7 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Sub UserForm_Initialize()
+Private Sub UserForm_Initialize()
     ' Initialize the UserForm
     
     ' Example array of choices
@@ -42,19 +42,19 @@ Sub UserForm_Initialize()
 
     
     Me.Width = 250
-    Me.Frame1.Height = UBound(choices) * 38 + 10
+    Me.FrameTags.Height = UBound(choices) * 38 + 10
     
-    Me.WeiterButton.Top = Me.Frame1.Top + Me.Frame1.Height + 10
-    Me.CancelButton.Top = Me.Frame1.Top + Me.Frame1.Height + 10
+    Me.WeiterButton.Top = Me.FrameTags.Top + Me.FrameTags.Height + 10
+    Me.CancelButton.Top = Me.FrameTags.Top + Me.FrameTags.Height + 10
     
-    Me.Height = Me.Frame1.Height + Me.WeiterButton.Height + 75
+    Me.Height = Me.FrameTags.Height + Me.WeiterButton.Height + 75
     
     ' Generate option buttons based on the array
-    Dim i As Integer
+    Dim i As Long
     For i = LBound(choices) To UBound(choices)
         ' Create an option button
         Dim optButton As MSForms.OptionButton
-        Set optButton = Frame1.Controls.Add("Forms.OptionButton.1", "OptionButton" & i)
+        Set optButton = FrameTags.Controls.Add("Forms.OptionButton.1", "OptionButton" & i)
         
         ' Set properties for the option button
         optButton.Caption = choices(i)
@@ -69,24 +69,24 @@ Private Sub WeiterButton_Click()
     ' Handle the OK button click event
     'Debug.Print "RetrievalForm.retrievalType: " & RetrievalForm.retrievalType
     ' Loop through the option buttons to find the selected one
-    Dim i As Integer
-    For i = 0 To Frame1.Controls.Count - 1
-        If TypeOf Frame1.Controls(i) Is MSForms.OptionButton Then
-            If Frame1.Controls(i).Value = True Then
+    Dim i As Long
+    
+    For i = 0 To FrameTags.Controls.Count - 1
+        If TypeOf FrameTags.Controls(i) Is MSForms.OptionButton Then
+            If FrameTags.Controls(i).Value = True Then
                 ' The option button is selected
                 If RetrievalForm.retrievalType = "Individuelle Datei" Then
-                    TagFileRetrieval (Frame1.Controls(i).Caption)
-                    
+                    TagFileRetrieval (FrameTags.Controls(i).Caption)
                     ' Close the UserForm
                     Unload Me
                 ElseIf RetrievalForm.retrievalType = "Gesamtes Repository" Then
-                    TagFullRetrieval (Frame1.Controls(i).Caption)
-                    
+                    TagFullRetrieval (FrameTags.Controls(i).Caption)
                     ' Close the UserForm
                     Unload Me
                 Else
-                    MsgBox "Etwas ist schief gegangen."
                     Unload Me
+                    MsgBox "Die variable RetrievalForm.retrievalType hat einen unerwarteten Wert."
+                    
                     Exit Sub
                 End If
             End If
@@ -99,6 +99,7 @@ End Sub
 
 Private Sub CancelButton_Click()
     ' Handle the Cancel button click
-    MsgBox "Vorgang abgebrochen."
     Unload Me ' Close the UserForm
+    MsgBox "Vorgang abgebrochen."
+    
 End Sub

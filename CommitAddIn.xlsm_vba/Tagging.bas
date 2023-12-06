@@ -13,7 +13,7 @@ Attribute VB_Name = "Tagging"
 
 Option Explicit
 
-Sub GitTag(ByRef control As Office.IRibbonControl)
+Private Sub GitTag(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler
 
     If AnnoyUsers = vbYes Then
@@ -34,14 +34,12 @@ End Sub
 
 
 
-Function Tag()
-
+Public Sub Tag()
 ' Variables:
 
     Dim gitCommand As String
     Dim VersionInput As String
     Dim TagMessage As String
-    Dim StringCheck As Boolean
     Dim shell As Object
     Dim temp As Integer
     
@@ -56,18 +54,18 @@ Function Tag()
 
     VersionInput = UserPromptText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._", "Version")
     
-    If VersionInput = "" Then
+    If VersionInput = vbNullString Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
-        Exit Function
+        Exit Sub
     End If
     '------------------------------------
     ' Validating userInput to not contain undesirable characters.
     
     
-    TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "", "Tag")
-    If TagMessage = "" Then
+    TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", vbNullString, "Tag")
+    If TagMessage = vbNullString Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
-        Exit Function
+        Exit Sub
     End If
     
     
@@ -86,4 +84,4 @@ Function Tag()
     
     temp = shell.Run("git push origin --tags", vbNormalFocus, True)
 
-End Function
+End Sub

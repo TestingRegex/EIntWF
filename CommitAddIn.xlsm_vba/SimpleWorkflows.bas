@@ -8,7 +8,7 @@ Attribute VB_Name = "SimpleWorkflows"
 
 Option Explicit
 
-Sub workflowExportCommitPush(ByRef control As Office.IRibbonControl)
+Private Sub workflowExportCommitPush(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler
     If AnnoyUsers = vbYes Then
         Export
@@ -27,7 +27,7 @@ ErrHandler:
 End Sub
 
 
-Sub workflowPullImport(ByRef control As Office.IRibbonControl)
+Private Sub workflowPullImport(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler
 
     Pull

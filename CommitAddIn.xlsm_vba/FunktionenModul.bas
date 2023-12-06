@@ -78,7 +78,7 @@ Attribute VB_Name = "FunktionenModul"
 
 Option Explicit
 
-Function GetUser()
+Public Function GetUser() As String
 
  GetUser = Environ("username")
 
@@ -86,11 +86,11 @@ End Function
 
 ' Eine Funktion um das Workbook und die Module zu speichern.
 ' Benutzt in: Committer, Exporter, Importer
-Function Saver()
+Public Sub Saver()
 
-    ActiveWorkbook.Save
+    activeWorkbook.Save
 
-End Function
+End Sub
 
 
 
@@ -98,19 +98,19 @@ End Function
 ' Momentan gibt es einfach den Pfad zum aktiven Workbook an.
 ' Benutzt in: Importer, Committer, Tagger,Pusher,Puller,
 
-Function Pathing()
+Public Sub Pathing()
 
     Dim WorkbookPath As String
 
-    WorkbookPath = ActiveWorkbook.path
+    WorkbookPath = activeWorkbook.path
 
     ChDir WorkbookPath
 
-End Function
+End Sub
 
 ' Simpler weg Ja/Nein Userprompt zu starten
 ' Benutzt in: Committer;
-Function UserPromptYesNo(ByVal message As String)
+Public Function UserPromptYesNo(ByVal message As String) As Long
     
     UserPromptYesNo = MsgBox(message, vbYesNo)
     
@@ -118,18 +118,18 @@ End Function
 
 ' Präformatiertes Benutzereingabe Fenster, weil ich mir InputBox nicht merken konnte...
 ' Benutzt in: Committer; Tagger;
-Function UserPromptText(ByVal message As String, ByVal titleText As String, ByVal fillText As String, ByVal purpose As String)
+Public Function UserPromptText(ByVal message As String, ByVal titleText As String, ByVal fillText As String, ByVal purpose As String) As String
     
     UserPromptText = InputBox(message, titleText, fillText)
     
-    If UserPromptText = "" Then
+    If UserPromptText = vbNullString Then
         Exit Function
     End If
         
     Do While BadCharacterFilter(UserPromptText, purpose)
         MsgBox "Ihre Eingabe hat ungewünschte Zeichen enthalten. Bitte versuchen Sie es erneut."
         UserPromptText = InputBox(message, titleText, fillText)
-        If UserPromptText = "" Then
+        If UserPromptText = vbNullString Then
             Exit Function
         End If
     Loop
@@ -138,7 +138,8 @@ End Function
 
 ' Funktion die ein Ordner-Auswahl-Fenster öffnet
 ' Bentutz in: Importer;
-Function SelectFolder()
+Public Function SelectFolder() As Variant
+
     Dim diaFolder As FileDialog
     Dim selected As Boolean
 
@@ -156,11 +157,11 @@ End Function
 
 ' Eine Funktion die prüft ob ein Modul mit dem gegebenen Namen bereits existiert.
 ' Benutzt in: Importer
-Function ModulNamenSuchen(ByVal moduleName As String)
+Public Function ModulNamenSuchen(ByVal moduleName As String) As Boolean
     
     Dim vbComponent As Object
     
-    For Each vbComponent In ActiveWorkbook.VBProject.VBComponents
+    For Each vbComponent In activeWorkbook.VBProject.VBComponents
     
         If vbComponent.Name = moduleName Then
             ModulNamenSuchen = True
@@ -174,30 +175,31 @@ End Function
 
 ' Eine Funktion die ein Modul mit dem gegebenen Namen entfernt sofern es existiert.
 ' Benutzt in: Importer
-Function RemoveModule(ByVal Workbook As Workbook, ByVal removeName As String)
+Public Sub RemoveModule(ByVal Workbook As Workbook, ByVal removeName As String)
     Dim moduleName As String
     Dim vbComponent As Object
-    Dim wb As Workbook
+    Dim liveWorkbook As Workbook
+    
     moduleName = removeName ' Replace with the name of the module you want to remove
-    Set wb = Workbook
+    Set liveWorkbook = Workbook
     ' Iterate through all VBComponents in the project
-    For Each vbComponent In wb.VBProject.VBComponents
+    For Each vbComponent In liveWorkbook.VBProject.VBComponents
         ' Check if the current component is a module and has the specified name
         If Not vbComponent.Type = 100 And vbComponent.Name = moduleName Then
             ' Remove the module
-            wb.VBProject.VBComponents.Remove vbComponent
+            liveWorkbook.VBProject.VBComponents.Remove vbComponent
             'MsgBox moduleName & " removed from the VBA project.", vbInformation
-            Exit Function
+            Exit Sub
         End If
     Next vbComponent
     
     ' Module not found
     MsgBox moduleName & " wurde in diesem VBA-Projekt nicht gefunden.", vbExclamation
-End Function
+End Sub
 
 ' Eine Funktion die überprüft ob ein InputString unerwünschte Zeichen beinhaltet
 ' Benutzt in: Committer, Tagger,
-Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As String)
+Public Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As String) As Boolean
 
     Dim invalidCharacters As String
     
@@ -206,17 +208,17 @@ Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As String
     Select Case purpose
     '----------------------------------------------------------------------
         Case "Tag"
-            invalidCharacters = " ~!@#$%^&*()+,{}[]|\;:'""<>/|?="
+            invalidCharacters = " ~!@#$%^&*()+,{}[]|\;:'""<>/|?=µ"
         '---------------------------------------------------------------------
         Case "Commit"
-            invalidCharacters = """#$^:;'<>[]{}@|/\²³="
+            invalidCharacters = """#$^:;'<>[]{}@|/\²³=µ"
         '---------------------------------------------------------------------
         Case "File", "Module"
             ' Add Conditions we don't want in Filenames.
-            invalidCharacters = """/\*~$!&=?!{[]}.;:'><,^@€²³| "
+            invalidCharacters = """/\*~$!&=?!{[]}.;:'><,^@€²³| µ"
         '---------------------------------------------------------------------
         Case "Version"
-            invalidCharacters = ""
+            invalidCharacters = "~!§$%&/()=?\}][{³²@€µ"
         '---------------------------------------------------------------------
         Case Else
             Exit Function
@@ -226,9 +228,9 @@ Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As String
     
 End Function
 
-Function BadCharacterLoop(ByVal invalidCharacters As String, ByVal inputString As String)
+Private Function BadCharacterLoop(ByVal invalidCharacters As String, ByVal inputString As String) As Boolean
     
-    Dim i As Integer
+    Dim i As Long
     
     For i = 1 To Len(inputString)
         If InStr(invalidCharacters, Mid(inputString, i, 1)) > 0 Then
@@ -242,10 +244,10 @@ End Function
 
 ' Eine Funktion, die dafür sorgt das Shell commands ausgeführt werden
 ' und überprüft wird ob sie erfolgreich waren oder nicht
-Function ShellCommand(command As String, successMessage As String, failureMessage As String, Optional ByVal purpose As String)
+Public Function ShellCommand(ByVal command As String, ByVal successMessage As String, ByVal failureMessage As String, Optional ByVal purpose As String) As Long
     
     Dim shell As Object
-    Dim errorCode As Integer
+    Dim errorCode As Long
     Dim ErrNumber As Long
 
     Set shell = CreateObject("WScript.Shell")
@@ -273,7 +275,7 @@ Function ShellCommand(command As String, successMessage As String, failureMessag
             Case Else
                 ErrNumber = 0
         End Select
-        Err.Raise 1234, purpose, failureMessage
+        Err.Raise ErrNumber, purpose, failureMessage
     End If
     
     ShellCommand = errorCode
@@ -284,7 +286,7 @@ End Function
 
 
 ' Den Output der ShellCommands einlesen
-Function GetShellOutput(ByVal command As String)
+Public Function GetShellOutput(ByVal command As String) As String
 
     Dim shell As Object
     Dim exec As Object
@@ -302,16 +304,16 @@ Function GetShellOutput(ByVal command As String)
 
 End Function
 
-Function FindLine(ByVal content As String, ByVal term As String)
+Public Function FindLine(ByVal content As String, ByVal term As String) As Long
     ' A function that should help with finding the "proper" start to the code often either Option Explicit or a comment, _
     to avoid the overhead lines created when exporting with the inbuild export method.
     FindLine = -1
-    If term = "" Or content = "" Then
+    If term = vbNullString Or content = vbNullString Then
         MsgBox "Invalid input for FindString"
         Exit Function
     Else
         Dim lines As Variant
-        Dim i As Integer
+        Dim i As Long
         
         lines = Split(content, vbCrLf)
         For i = LBound(lines) To UBound(lines)
@@ -323,18 +325,17 @@ Function FindLine(ByVal content As String, ByVal term As String)
     End If
 End Function
 
-Function AnnoyUsers()
+Public Function AnnoyUsers() As Variant
 
     AnnoyUsers = UserPromptYesNo("Have you cleaned up your code and spreadsheets?")
     
 End Function
 
 ' A function that retrieves the tags that exist in the current repository.
-Function FindTags()
+Public Function FindTags() As Variant
 
     Dim existingTagsRaw As String
     Dim existingTags() As String
-    Dim i As Integer
     
     Pathing
     

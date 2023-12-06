@@ -12,7 +12,7 @@ Attribute VB_Name = "Puller"
 
 Option Explicit
 
-Sub GitPull(ByRef contral As Office.IRibbonControl)
+Private Sub GitPull(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler
 
     If AnnoyUsers = vbYes Then
@@ -29,7 +29,7 @@ ErrHandler:
 
 End Sub
 
-Function Pull()
+Public Sub Pull()
 
     Dim gitCommand As String
     Dim temp As Integer
@@ -46,5 +46,5 @@ Function Pull()
     temp = ShellCommand(gitCommand, "Updates wurden von GitHub heruntergeladen.", "Es konnten keine Updates heruntergeladen werden.", "Pull")
 
 
-End Function
+End Sub
 

@@ -14,7 +14,7 @@ Option Explicit
 
 
 
-Sub Testing()
+Public Sub Testing()
 
     
     
@@ -23,7 +23,7 @@ End Sub
 
 
 
-Sub Push_Test()
+Public Sub Push_Test()
 
     Dim gitCommand As String
     Dim temp As Integer
@@ -41,7 +41,7 @@ Sub Push_Test()
 
 End Sub
 
-Sub ImportMacros_Test()
+Public Sub ImportMacros_Test()
 
     Dim selectedFolder As String ' Der Pfad zum Importordner
     
@@ -70,7 +70,7 @@ Sub ImportMacros_Test()
     selectedFolder = SelectFolder()
 
     ' Falls kein Ordner ausgesucht wird, brechen wir ab.
-    If selectedFolder = "" Then
+    If selectedFolder = vbNullString Then
         MsgBox "Kein Ordner ausgewählt. Import abgebrochen."
         Exit Sub
     End If
@@ -112,7 +112,7 @@ Sub ImportMacros_Test()
                     
                     If benutzerMeinung = vbYes Then
                         
-                        newModuleName = UserPromptText("Wie soll das Modul heißen?", "", "", "Module")
+                        newModuleName = UserPromptText("Wie soll das Modul heißen?", vbNullString, vbNullString, "Module")
                         
                         Do While ModulNamenSuchen(newModuleName)
                             '---------------------------------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ Sub ImportMacros_Test()
                             End If
                             
                             If Not skip Then
-                            newModuleName = UserPromptText("Wählen Sie bitte einen neuen Namen für das importierte Modul aus.", "", "Neuer Modulname", "Module")
+                            newModuleName = UserPromptText("Wählen Sie bitte einen neuen Namen für das importierte Modul aus.", vbNullString, "Neuer Modulname", "Module")
                             End If
                         
                         Loop
@@ -168,7 +168,7 @@ End Sub
 
 
 
-Sub Tag_Test()
+Public Sub Tag_Test()
 
 ' Benötigten Variablen init:
 
@@ -186,15 +186,15 @@ Sub Tag_Test()
 ' Basic Ablauf:
 
     VersionInput = UserPromptText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._", "Tag")
-    If VersionInput = "" Then
+    If VersionInput = vbNullString Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
         Exit Sub
     End If
     
     
-    TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", "", Tag)
+    TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", vbNullString, Tag)
     
-    If TagMessage = "" Then
+    If TagMessage = vbNullString Then
         MsgBox "Der Tag Vorgang wird abgebrochen."
         Exit Sub
     End If
@@ -212,7 +212,7 @@ End Sub
 
 
 
-Sub Export_Test()
+Public Sub Export_Test()
 
     Dim wb As Workbook
     Dim WorkbookName As String
@@ -314,7 +314,7 @@ End Sub
 
 
 
-Sub CommitToGit_Test()
+Public Sub CommitToGit_Test()
 
     Dim gitCommand As String
     Dim WorkbookPath As String
@@ -366,7 +366,7 @@ Sub CommitToGit_Test()
             customCommitMessage = UserPromptText("Bitte gebe hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben", "Commit")
             
             ' Leere Commit Nachricht prüfen:
-            If customCommitMessage = "" Then
+            If customCommitMessage = vbNullString Then
                 MsgBox "Es wurde keine Commit Nachricht eingegeben der Commit Vorgang wird abgebrochen."
                 Exit Sub
             End If

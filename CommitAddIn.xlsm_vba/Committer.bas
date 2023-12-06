@@ -16,7 +16,7 @@ Attribute VB_Name = "Committer"
 
 Option Explicit
 
-Private Sub CommitToGit(control As Office.IRibbonControl)
+Private Sub CommitToGit(ByVal control As Office.IRibbonControl)
     
 On Error GoTo ErrHandler:
 
@@ -34,10 +34,9 @@ ErrHandler:
     
 End Sub
 ' The function
-Public Function Commit(ByVal ForcedStandardCommit As Boolean) As Variant
+Public Sub Commit(ByVal ForcedStandardCommit As Boolean)
 
     Dim gitCommand As String
-    Dim WorkbookPath As String
     Dim customCommit As Long
     Dim customCommitMessage As String
     Dim commitMessage As String
@@ -62,7 +61,7 @@ Public Function Commit(ByVal ForcedStandardCommit As Boolean) As Variant
     shell gitCommand, vbNormalFocus
     
     ' Nochmal spezifisch den Exportierordner angeben
-    gitCommand = "git add " & ActiveWorkbook.Name & "_vba" & "/* " & ActiveWorkbook.Name
+    gitCommand = "git add " & activeWorkbook.Name & "_vba" & "/* " & activeWorkbook.Name
     shell gitCommand, vbNormalFocus
     
         
@@ -79,7 +78,7 @@ Public Function Commit(ByVal ForcedStandardCommit As Boolean) As Variant
             ' Commit messages should not be empty
             If customCommitMessage = vbNullString Then
                 MsgBox "Es wurde keine Commit Nachricht eingegeben der Commit Vorgang wird abgebrochen."
-                Exit Function
+                Exit Sub
             End If
             
             commitMessage = customCommitMessage & " - " & GetUser()
@@ -98,8 +97,8 @@ Public Function Commit(ByVal ForcedStandardCommit As Boolean) As Variant
 '-------------------------------------------------------------------------------------------
 ' Executing commit command.
 
-    Dim temp As Integer
+    Dim temp As Long
     
     temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.", "Commit")
     
-End Function
+End Sub

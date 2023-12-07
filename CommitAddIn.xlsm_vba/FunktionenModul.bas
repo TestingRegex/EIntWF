@@ -71,7 +71,10 @@ Attribute VB_Name = "FunktionenModul"
 '           which tag they wish to checkout
 '       Called in: GitVersionCheckForm
 '
-'
+'   ErrorHandler
+'       Description: A function to collect the Errorhandling processes so that they do not need to be adjusted in
+'           every single major macro when I think of a new better way to do things.
+'       Called in: Committer, Exporter, GetTag, Importer, Puller, Pusher, SimpleWorkflows, Tagging
 '
 '
 '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

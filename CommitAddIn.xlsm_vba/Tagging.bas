@@ -25,7 +25,8 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
+    
+    ErrorHandler Err.Number, Err.Source, Err.Description
     Resume ExitSub
     Resume
 
@@ -41,7 +42,6 @@ Public Sub Tag()
     Dim VersionInput As String
     Dim TagMessage As String
     Dim shell As Object
-    Dim temp As Integer
     
 '------------------------------------------------------
 ' Find desired path
@@ -78,10 +78,10 @@ Public Sub Tag()
 
     
         
-    temp = ShellCommand(gitCommand, "Der Tag wurde erfolgreich erstellt.", "Der Tag konnte nicht erstellt werden.", "Tag")
+    ShellCommand gitCommand, "Der Tag wurde erfolgreich erstellt.", "Der Tag konnte nicht erstellt werden.", "Tag"
     
     Set shell = CreateObject("WScript.Shell")
     
-    temp = shell.Run("git push origin --tags", vbNormalFocus, True)
+    shell.Run "git push origin --tags", vbNormalFocus, True
 
 End Sub

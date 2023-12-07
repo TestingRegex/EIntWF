@@ -20,10 +20,11 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
+
+    ErrorHandler Err.Number, Err.Source, Err.Description
     Resume ExitSub
     Resume
-
+    
 End Sub
 
 
@@ -37,7 +38,8 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
+
+    ErrorHandler Err.Number, Err.Source, Err.Description
     Resume ExitSub
     Resume
     

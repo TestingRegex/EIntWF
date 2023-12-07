@@ -123,7 +123,7 @@ Public Function UserPromptText(ByVal message As String, ByVal titleText As Strin
     UserPromptText = InputBox(message, titleText, fillText)
     
     If UserPromptText = vbNullString Then
-        Exit Function
+        Err.Raise 2002, "Fehlender Userinput", "Es wurde kein Userinput gefunden, der Vorgang wurde abgebrochen."
     End If
         
     Do While BadCharacterFilter(UserPromptText, purpose)
@@ -244,7 +244,7 @@ End Function
 
 ' Eine Funktion, die dafür sorgt das Shell commands ausgeführt werden
 ' und überprüft wird ob sie erfolgreich waren oder nicht
-Public Function ShellCommand(ByVal command As String, ByVal successMessage As String, ByVal failureMessage As String, Optional ByVal purpose As String) As Long
+Public Sub ShellCommand(ByVal command As String, ByVal successMessage As String, ByVal failureMessage As String, Optional ByVal purpose As String)
     
     Dim shell As Object
     Dim errorCode As Long
@@ -277,12 +277,10 @@ Public Function ShellCommand(ByVal command As String, ByVal successMessage As St
         End Select
         Err.Raise ErrNumber, purpose, failureMessage
     End If
-    
-    ShellCommand = errorCode
-    
+        
     Set shell = Nothing
 
-End Function
+End Sub
 
 
 ' Den Output der ShellCommands einlesen
@@ -348,3 +346,13 @@ Public Function FindTags() As Variant
     FindTags = existingTags
     
 End Function
+
+Public Sub ErrorHandler(ByVal ErrNumber As Long, ByVal ErrSource As String, ByVal ErrDescription As String)
+
+    If ErrNumber = 2002 Then
+        MsgBox Err.Description, vbOKOnly, ErrSource
+    Else
+        MsgBox "Im " & ErrSource & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & ErrDescription, vbOKOnly, "Fehlermeldung"
+    End If
+
+End Sub

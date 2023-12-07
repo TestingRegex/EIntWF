@@ -23,15 +23,16 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
+
+    ErrorHandler Err.Number, Err.Source, Err.Description
     Resume ExitSub
     Resume
+
 End Sub
 
 Public Sub Push()
 
     Dim gitCommand As String
-    Dim temp As Integer
 
 '------------------------------------------------------------------------
 ' get desired path
@@ -42,8 +43,7 @@ Public Sub Push()
 ' execute commands
     
     gitCommand = "git push"
-    
-    temp = ShellCommand(gitCommand, "Die gecommiteten Änderungen wurden hochgeladen.", "Der Push Vorgang ist gescheitert.", "Push")
+    ShellCommand gitCommand, "Die gecommiteten Änderungen wurden hochgeladen.", "Der Push Vorgang ist gescheitert.", "Push"
     
 
 End Sub

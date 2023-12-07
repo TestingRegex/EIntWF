@@ -1,4 +1,18 @@
 Attribute VB_Name = "GetTag"
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'   This module contains the macros and major functions used in the 'Version Laden'
+'   button.
+'
+'   Purpose:
+'       The button initiates the process of 'git show'-ing either a single file (that has to be
+'       typed in correctly at the moment, it may be nice to see if we can have users select the file
+'       from a list?) or the entire repository inside of the "temp" folder that is ignored by
+'       the repository.
+'
+'   Used homemade functions/forms:
+'       AnnoyUsers, Pathing, BadCharacterFilter, RetrievalForm, GitVersionCheckForm, UserPromptText,
+'       ShellCommand
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Option Explicit
 
 Private Sub GitGetOld(ByVal control As Office.IRibbonControl)
@@ -16,7 +30,8 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
+
+    ErrorHandler Err.Number, Err.Source, Err.Description
     Resume ExitSub
     Resume
 
@@ -27,7 +42,7 @@ Public Sub TagFullRetrieval(ByVal version As String)
 
 ' Variables:
 
-    Dim temp As Long
+
     Dim fileSystemObject As Object
     Dim tempDirectory As String
     Dim tempSubDirectory As String
@@ -51,7 +66,7 @@ Public Sub TagFullRetrieval(ByVal version As String)
 ' Creating the new folders if they don't exist yet.
 
     If Not fileSystemObject.FolderExists(tempDirectory) Then
-                fileSystemObject.CreateFolder tempDirectory
+        fileSystemObject.CreateFolder tempDirectory
     End If
     
                 
@@ -70,14 +85,13 @@ Public Sub TagFullRetrieval(ByVal version As String)
     
     gitCommand = "git clone --branch " & versionTag & " --single-branch " & gitURL & " " & tempDirectory & "\" & tempSubDirectory
     
-    temp = ShellCommand(gitCommand, "Das Repository wurde in den Ordner " & tempDirectory & "\" & tempSubDirectory & "geladen.", "Die ältere Version des Repositorys konnte nicht geladen werden.", "TagFullRetrieval")
+    ShellCommand gitCommand, "Das Repository wurde in den Ordner " & tempDirectory & "\" & tempSubDirectory & "geladen.", "Die ältere Version des Repositorys konnte nicht geladen werden.", "TagFullRetrieval"
         
 End Sub
 
 ' A function that checks out a specific file at a certain tag and saves in the temp subdirectory.
 Public Sub TagFileRetrieval(ByVal version As String)
 
-    Dim temp As Long
     Dim gitCommand As String
     Dim versionTag As String
     Dim oldFile As String
@@ -103,8 +117,7 @@ Public Sub TagFileRetrieval(ByVal version As String)
 ' Getting the desired file to be checked out:
     
     oldFile = UserPromptText("Welche Datei möchten Sie laden?", "Datei auswählen", vbNullString, "Filename")
-    
-   
+       
     
     versionTag = version
     tempFile = tempDirectory & "\" & Replace(versionTag, ".", "_") & "_" & oldFile
@@ -116,8 +129,7 @@ Public Sub TagFileRetrieval(ByVal version As String)
     
     'Debug.Print gitCommand
     
-    temp = ShellCommand(gitCommand, "Die alte Version von " & oldFile & " wurde erfolgreich im Ordner " & tempDirectory & " abgelegt.", "Der Vorgang ist gescheitert, versuchen Sie es nochmal oder manuell.", "TagFileRetrieval")
-
+    ShellCommand gitCommand, "Die alte Version von " & oldFile & " wurde erfolgreich im Ordner " & tempDirectory & " abgelegt.", "Der Vorgang ist gescheitert, versuchen Sie es nochmal oder manuell.", "TagFileRetrieval"
 
 End Sub
 

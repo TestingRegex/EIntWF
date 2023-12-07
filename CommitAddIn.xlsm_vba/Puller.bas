@@ -23,7 +23,8 @@ ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
+
+    ErrorHandler Err.Number, Err.Source, Err.Description
     Resume ExitSub
     Resume
 
@@ -32,7 +33,6 @@ End Sub
 Public Sub Pull()
 
     Dim gitCommand As String
-    Dim temp As Integer
 
 '------------------------------------------------------------------------
 ' Get the desired path
@@ -43,7 +43,7 @@ Public Sub Pull()
 ' execute commands
     
     gitCommand = "git pull"
-    temp = ShellCommand(gitCommand, "Updates wurden von GitHub heruntergeladen.", "Es konnten keine Updates heruntergeladen werden.", "Pull")
+    ShellCommand gitCommand, "Updates wurden von GitHub heruntergeladen.", "Es konnten keine Updates heruntergeladen werden.", "Pull"
 
 
 End Sub

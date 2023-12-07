@@ -6,9 +6,9 @@ Option Explicit '
 
 ' A sub connected to the test button to test new functions once ready
 
-Private Sub TestSub(ByVal control As Office.IRibbonControl)
+Public Sub TestSub()
 
-    'AltExporter
+    Commit(True,True)
     
 End Sub
 

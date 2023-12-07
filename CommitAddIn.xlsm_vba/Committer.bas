@@ -21,20 +21,20 @@ Private Sub CommitToGit(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler:
 
     If AnnoyUsers = vbYes Then
-        Commit (False)
+        Commit False, False
     End If
     
 ExitSub:
     Exit Sub
     
 ErrHandler:
-    MsgBox "Im " & Err.Source & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & Err.Description
+    ErrorHandler Err.Number, Err.Source, Err.Description
     Resume ExitSub
     Resume
     
 End Sub
-' The function
-Public Sub Commit(ByVal ForcedStandardCommit As Boolean)
+
+Public Sub Commit(ByVal ForcedStandardCommit As Boolean, Optional ByVal SelectIndividualFiles As Boolean = False)
 
     Dim gitCommand As String
     Dim customCommit As Long
@@ -54,16 +54,20 @@ Public Sub Commit(ByVal ForcedStandardCommit As Boolean)
 '-----------------------------------------------------------------------------------
 ' Staging files to be committed
 ' Currently we add all already tracked files and the new workbook and directory
-    
-    
-    ' All Änderungen im Git Repo werden aufeinmal hinzugefügt
-    gitCommand = "git add -u"
-    shell gitCommand, vbNormalFocus
-    
-    ' Nochmal spezifisch den Exportierordner angeben
-    gitCommand = "git add " & activeWorkbook.Name & "_vba" & "/* " & activeWorkbook.Name
-    shell gitCommand, vbNormalFocus
-    
+' New: Try to add individually selected files.
+
+    If SelectIndividualFiles Then
+        MsgBox "You want to import individual files."
+        Exit Sub
+    Else
+        ' All Änderungen im Git Repo werden aufeinmal hinzugefügt
+        gitCommand = "git add -u"
+        shell gitCommand, vbNormalFocus
+        
+        ' Nochmal spezifisch den Exportierordner angeben
+        gitCommand = "git add " & activeWorkbook.Name & "_vba" & "/* " & activeWorkbook.Name
+        shell gitCommand, vbNormalFocus
+    End If
         
 '-------------------------------------------------------------------------------------
 ' Commit Message Dialoge:
@@ -97,8 +101,6 @@ Public Sub Commit(ByVal ForcedStandardCommit As Boolean)
 '-------------------------------------------------------------------------------------------
 ' Executing commit command.
 
-    Dim temp As Long
-    
-    temp = ShellCommand(gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.", "Commit")
+    ShellCommand gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.", "Commit"
     
 End Sub

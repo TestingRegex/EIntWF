@@ -133,7 +133,7 @@ Public Function UserPromptText(ByVal message As String, ByVal titleText As Strin
         MsgBox "Ihre Eingabe hat ungewünschte Zeichen enthalten. Bitte versuchen Sie es erneut."
         UserPromptText = InputBox(message, titleText, fillText)
         If UserPromptText = vbNullString Then
-            Exit Function
+            Err.Raise 2002, "Fehlender Userinput", "Es wurde kein Userinput gefunden, der Vorgang wurde abgebrochen."
         End If
     Loop
 

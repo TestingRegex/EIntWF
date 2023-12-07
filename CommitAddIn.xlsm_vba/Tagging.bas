@@ -54,34 +54,17 @@ Public Sub Tag()
 
     VersionInput = UserPromptText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._", "Version")
     
-    If VersionInput = vbNullString Then
-        MsgBox "Der Tag Vorgang wird abgebrochen."
-        Exit Sub
-    End If
-    '------------------------------------
-    ' Validating userInput to not contain undesirable characters.
-    
-    
     TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", vbNullString, "Tag")
-    If TagMessage = vbNullString Then
-        MsgBox "Der Tag Vorgang wird abgebrochen."
-        Exit Sub
-    End If
-    
-    
+       
     gitCommand = "git tag -a " & VersionInput & " -m  """ & TagMessage & " - " & GetUser() & """"
     
     'Debug.Print GitCommand
     
 '-------------------------------------------------------------------------
 'Commands are passed to the shell
-
-    
         
     ShellCommand gitCommand, "Der Tag wurde erfolgreich erstellt.", "Der Tag konnte nicht erstellt werden.", "Tag"
     
-    Set shell = CreateObject("WScript.Shell")
-    
-    shell.Run "git push origin --tags", vbNormalFocus, True
+    ShellCommand "git push origin --tags", "Die Version wurde hochgeladen.", "Die Version konnte nicht hochgeladen werden.", "Tag"
 
 End Sub

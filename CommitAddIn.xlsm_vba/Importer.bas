@@ -59,13 +59,11 @@ Public Sub Import()
 
     ' Check validity of userinput
     If selectedFolder = vbNullString Then
-        MsgBox "Kein Ordner ausgewählt. Import abgebrochen."
-        Exit Sub
+        Err.Raise 2002, "Import Prozess", "Es wurde kein Ordner ausgewählt."
     End If
     
     If Not fileSystemObject.FolderExists(selectedFolder) Then
-        MsgBox "Der gewünschte Ordner konnte nicht gefunden werden."
-        Exit Sub
+        Err.Raise 2002, "Import Prozess", "Der gewünschte Ordner konnte nicht gefunden werden."
     End If
     
 '------------------------------------------------------------------

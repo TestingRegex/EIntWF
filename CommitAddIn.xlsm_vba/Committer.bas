@@ -79,12 +79,6 @@ Public Sub Commit(ByVal ForcedStandardCommit As Boolean, Optional ByVal SelectIn
             ' Get user input for commit message.
             customCommitMessage = UserPromptText("Bitte gebe hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben", "Commit")
             
-            ' Commit messages should not be empty
-            If customCommitMessage = vbNullString Then
-                MsgBox "Es wurde keine Commit Nachricht eingegeben der Commit Vorgang wird abgebrochen."
-                Exit Sub
-            End If
-            
             commitMessage = customCommitMessage & " - " & GetUser()
         Else
             ' Standardized commit message

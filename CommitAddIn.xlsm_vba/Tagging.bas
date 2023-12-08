@@ -59,7 +59,7 @@ Public Sub Tag()
     
     userYesNo = UserPromptYesNo("Möchten Sie eine eigeneVersionsbeschreibung schreiben? (Empfohlen: Ja)")
     If userYesNo = vbYes Then
-        TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", vbNullString, "Tag") & " - " & GetUser()
+        TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", vbNullString, "Tag")
     Else
         TagMessage = "Version erstellt am " & Replace(Date, ".", "_")
     End If

@@ -76,6 +76,9 @@ Attribute VB_Name = "FunktionenModul"
 '           every single major macro when I think of a new better way to do things.
 '       Called in: Committer, Exporter, GetTag, Importer, Puller, Pusher, SimpleWorkflows, Tagging
 '
+'   SelectFiles
+'       Description: A function that allows a user to select which files should be used in a given process.
+'       Called in: Committer, potentially useful for Importer
 '
 '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -126,14 +129,14 @@ Public Function UserPromptText(ByVal message As String, ByVal titleText As Strin
     UserPromptText = InputBox(message, titleText, fillText)
     
     If UserPromptText = vbNullString Then
-        Err.Raise 2002, "Fehlender Userinput", "Es wurde kein Userinput gefunden, der Vorgang wurde abgebrochen."
+        Err.Raise 1239, "Fehlender Userinput", "Es wurde kein Userinput gefunden, der Vorgang wurde abgebrochen."
     End If
         
     Do While BadCharacterFilter(UserPromptText, purpose)
         MsgBox "Ihre Eingabe hat ungewünschte Zeichen enthalten. Bitte versuchen Sie es erneut."
         UserPromptText = InputBox(message, titleText, fillText)
         If UserPromptText = vbNullString Then
-            Err.Raise 2002, "Fehlender Userinput", "Es wurde kein Userinput gefunden, der Vorgang wurde abgebrochen."
+            Err.Raise 1239, "Fehlender Userinput", "Es wurde kein Userinput gefunden, der Vorgang wurde abgebrochen."
         End If
     Loop
 
@@ -263,7 +266,7 @@ Public Sub ShellCommand(ByVal command As String, ByVal successMessage As String,
 
     Else
         Select Case purpose
-            Case "Tag"
+            Case "Tag", "Version"
                 ErrNumber = 1234
             Case "Commit"
                 ErrNumber = 1235
@@ -352,10 +355,33 @@ End Function
 
 Public Sub ErrorHandler(ByVal ErrNumber As Long, ByVal ErrSource As String, ByVal ErrDescription As String)
 
-    If ErrNumber = 2002 Then
+    If ErrNumber = 1239 Then
         MsgBox Err.Description, vbOKOnly, ErrSource
     Else
         MsgBox "Im " & ErrSource & " Vorgang ist ein Fehler aufgetreten." & vbCrLf & ErrDescription, vbOKOnly, "Fehlermeldung"
     End If
 
 End Sub
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+'                       Work in Progress
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Public Function SelectFiles(ByVal purpose As String) As Variant
+
+    Dim selectedFiles As Variant
+    
+    Select Case purpose
+        Case "Import"
+            selectedFiles = Application.GetOpenFilename("Visual Basic Files (*.bas; *.txt; *.frm, *.cls),*.frm, *.cls *.bas;*.txt", , "Import Dateien", , True)
+        Case "Commit"
+            selectedFiles = Application.GetOpenFilename(, , "Wählen Sie die Dateien aus die Sie geändert haben", , True)
+    End Select
+    
+    If VarType(selectedFiles) = vbBoolean Then
+        If selectedFiles = False Then
+            Err.Raise 1240, "Dateiauswahl", "Es wurden keine Dateien für den " & purpose & " Prozess ausgewählt"
+        End If
+    End If
+    
+    SelectFiles = selectedFiles
+    
+End Function

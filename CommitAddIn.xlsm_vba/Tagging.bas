@@ -17,7 +17,7 @@ Private Sub GitTag(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler
 
     If AnnoyUsers = vbYes Then
-        Commit (True)
+        Commit True
         Tag
     End If
     
@@ -42,6 +42,7 @@ Public Sub Tag()
     Dim VersionInput As String
     Dim TagMessage As String
     Dim shell As Object
+    Dim userYesNo As Long
     
 '------------------------------------------------------
 ' Find desired path
@@ -54,8 +55,14 @@ Public Sub Tag()
 
     VersionInput = UserPromptText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._", "Version")
     
-    TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", vbNullString, "Tag")
-       
+    
+    userYesNo = UserPromptYesNo("Möchten Sie eine eigeneVersionsbeschreibung schreiben? (Empfohlen: Ja)")
+    If userYesNo = vbYes Then
+        TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", vbNullString, "Tag") & " - " & GetUser()
+    Else
+        TagMessage = "Version erstellt von " & GetUser & " am " & Replace(Date, ".", "_")
+    End If
+    
     gitCommand = "git tag -a " & VersionInput & " -m  """ & TagMessage & " - " & GetUser() & """"
     
     'Debug.Print GitCommand

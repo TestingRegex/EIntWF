@@ -8,7 +8,7 @@ Option Explicit '
 
 Public Sub TestSub()
 
-    Commit(True,True)
+    Commit True, True
     
 End Sub
 

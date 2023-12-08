@@ -55,17 +55,32 @@ Public Sub Commit(ByVal ForcedStandardCommit As Boolean, Optional ByVal SelectIn
 ' Staging files to be committed
 ' Currently we add all already tracked files and the new workbook and directory
 ' New: Try to add individually selected files.
-
+    
+    gitCommand = "git add "
     If SelectIndividualFiles Then
-        MsgBox "You want to import individual files."
+        Dim selectedFiles As Variant
+        Dim i As Long
+        
+        selectedFiles = SelectFiles("Commit")
+        
+        If IsArray(selectedFiles) Then
+            For i = LBound(selectedFiles) To UBound(selectedFiles)
+                gitCommand = gitCommand & selectedFiles(i) & " "
+            Next i
+        Else
+            gitCommand = gitCommand & selectedFiles
+        End If
+        
+        'ShellCommand gitCommand, "Die gewählten Dateien wurden committet.", "Die gewählten Dateien konnten leider nicht committet werden", "Commit"
+        Debug.Print gitCommand
         Exit Sub
     Else
         ' All Änderungen im Git Repo werden aufeinmal hinzugefügt
-        gitCommand = "git add -u"
+        gitCommand = gitCommand & " -u"
         shell gitCommand, vbNormalFocus
         
         ' Nochmal spezifisch den Exportierordner angeben
-        gitCommand = "git add " & activeWorkbook.Name & "_vba" & "/* " & activeWorkbook.Name
+        gitCommand = gitCommand & activeWorkbook.Name & "_vba" & "/* " & activeWorkbook.Name
         shell gitCommand, vbNormalFocus
     End If
         

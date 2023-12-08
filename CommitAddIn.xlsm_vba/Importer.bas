@@ -59,11 +59,11 @@ Public Sub Import()
 
     ' Check validity of userinput
     If selectedFolder = vbNullString Then
-        Err.Raise 2002, "Import Prozess", "Es wurde kein Ordner ausgewählt."
+        Err.Raise 1239, "Import Prozess", "Es wurde kein Ordner ausgewählt."
     End If
     
     If Not fileSystemObject.FolderExists(selectedFolder) Then
-        Err.Raise 2002, "Import Prozess", "Der gewünschte Ordner konnte nicht gefunden werden."
+        Err.Raise 1239, "Import Prozess", "Der gewünschte Ordner konnte nicht gefunden werden."
     End If
     
 '------------------------------------------------------------------

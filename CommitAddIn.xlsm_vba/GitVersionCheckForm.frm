@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} GitVersionCheckForm 
    Caption         =   "Versionswahl"
-   ClientHeight    =   5120
+   ClientHeight    =   3410
    ClientLeft      =   -960
    ClientTop       =   -3750
    ClientWidth     =   8160
@@ -76,13 +76,15 @@ Private Sub WeiterButton_Click()
             If FrameTags.Controls(i).Value = True Then
                 ' The option button is selected
                 If RetrievalForm.retrievalType = "Individuelle Datei" Then
+                    ' Close the UserForm
+                    Unload Me
                     TagFileRetrieval (FrameTags.Controls(i).Caption)
-                    ' Close the UserForm
-                    Unload Me
+                    
                 ElseIf RetrievalForm.retrievalType = "Gesamtes Repository" Then
-                    TagFullRetrieval (FrameTags.Controls(i).Caption)
                     ' Close the UserForm
                     Unload Me
+                    TagFullRetrieval (FrameTags.Controls(i).Caption)
+                    
                 Else
                     Unload Me
                     MsgBox "Die variable RetrievalForm.retrievalType hat einen unerwarteten Wert."
@@ -100,6 +102,6 @@ End Sub
 Private Sub CancelButton_Click()
     ' Handle the Cancel button click
     Unload Me ' Close the UserForm
-    MsgBox "Vorgang abgebrochen."
+    MsgBox "Der Vorgang wurde abgebrochen.", vbApplicationModal, "Vorgang Beendet"
     
 End Sub

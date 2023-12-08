@@ -54,7 +54,7 @@ Public Sub Tag()
 ' Core:
 '
 
-    VersionInput = UserPromptText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "_._", "Version")
+    VersionInput = UserPromptText("Welche Version des Workbooks möchten Sie taggen?", "Versionsname", "v_._", "Version")
     
     
     userYesNo = UserPromptYesNo("Möchten Sie eine eigeneVersionsbeschreibung schreiben? (Empfohlen: Ja)")

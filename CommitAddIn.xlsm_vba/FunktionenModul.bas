@@ -207,30 +207,31 @@ End Sub
 ' Benutzt in: Committer, Tagger,
 Public Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As String) As Boolean
 
-    Dim invalidCharacters As String
+    Dim validCharacters As String
+    validCharacters = "1234567890abcdefghijklmnopqrstuvxyzäöü"
     
-    BadCharacterFilter = False
+    BadCharacterFilter = True
     
     Select Case purpose
     '----------------------------------------------------------------------
-        Case "Tag"
-            invalidCharacters = "~!@#$%^&*()+,{}[]|\;:'""<>/|?=µ"
-        '---------------------------------------------------------------------
-        Case "Commit"
-            invalidCharacters = """#$^:;'<>[]{}@|/\²³=µ"
+        Case "Tag", "Commit"
+            validCharacters = validCharacters & ",;: ._-"
         '---------------------------------------------------------------------
         Case "File", "Module"
-            ' Add Conditions we don't want in Filenames.
-            invalidCharacters = """/\*~$!&=?!{[]}.;:'><,^@€²³| µ"
+            validCharacters = validCharacters & "_"
         '---------------------------------------------------------------------
         Case "Version"
-            invalidCharacters = "~!§$%&/()=?\}][{³²@€µ "
+            validCharacters = validCharacters & "._"
         '---------------------------------------------------------------------
         Case Else
             Exit Function
     End Select
     
-    BadCharacterFilter = BadCharacterLoop(invalidCharacters, inputString)
+    BadCharacterFilter = BadCharacterLoop(validCharacters, LCase(inputString))
+    
+    If Len(inputString) > 150 Then
+        Err.Raise 1241, "Userinput", "Die Benutzereingabe war zu lang, der Vorgang wurde abgebrochen."
+    End If
     
 End Function
 
@@ -241,7 +242,7 @@ Private Function BadCharacterLoop(ByVal invalidCharacters As String, ByVal input
     For i = 1 To Len(inputString)
         If InStr(invalidCharacters, Mid(inputString, i, 1)) > 0 Then
             ' If an invalid character is found, return True
-            BadCharacterLoop = True
+            BadCharacterLoop = False
             Exit Function
         End If
     Next i

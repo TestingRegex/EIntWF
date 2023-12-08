@@ -235,18 +235,19 @@ Public Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As
     
 End Function
 
-Private Function BadCharacterLoop(ByVal invalidCharacters As String, ByVal inputString As String) As Boolean
+Private Function BadCharacterLoop(ByVal validCharacters As String, ByVal inputString As String) As Boolean
     
     Dim i As Long
     
     For i = 1 To Len(inputString)
-        If InStr(invalidCharacters, Mid(inputString, i, 1)) > 0 Then
+        If Not InStr(validCharacters, Mid(inputString, i, 1)) > 0 Then
             ' If an invalid character is found, return True
-            BadCharacterLoop = False
+            BadCharacterLoop = True
             Exit Function
         End If
     Next i
-
+    BadCharacterLoop = False
+    
 End Function
 
 ' Eine Funktion, die dafür sorgt das Shell commands ausgeführt werden

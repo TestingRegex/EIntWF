@@ -17,6 +17,7 @@ Private Sub GitTag(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler
 
     If AnnoyUsers = vbYes Then
+        Export
         Commit True
         Tag
     End If
@@ -60,12 +61,12 @@ Public Sub Tag()
     If userYesNo = vbYes Then
         TagMessage = UserPromptText("Bitte geben Sie eine Kurze Beschreibung der Version oder ihrer Relevanz an:", "Versionsbeschreibung", vbNullString, "Tag") & " - " & GetUser()
     Else
-        TagMessage = "Version erstellt von " & GetUser & " am " & Replace(Date, ".", "_")
+        TagMessage = "Version erstellt am " & Replace(Date, ".", "_")
     End If
     
     gitCommand = "git tag -a " & VersionInput & " -m  """ & TagMessage & " - " & GetUser() & """"
     
-    'Debug.Print GitCommand
+    Debug.Print gitCommand
     
 '-------------------------------------------------------------------------
 'Commands are passed to the shell

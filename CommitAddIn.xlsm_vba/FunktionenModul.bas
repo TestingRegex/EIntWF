@@ -214,7 +214,7 @@ Public Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As
     Select Case purpose
     '----------------------------------------------------------------------
         Case "Tag"
-            invalidCharacters = " ~!@#$%^&*()+,{}[]|\;:'""<>/|?=µ"
+            invalidCharacters = "~!@#$%^&*()+,{}[]|\;:'""<>/|?=µ"
         '---------------------------------------------------------------------
         Case "Commit"
             invalidCharacters = """#$^:;'<>[]{}@|/\²³=µ"
@@ -224,7 +224,7 @@ Public Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As
             invalidCharacters = """/\*~$!&=?!{[]}.;:'><,^@€²³| µ"
         '---------------------------------------------------------------------
         Case "Version"
-            invalidCharacters = "~!§$%&/()=?\}][{³²@€µ"
+            invalidCharacters = "~!§$%&/()=?\}][{³²@€µ "
         '---------------------------------------------------------------------
         Case Else
             Exit Function

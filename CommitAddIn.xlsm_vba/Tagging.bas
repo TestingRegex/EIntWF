@@ -66,7 +66,6 @@ Public Sub Tag()
     
     gitCommand = "git tag -a " & VersionInput & " -m  """ & TagMessage & " - " & GetUser() & """"
     
-    Debug.Print gitCommand
     
 '-------------------------------------------------------------------------
 'Commands are passed to the shell

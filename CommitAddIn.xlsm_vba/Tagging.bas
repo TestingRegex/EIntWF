@@ -41,7 +41,6 @@ Public Sub Tag()
     Dim gitCommand As String
     Dim VersionInput As String
     Dim TagMessage As String
-    Dim shell As Object
     Dim userYesNo As Long
     
 '------------------------------------------------------

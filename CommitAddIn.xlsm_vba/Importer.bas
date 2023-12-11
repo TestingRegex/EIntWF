@@ -148,6 +148,6 @@ Public Sub Import()
         End If
     Next file
 
-    MsgBox "Alle gewünschten .bas Dateien aus " & selectedFolder & " wurden importiert."
+    MsgBox "Alle gewünschten VBA-Dateien aus " & selectedFolder & " wurden importiert."
 
 End Sub

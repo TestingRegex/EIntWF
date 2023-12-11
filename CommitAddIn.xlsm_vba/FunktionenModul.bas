@@ -61,11 +61,6 @@ Attribute VB_Name = "FunktionenModul"
 '       Description: A function used to ignore the extra data added to sourcecode files when using manual/proper export methods
 '       Called in: (Alt)Exporter
 '
-'   AnnoyUsers
-'       Description: A placeholder function that is supposed to act as a reminder for users to adhere to coding best practices,
-'           might not make it to final production
-'       Called in: Committer, Exporter, Tagging, SimpleWorkflows
-'
 '   FindTags
 '       Description: A function that retrieves all tags created in the given repository so that users may choose
 '           which tag they wish to checkout
@@ -331,12 +326,6 @@ Public Function FindLine(ByVal content As String, ByVal term As String) As Long
     End If
 End Function
 
-Public Function AnnoyUsers() As Variant
-
-    AnnoyUsers = UserPromptYesNo("Have you cleaned up your code and spreadsheets?")
-    
-End Function
-
 ' A function that retrieves the tags that exist in the current repository.
 Public Function FindTags() As Variant
 
@@ -350,6 +339,16 @@ Public Function FindTags() As Variant
     existingTags = Split(existingTagsRaw, vbLf)
     
     ReDim Preserve existingTags(UBound(existingTags) - 1)
+    
+    If UBound(existingTags) > 9 Then
+    
+        Dim tempArray(9) As String
+        Dim i As Integer
+        For i = 1 To 10
+            tempArray(i - 1) = existingTags(UBound(existingTags) - 9 + i)
+        Next i
+        existingTags = tempArray
+    End If
     
     FindTags = existingTags
     

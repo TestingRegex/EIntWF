@@ -15,9 +15,7 @@ Option Explicit
 Private Sub PushToGit(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler
 
-    If AnnoyUsers = vbYes Then
         Push
-    End If
     
 ExitSub:
     Exit Sub

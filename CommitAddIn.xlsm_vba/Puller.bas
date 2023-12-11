@@ -15,9 +15,7 @@ Option Explicit
 Private Sub GitPull(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler
 
-    If AnnoyUsers = vbYes Then
         Pull
-    End If
     
 ExitSub:
     Exit Sub

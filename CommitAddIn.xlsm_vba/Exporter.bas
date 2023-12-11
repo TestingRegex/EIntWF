@@ -19,9 +19,7 @@ Private Sub ExportSub(ByVal control As Office.IRibbonControl)
 
 On Error GoTo ErrHandler:
 
-    If AnnoyUsers = vbYes Then
-        Export
-    End If
+    Export
     
 ExitSub:
         

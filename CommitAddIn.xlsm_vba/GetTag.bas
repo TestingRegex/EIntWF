@@ -18,14 +18,10 @@ Option Explicit
 Private Sub GitGetOld(ByVal control As Office.IRibbonControl)
 
 On Error GoTo ErrHandler
-
-    If AnnoyUsers = vbYes Then
     
-        Dim myForm As Object
-        Set myForm = New RetrievalForm
-        myForm.Show
-        
-    End If
+    Dim myForm As Object
+    Set myForm = New RetrievalForm
+    myForm.Show
 
 ExitSub:
 

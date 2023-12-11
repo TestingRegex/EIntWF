@@ -16,11 +16,10 @@ Option Explicit
 Private Sub GitTag(ByVal control As Office.IRibbonControl)
 On Error GoTo ErrHandler
 
-    If AnnoyUsers = vbYes Then
-        Export
-        Commit True
-        Tag
-    End If
+    Export
+    Commit True
+    Tag
+        
     
 ExitSub:
     Exit Sub

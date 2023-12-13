@@ -224,7 +224,7 @@ Public Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As
     
     BadCharacterFilter = BadCharacterLoop(validCharacters, LCase(inputString))
     
-    If Len(inputString) > 150 Then
+    If Len(inputString) > 300 Then
         Err.Raise 1241, "Userinput", "Die Benutzereingabe war zu lang, der Vorgang wurde abgebrochen."
     End If
     

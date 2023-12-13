@@ -9,7 +9,7 @@ Option Explicit '
 Public Sub TestSub()
 On Error GoTo ErrHandler
 
-    Commit True, True
+    Debug.Print "Nothing to test at the moment."
     
 ExitSub:
     Exit Sub

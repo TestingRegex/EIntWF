@@ -91,7 +91,7 @@ Public Sub Commit(ByVal ForcedStandardCommit As Boolean, Optional ByVal SelectIn
         
         If customCommit = vbYes Then
             ' Get user input for commit message.
-            customCommitMessage = UserPromptText("Bitte gebe hier deine Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier angeben", "Commit")
+            customCommitMessage = UserPromptText("Geben Sie hier Ihre Commit Nachricht an.", "Custom Commit Nachricht", "Commit Nachricht hier eingeben", "Commit")
             
             commitMessage = customCommitMessage & " - " & GetUser()
         Else

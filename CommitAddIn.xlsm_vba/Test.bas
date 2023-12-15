@@ -22,3 +22,13 @@ ErrHandler:
 End Sub
 
 
+Public Sub TestCommitShell()
+
+    Pathing
+    
+    shell "git add ."
+    shell "git commit -m "" manueller commit"" "
+    
+End Sub
+
+Public Sub TestCommit()

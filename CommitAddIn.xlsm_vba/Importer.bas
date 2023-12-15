@@ -97,7 +97,7 @@ Public Sub Import()
                 If ModulNamenSuchen(moduleName) Then
                     benutzerMeinung = UserPromptYesNo("Es gibt bereits ein Modul mit dem Namen '" + moduleName + "'. Soll das bereitsexistierende Modul überschrieben werden?")
                     If benutzerMeinung = vbYes Then
-                        MsgBox "Sie wollen ein altes Modul überschreiben."
+                        'MsgBox "Sie wollen ein altes Modul überschreiben."
                         ' Remove the old Modul
                         RemoveModule liveWorkbook, moduleName
                         ' Import the .bas file into the workbook's VBA project.
@@ -107,7 +107,7 @@ Public Sub Import()
                     Else
                         benutzerMeinung = UserPromptYesNo(" Möchten Sie das Modul '" + moduleName + "' unter einem anderen Namen speichern? (Bei 'Nein' wird das Modul übersprungen.)")
                         If benutzerMeinung = vbYes Then
-                            newModuleName = UserPromptText("Wie soll das Modul heißen?", vbNullString, vbNullString, "Module")
+                            newModuleName = UserPromptText("Wie soll das Modul benannt werden?", vbNullString, vbNullString, "Module")
                             If newModuleName = vbNullString Then
                                 MsgBox "Vorgang abgebrochen."
                                 Exit Sub

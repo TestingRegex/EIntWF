@@ -203,7 +203,7 @@ End Sub
 Public Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As String) As Boolean
 
     Dim validCharacters As String
-    validCharacters = "1234567890abcdefghijklmnopqrstuvxyzäöü"
+    validCharacters = "1234567890abcdefghijklmnopqrstuvwxyzäöü"
     
     BadCharacterFilter = True
     

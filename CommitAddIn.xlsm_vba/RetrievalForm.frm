@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} RetrievalForm 
    Caption         =   "Tag Laden"
-   ClientHeight    =   2020
-   ClientLeft      =   -230
-   ClientTop       =   -900
-   ClientWidth     =   4680
+   ClientHeight    =   590
+   ClientLeft      =   -350
+   ClientTop       =   -1350
+   ClientWidth     =   1380
    OleObjectBlob   =   "RetrievalForm.frx":0000
    StartUpPosition =   1  'CenterOwner
 End

@@ -3,7 +3,7 @@ Attribute VB_Name = "Tagging"
 '   Ein Excel Makro was an einen Button im Add-in Tab gebunden ist und
 '   die Aufgabe des Taggens der letzten Änderungen und des letzten Commits übernimmt.
 '
-'   Hier für werden alle Module exportiert und die Änderungen commitet mit einer Standard commit Nachricht.
+'   Hier für werden alle Module exportiert und die Änderungen committet mit einer Standard Commit-Nachricht.
 '   Danach wird der Benutzer dazu aufgefordert eine Tag Nachricht zu erstellen was genau in dieser Version des
 '   Codes erreicht wird.
 '
@@ -68,8 +68,8 @@ Public Sub Tag()
 '-------------------------------------------------------------------------
 'Commands are passed to the shell
         
-    ShellCommand gitCommand, "Der Tag wurde erfolgreich erstellt.", "Der Tag konnte nicht erstellt werden.", "Tag"
+    ShellCommand gitCommand, "Die Version wurde erfolgreich erstellt.", "Die Version konnte nicht erstellt werden.", "Tag"
     
-    ShellCommand "git push origin --tags", "Die Version wurde hochgeladen.", "Die Version konnte nicht hochgeladen werden.", "Tag"
+    ShellCommand "git push origin --tags", "Die Version wurde hochgeladen.", "Die Version konnte nicht hochgeladen werden." & vbCrLf & "Bitte versuchen Sie es über die Commandline mit dem Befehl: " & vbCrLf & "git push origin --tags", "Tag"
 
 End Sub

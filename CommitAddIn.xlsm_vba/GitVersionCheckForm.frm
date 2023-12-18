@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} GitVersionCheckForm 
    Caption         =   "Versionswahl"
-   ClientHeight    =   3410
-   ClientLeft      =   -960
-   ClientTop       =   -3750
-   ClientWidth     =   8160
+   ClientHeight    =   2270
+   ClientLeft      =   -1040
+   ClientTop       =   -4050
+   ClientWidth     =   3620
    OleObjectBlob   =   "GitVersionCheckForm.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -87,7 +87,7 @@ Private Sub WeiterButton_Click()
                     
                 Else
                     Unload Me
-                    MsgBox "Die variable RetrievalForm.retrievalType hat einen unerwarteten Wert."
+                    Err.Raise 1245, "Retrieval Userform", "Die variable RetrievalForm.retrievalType hat einen unerwarteten Wert."
                     
                     Exit Sub
                 End If

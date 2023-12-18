@@ -128,7 +128,7 @@ Public Sub TagFileRetrieval(ByVal version As String)
     
     'Debug.Print gitCommand
     
-    ShellCommand gitCommand, "Die alte Version von " & oldFile & " wurde erfolgreich im Ordner " & tempDirectory & " abgelegt.", "Der Vorgang ist gescheitert, versuchen Sie es nochmal oder manuell.", "TagFileRetrieval"
+    ShellCommand gitCommand, "Die alte Version von " & oldFile & " wurde erfolgreich im Ordner " & tempDirectory & " abgelegt.", "Der Vorgang ist gescheitert, versuchen Sie es erneut oder über die Commandline.", "TagFileRetrieval"
 
 End Sub
 

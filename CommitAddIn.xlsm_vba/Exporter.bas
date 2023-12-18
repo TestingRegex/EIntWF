@@ -100,7 +100,7 @@ Public Sub RetiredExport()
                     textStream.Close
 
                     ' Check if the content of file and component differ, if yes then overwrite file content with component content.
-                    If fileContent <> moduleCode Then
+                    If LCase(fileContent) <> LCase(moduleCode) Then
                         
                         Dim textStreamOverwrite As Object
                         Set textStreamOverwrite = fileSystemObject.CreateTextFile(modulePath, True)
@@ -218,7 +218,7 @@ Public Sub Export()
                     textStream.Close
                     
                     ' Check if the content of file and component differ, if yes then overwrite file content with component content.
-                    If Mid(fileContent, 1, Len(fileContent) - 2) <> moduleContent Then
+                    If LCase(Mid(fileContent, 1, Len(fileContent) - 2)) <> LCase(moduleContent) Then
                         vbComp.Export _
                             filename:=modulePath
                     End If

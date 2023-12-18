@@ -210,7 +210,7 @@ Public Function BadCharacterFilter(ByVal inputString As String, ByVal purpose As
     Select Case purpose
     '----------------------------------------------------------------------
         Case "Tag", "Commit"
-            validCharacters = validCharacters & ",;: ._-" & vbNullString
+            validCharacters = validCharacters & ",;: ._-?!" & vbNullString
         '---------------------------------------------------------------------
         Case "Module"
             validCharacters = validCharacters & "_" & vbNullString

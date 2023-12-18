@@ -88,13 +88,12 @@ Public Sub Import()
             Else
                 '-----------------------------------------------------------------------------------
                 ' VBA does not do well with placing modules
-                If moduleName = "ThisWorkbook" Or Left(moduleName, 5) = "Sheet" Then
+                If moduleName = "ThisWorkbook" Or Left(moduleName, 5) = "Sheet" Or moduleName = "DieseArbeitsmappe" Or Left(moduleName, 7) = "Tabelle" Then
                     moduleName = moduleName & "_import"
-                End If
                 
                 '-----------------------------------------------------------------------------------
                 ' The module name is not allowed to already be ascribed to a module in the current workbook the following tries to resolve this conflict:
-                If ModulNamenSuchen(moduleName) Then
+                ElseIf ModulNamenSuchen(moduleName) Then
                     benutzerMeinung = UserPromptYesNo("Es gibt bereits ein Modul mit dem Namen '" + moduleName + "'. Soll das bereitsexistierende Modul überschrieben werden?")
                     If benutzerMeinung = vbYes Then
                         'MsgBox "Sie wollen ein altes Modul überschreiben."

@@ -41,7 +41,7 @@ Public Sub Push()
 ' execute commands
     
     gitCommand = "git push"
-    ShellCommand gitCommand, "Die gecommiteten Änderungen wurden hochgeladen.", "Der Push Vorgang ist gescheitert.", "Push"
+    ShellCommand gitCommand, "Die gecommitteten Änderungen wurden hochgeladen.", "Der Push Vorgang ist gescheitert.", "Push"
     
 
 End Sub

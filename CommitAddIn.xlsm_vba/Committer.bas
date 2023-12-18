@@ -1,6 +1,6 @@
 Attribute VB_Name = "Committer"
 '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-'   This module contains the macros and major functions used in the 'Änderungen Commiten'
+'   This module contains the macros and major functions used in the 'Änderungen Committen'
 '   button.
 '
 '   Purpose:
@@ -109,6 +109,6 @@ Public Sub Commit(ByVal ForcedStandardCommit As Boolean, Optional ByVal SelectIn
 '-------------------------------------------------------------------------------------------
 ' Executing commit command.
 
-    ShellCommand gitCommand, "Die Änderungen wurden commitet.", "Die Änderungen konnten nicht commitet werden. Versuchen Sie es bitte manuell über eine Shellinstanz.", "Commit"
+    ShellCommand gitCommand, "Die Änderungen wurden committet.", "Die Änderungen konnten nicht committet werden. Versuchen Sie es bitte manuell über die Commandline oder GitHub Desktop.", "Commit"
     
 End Sub

@@ -47,3 +47,8 @@ jobs:
         run: |
           ls -a 
           ls -a scanRepo
+
+      - name: Run Some tests
+        run: |
+            chmod +x main.bs
+            ./main.bs

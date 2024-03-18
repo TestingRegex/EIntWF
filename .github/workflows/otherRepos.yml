@@ -33,7 +33,7 @@ jobs:
       - name: checkout second repo
         uses: actions/checkout@v3
         with: 
-          repository: https://github.com/benosul/SomeTests
+          repository: benosul/SomeTests
 
       # Runs a single command using the runners shell
       - name: Second File overview

@@ -67,5 +67,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Report
-          path: log_Report.log
+          path: .report.txt
           retention-days: 1

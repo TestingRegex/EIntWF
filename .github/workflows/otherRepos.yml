@@ -19,10 +19,16 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["pypy3.9", "pypy3.10", "3.9", "3.10", "3.11", "3.12"]
 
+        
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+      
       - uses: actions/checkout@v4
         with: 
           repository: benosul/SomeTests
@@ -50,5 +56,4 @@ jobs:
 
       - name: Run Some tests
         run: |
-            chmod +x main.bs
-            ./main.bs
+            python main.py

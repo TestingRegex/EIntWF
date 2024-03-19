@@ -59,7 +59,7 @@ jobs:
             python main.py 'scanRepo' 'User' 
 
       - name: Upload Report
-        uses: actions/upload-artefact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: Report
           path: log_Report.log

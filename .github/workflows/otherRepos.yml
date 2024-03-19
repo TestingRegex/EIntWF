@@ -61,7 +61,10 @@ jobs:
       - name: Check outpup
         run: |
           ls -a
+          echo "Report file:"
           cat report.txt
+          echo "main.py:"
+          cat main.py
 
       - name: Upload Report
         uses: actions/upload-artifact@v3

@@ -61,6 +61,7 @@ jobs:
       - name: Check outpup
         run: |
           ls -a
+          cat log_Report.log
 
       - name: Upload Report
         uses: actions/upload-artifact@v3

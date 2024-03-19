@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["pypy3.9", "pypy3.10", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.12"]
 
         
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -56,4 +56,11 @@ jobs:
 
       - name: Run Some tests
         run: |
-            python main.py
+            python main.py 'scanRepo' 'User' 
+
+      - name: Upload Report
+        uses: actions/upload-artefact@v3
+        with:
+          name: Report
+          path: log_Report.log
+          retention-days: 1

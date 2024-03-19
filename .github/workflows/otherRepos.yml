@@ -61,11 +61,11 @@ jobs:
       - name: Check outpup
         run: |
           ls -a
-          cat log_Report.log
+          cat report.txt
 
       - name: Upload Report
         uses: actions/upload-artifact@v3
         with:
           name: Report
-          path: .report.txt
+          path: report.txt
           retention-days: 1

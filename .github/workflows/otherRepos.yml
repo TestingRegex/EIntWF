@@ -58,9 +58,13 @@ jobs:
         run: |
             python main.py 'scanRepo' 'User' 
 
-      - name: Upload Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: Report
-          path: log_Report.log
-          retention-days: 1
+      - name: Check outpup
+        run: |
+          ls -a
+
+      # - name: Upload Report
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: Report
+      #     path: log_Report.log
+      #     retention-days: 1

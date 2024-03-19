@@ -65,6 +65,7 @@ jobs:
           cat report.txt
           echo "main.py:"
           cat main.py
+          ls -a scanRepo
 
       - name: Upload Report
         uses: actions/upload-artifact@v3

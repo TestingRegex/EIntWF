@@ -67,9 +67,16 @@ jobs:
           cat main.py
           ls -a scanRepo
 
-      - name: Upload Report
+      - name: Upload Report txt
         uses: actions/upload-artifact@v3
         with:
           name: Report
           path: report.txt
+          retention-days: 1
+
+      - name: Upload Report log
+        uses: actions/upload-artifact@v3
+        with:
+          name: Report
+          path: log_Report.log
           retention-days: 1
